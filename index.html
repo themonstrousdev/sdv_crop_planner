@@ -142,11 +142,11 @@
 
 							<!-- Profit -->
 							<div ng-show="self.cfarm().totals.day[date].profit.min || self.cfarm().totals.day[date].profit.max">
-								<div class="profit min" ng-show="self.cfarm().totals.day[date].profit.min==self.cfarm().totals.day[date].profit.max" style="left: 133px; bottom: 5px;">
+								<div class="profit min" ng-show="self.cfarm().totals.day[date].profit.min==self.cfarm().totals.day[date].profit.max" style="left: unset; right: -4px; bottom: 5px;">
 									<div>{{self.cfarm().totals.day[date].profit.min>0 && '+' || ''}}{{self.cfarm().totals.day[date].get_profit(1)}}g</div>
 								</div>
 
-								<div class="profit" ng-show="self.cfarm().totals.day[date].profit.min!=self.cfarm().totals.day[date].profit.max" style="left: 133px; bottom: 5px;">
+								<div class="profit" ng-show="self.cfarm().totals.day[date].profit.min!=self.cfarm().totals.day[date].profit.max" style="left: unset; right: -4px; bottom: 5px;">
 									<!--<i class="asc_icon fa fa-sort-amount-asc"></i>-->
 									<div>{{self.cfarm().totals.day[date].profit.min>0 && '+' || ''}}{{self.cfarm().totals.day[date].get_profit(1)}}g</div>
 									<!--<div>{{self.cfarm().totals.day[date].profit.max>0 && '+' || ''}}{{self.cfarm().totals.day[date].get_profit(1, 1)}}g</div>-->
