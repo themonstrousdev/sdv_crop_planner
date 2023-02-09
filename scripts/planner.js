@@ -51,6 +51,7 @@ function planner_controller($scope){
 	self.crops = {}; 					// {id: {data}}	
 	self.fertilizer = {}; 				// [fertilizer, fertilizer, ...]
 	self.events = {};					// Birthdays & festivals
+	self.events_list = []				// [{data}, {data}, ...]
 	
 	// State objects & variables
 	self.years = [];
@@ -174,7 +175,8 @@ function planner_controller($scope){
 					$.each(season, function(ii, c_event){
 						c_event.season = s_index;
 						c_event = new CalendarEvent(c_event);
-						self.events[c_event.date] = c_event;						
+						self.events[c_event.date] = c_event;		
+						self.events_list.push(c_event);
 					});
 					
 					s_index++;
@@ -1606,6 +1608,11 @@ function planner_controller($scope){
 	CalendarEvent.prototype.get_text = function(){
 		if (!this.festival) return this.name + "'s Birthday";
 		return this.name;
+	};
+
+	// Get date
+	CalendarEvent.prototype.get_date = function () {
+		return this.cal_date;
 	};
 	
 	

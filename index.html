@@ -135,18 +135,22 @@
 								<span class="visible-xs">{{self.get_date(date, '%j%S - %l')}}</span>
 								<span class="hidden-xs">{{date%self.SEASON_DAYS>0 && date%self.SEASON_DAYS || self.SEASON_DAYS}}</span>
 							</div>
-							<div class="event" ng-show="self.events[date] && self.player.settings.show_events" title="{{self.events[date].get_text()}}">
-								<img ng-src="{{self.events[date].get_image()}}">
-								<!--<span>{{self.events[date].get_text()}}</span>-->
+
+							<div class="events">
+								<div class="event" ng-repeat="event in self.events_list | filter:{date: date}:true" ng-show="self.player.settings.show_events" title="{{event.get_text()}}">
+									<img ng-src="{{event.get_image()}}" >
+									<!--<span>{{event.get_text()}}</span>-->
+								</div>
 							</div>
 
 							<!-- Profit -->
 							<div ng-show="self.cfarm().totals.day[date].profit.min || self.cfarm().totals.day[date].profit.max">
-								<div class="profit min" ng-show="self.cfarm().totals.day[date].profit.min==self.cfarm().totals.day[date].profit.max" style="left: unset; right: -4px; bottom: 5px;">
+
+								<div class="profit min" ng-show="self.cfarm().totals.day[date].profit.min==self.cfarm().totals.day[date].profit.max" ng-class="{'red':self.cfarm().totals.day[date].get_profit() < 0, 'green':self.cfarm().totals.day[date].get_profit() >= 0}">
 									<div>{{self.cfarm().totals.day[date].profit.min>0 && '+' || ''}}{{self.cfarm().totals.day[date].get_profit(1)}}g</div>
 								</div>
 
-								<div class="profit" ng-show="self.cfarm().totals.day[date].profit.min!=self.cfarm().totals.day[date].profit.max" style="left: unset; right: -4px; bottom: 5px;">
+								<div class="profit" ng-show="self.cfarm().totals.day[date].profit.min!=self.cfarm().totals.day[date].profit.max" ng-class="{'red':self.cfarm().totals.day[date].get_profit() < 0, 'green':self.cfarm().totals.day[date].get_profit() >= 0}">
 									<!--<i class="asc_icon fa fa-sort-amount-asc"></i>-->
 									<div>{{self.cfarm().totals.day[date].profit.min>0 && '+' || ''}}{{self.cfarm().totals.day[date].get_profit(1)}}g</div>
 									<!--<div>{{self.cfarm().totals.day[date].profit.max>0 && '+' || ''}}{{self.cfarm().totals.day[date].get_profit(1, 1)}}g</div>-->
@@ -157,37 +161,25 @@
 						<!-- To be planted -->
 						<div ng-show="self.cfarm().plans[date].length" class="items">
 							<div class="planting">
-								<div class="plan" ng-repeat="plan in self.cfarm().plans[date] | limitTo:10">
-									<img ng-src="{{plan.crop.get_image(1)}}">
-									<div class="amount">x{{plan.amount}}</div>
+								<div class="plan" ng-repeat="plan in self.cfarm().plans[date] | limitTo:10" title="{{plan.fertilizer.name != 'None' ? plan.crop.name + ' (' + plan.fertilizer.name + ')' : plan.crop.name}}">
+									<img ng-src="{{plan.crop.get_image(1)}}" >
+									<div class="amount" ng-class="{'purple':plan.fertilizer.name != 'None'}">x{{plan.amount}}</div>
 								</div>
+								<div class="more" ng-show="self.cfarm().plans[date].length > 10">{{self.cfarm().plans[date].length-10}} more...</div>
 							</div>
-							<div class="more" ng-show="self.cfarm().plans[date].length > 10">{{self.cfarm().plans[date].length-10}} more...</div>
 						</div>
 
 						<!-- To be harvested -->
-						<div ng-show="self.cfarm().harvests[date].length">
+						<div ng-show="self.cfarm().harvests[date].length" class="harvestingouter">
 							<div class="harvesting">
-								<div class="plan" ng-repeat="harvest in self.cfarm().harvests[date] | limitTo:10">
+								<div class="plan" ng-repeat="harvest in self.cfarm().harvests[date] | limitTo:10" title="{{harvest.crop.name}}">
 									<img ng-src="{{harvest.crop.get_image()}}">
 									<div class="amount">x{{harvest.yield.min}}</div>
 								</div>
+								<div class="more" ng-show="self.cfarm().harvests[date].length > 10">{{self.cfarm().harvests[date].length-10}} more...</div>
 							</div>
-							<div class="more" ng-show="self.cfarm().harvests[date].length > 10">{{self.cfarm().harvests[date].length-10}} more...</div>
 						</div>
 
-						<!-- Profit -->
-						<!--<div ng-show="self.cfarm().totals.day[date].profit.min || self.cfarm().totals.day[date].profit.max">
-							<div class="profit min" ng-show="self.cfarm().totals.day[date].profit.min==self.cfarm().totals.day[date].profit.max">
-								<div>{{self.cfarm().totals.day[date].profit.min>0 && '+' || ''}}{{self.cfarm().totals.day[date].get_profit(1)}}g</div>
-							</div>
-
-							<div class="profit" ng-show="self.cfarm().totals.day[date].profit.min!=self.cfarm().totals.day[date].profit.max">-->
-								<!--<i class="asc_icon fa fa-sort-amount-asc"></i>-->
-								<!--<div>{{self.cfarm().totals.day[date].profit.min>0 && '+' || ''}}{{self.cfarm().totals.day[date].get_profit(1)}}g</div>-->
-								<!--<div>{{self.cfarm().totals.day[date].profit.max>0 && '+' || ''}}{{self.cfarm().totals.day[date].get_profit(1, 1)}}g</div>-->
-							<!--</div>
-						</div>-->
 					</div>
 				</div>
 			</div>
