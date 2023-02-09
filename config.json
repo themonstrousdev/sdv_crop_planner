@@ -250,6 +250,21 @@
 			]
 		},
 		{
+			"buy": 0,
+			"harvest": {},
+			"id": "fall_seeds",
+			"index": 478,
+			"name": "Fall Seeds",
+			"seasons": [
+				"Fall"
+			],
+			"sell": 57,
+			"stages": [
+				3,
+				4
+			]
+		},
+		{
 			"buy": 200,
 			"harvest": {},
 			"id": "fairy_rose",
@@ -566,6 +581,21 @@
 			]
 		},
 		{
+			"buy": 0,
+			"harvest": {},
+			"id": "spring_seeds",
+			"index": 478,
+			"name": "Spring Seeds",
+			"seasons": [
+				"spring"
+			],
+			"sell": 45,
+			"stages": [
+				3,
+				4
+			]
+		},
+		{
 			"buy": 400,
 			"harvest": {},
 			"id": "starfruit",
@@ -605,6 +635,21 @@
 				2,
 				2,
 				2
+			]
+		},
+		{
+			"buy": 0,
+			"harvest": {},
+			"id": "summer_seeds",
+			"index": 478,
+			"name": "Summer Seeds",
+			"seasons": [
+				"Summer"
+			],
+			"sell": 70,
+			"stages": [
+				3,
+				4
 			]
 		},
 		{
@@ -736,6 +781,21 @@
 				1,
 				1,
 				3
+			]
+		},
+		{
+			"buy": 0,
+			"harvest": {},
+			"id": "winter_seeds",
+			"index": 478,
+			"name": "Winter Seeds",
+			"seasons": [
+				"Winter"
+			],
+			"sell": 95,
+			"stages": [
+				3,
+				4
 			]
 		},
 		{
