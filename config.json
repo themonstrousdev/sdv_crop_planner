@@ -256,7 +256,7 @@
 			"index": 478,
 			"name": "Fall Seeds",
 			"seasons": [
-				"Fall"
+				"fall"
 			],
 			"sell": 57,
 			"stages": [
@@ -644,7 +644,7 @@
 			"index": 478,
 			"name": "Summer Seeds",
 			"seasons": [
-				"Summer"
+				"summer"
 			],
 			"sell": 70,
 			"stages": [
@@ -790,7 +790,7 @@
 			"index": 478,
 			"name": "Winter Seeds",
 			"seasons": [
-				"Winter"
+				"winter"
 			],
 			"sell": 95,
 			"stages": [
