@@ -1,3 +1,4 @@
 utils/data/*
 *.pyo
 *.pyc
+.vs*
