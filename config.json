@@ -708,6 +708,23 @@
 		},
 		{
 			"buy": 0,
+			"harvest": {},
+			"id": "taro_root",
+			"index": 347,
+			"name": "Taro Root",
+			"seasons": [
+				"summer"
+			],
+			"sell": 20,
+			"stages": [
+				1,
+				1,
+				2,
+				3
+			]
+		},
+		{
+			"buy": 0,
 			"harvest": { "days": [ 22, 23, 24, 25, 26, 27, 28, 50, 51, 52, 53, 54, 55, 56, 78, 79, 80, 81, 82, 83, 84 ] },
 			"id": "tea_leaves",
 			"index": 299,
