@@ -123,6 +123,22 @@ function planner_controller($scope){
 			if (planner_event_handler(e)) return;
 			if (self.sidebar.keydown(e)) return;
 		});
+
+		// Enable collapsible panel buttons
+		var coll = document.getElementsByClassName("collapsible");
+		var i;
+
+		for (i = 0; i < coll.length; i++) {
+			coll[i].addEventListener("click", function () {
+				this.classList.toggle("active");
+				var content = this.nextElementSibling;
+				if (content.style.display === "block") {
+					content.style.display = "none";
+				} else {
+					content.style.display = "block";
+				}
+			});
+		} 
 		
 		// On modal close: save plans and update
 		self.planner_modal.on("hide.bs.modal", function(){
@@ -323,11 +339,13 @@ function planner_controller($scope){
 				var d_plant = farm.totals.day[date];
 				d_plant.profit.min -= planting_cost;
 				d_plant.profit.max -= planting_cost;
+				d_plant.cost -= planting_cost;
 				
 				// Update seasonal costs for planting
 				var s_plant_total = farm.totals.season[season.index];
 				s_plant_total.profit.min -= planting_cost;
 				s_plant_total.profit.max -= planting_cost;
+				s_plant_total.cost -= planting_cost;
 				
 				// Update seasonal number of plantings
 				s_plant_total.plantings += plan.amount;
@@ -366,12 +384,16 @@ function planner_controller($scope){
 					var d_harvest = farm.totals.day[harvest.date];
 					d_harvest.profit.min += harvest.revenue.min;
 					d_harvest.profit.max += harvest.revenue.max;
+					d_harvest.revenue.min += harvest.revenue.min;
+					d_harvest.revenue.max += harvest.revenue.max;
 					
 					// Update seasonal revenues from harvests
 					var h_season = Math.floor((harvest.date - 1) / SEASON_DAYS);
 					var s_harvest_total = farm.totals.season[h_season];
 					s_harvest_total.profit.min += harvest.revenue.min;
 					s_harvest_total.profit.max += harvest.revenue.max;
+					s_harvest_total.revenue.min += harvest.revenue.min;
+					s_harvest_total.revenue.max += harvest.revenue.max;
 					
 					// Update seasonal number of harvests
 					s_harvest_total.harvests.min += harvest.yield.min;

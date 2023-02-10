@@ -161,7 +161,7 @@
 						<!-- To be planted -->
 						<div ng-show="self.cfarm().plans[date].length" class="items">
 							<div class="planting">
-								<div class="plan" ng-repeat="plan in self.cfarm().plans[date] | limitTo:10" title="{{plan.fertilizer.name != 'None' ? plan.crop.name + ' (' + plan.fertilizer.name + ')' : plan.crop.name}}">
+								<div class="plan" ng-repeat="plan in self.cfarm().plans[date] | limitTo:10" title="{{(plan.fertilizer.name != 'None' ? plan.crop.name + ' w/' + plan.fertilizer.name : plan.crop.name) + ' (-' + plan.get_cost(1) + 'g)'}}">
 									<img ng-src="{{plan.crop.get_image(1)}}" >
 									<div class="amount" ng-class="{'purple':plan.fertilizer.name != 'None'}">x{{plan.amount}}</div>
 								</div>
@@ -396,12 +396,14 @@
 					<h4 class="modal-title">{{self.get_date(self.cdate, '%F &ensp;&mdash;&ensp; %l the %j%S')}}</h4>
 				</div>
 				<div class="modal-body">
+
+					<!-- Plant crop input section -->
 					<div class="plant_crop">
 						<div class="row">
 							<div class="col-md-4 col-xs-12">
 								<b>Plant Crop</b><br>
 								<select class="form-control" ng-model="self.newplan.crop_id"
-									ng-options="crop.id as crop.name for crop in self.crops_list | filter:self.planner_valid_crops">
+										ng-options="crop.id as crop.name for crop in self.crops_list | filter:self.planner_valid_crops">
 								</select>
 							</div>
 							<div class="col-md-2 col-xs-4">
@@ -423,12 +425,42 @@
 						</div>
 						<br>
 					</div>
-					
+
+					<!-- Events section-->
+					<div ng-show="self.events[self.cdate]">
+						<div class="panel panel-default">
+
+							<div class="panel-heading row">
+								<div class="col-md-6">
+									<h3 class="panel-title"><i class="fa fa-users"></i> Events</h3>
+								</div>
+							</div>
+
+							<div class="panel-body">
+								<div class="events">
+									<div class="event" ng-repeat="event in self.events_list | filter:{date: self.cdate}:true" ng-show="self.player.settings.show_events" title="{{event.get_text()}}">
+										<img ng-src="{{event.get_image()}}">
+										<span>{{event.get_text()}}</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div ng-show="!self.events[self.cdate]" class="text-muted"><i class="fa fa-users"></i> No events.<hr></div>
+
+					<!-- Planting section -->
 					<div ng-show="self.cfarm().plans[self.cdate].length">
 						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h3 class="panel-title"><i class="fa fa-tint"></i> Planting</h3>
+
+							<div class="panel-heading row">
+								<div class="col-md-6">
+									<h3 class="panel-title"><i class="fa fa-tint"></i> Planting</h3>
+								</div>
+								<div class="col-md-6">
+									<h3 class="panel-title panel-financial">{{self.cfarm().totals.day[self.cdate].cost==0 && '-' || ''}}{{self.cfarm().totals.day[self.cdate].get_cost(1)}}g</h3>
+								</div>
 							</div>
+
 							<div class="panel-body">
 								<table class="crops table table-condensed">
 									<thead>
@@ -479,11 +511,17 @@
 						</div>
 					</div>
 					<div ng-show="!self.cfarm().plans[self.cdate].length" class="text-muted"><i class="fa fa-tint"></i> No planting.<hr></div>
-					
+
+					<!-- Harvesting section -->
 					<div ng-show="self.cfarm().harvests[self.cdate].length">
 						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h3 class="panel-title"><i class="fa fa-pagelines"></i> Harvesting</h3>
+							<div class="panel-heading row">
+								<div class="col-md-6">
+									<h3 class="panel-title"><i class="fa fa-pagelines"></i> Harvesting</h3>
+								</div>
+								<div class="col-md-6">
+									<h3 class="panel-title panel-financial">{{self.cfarm().totals.day[self.cdate].revenue.min>0 && '+' || ''}}{{self.cfarm().totals.day[self.cdate].get_revenue(1, 0)}}g</h3>
+								</div>
 							</div>
 							<div class="panel-body">
 								<table class="crops table table-condensed">
@@ -534,6 +572,7 @@
 						</div>
 					</div>
 					<div ng-show="!self.cfarm().harvests[self.cdate].length" class="text-muted"><i class="fa fa-pagelines"></i> No harvests.</div>
+
 				</div>
 				<div class="modal-footer">
 					<div class="btn btn-default" data-dismiss="modal"><i class="fa fa-check"></i> Done</div>

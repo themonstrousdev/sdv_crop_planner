@@ -78,6 +78,31 @@ body .panel.panel-default .panel-heading {
     border-radius: 0;
 }
 
+body .panel.panel-default .panel-heading.row {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+body .panel.panel-default .panel-title i {
+    margin-right: 5px;
+}
+
+body .panel.panel-default .panel-financial {
+    text-align: right;
+}
+
+body .panel.panel-default .panel-body .events
+{
+    padding-left: 5px;
+}
+
+body .panel.panel-default .panel-body .event
+{
+    position: relative;
+    float: left;
+    margin-right: 15px;
+}
+
 @media only screen and (max-width: 1530px) {
     html body #content {
         padding-right: 70px;
@@ -1178,3 +1203,31 @@ header .page_title {
 .modal .modal-dialog .modal-content .modal-header {
     border-color: #ccc;
             }
+
+
+
+/* Style the button that is used to open and close the collapsible content */
+.collapsible {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 0px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .collapsible:hover {
+    background-color: #ccc;
+}
+
+/* Style the collapsible content. Note: hidden by default */
+.content {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    background-color: #f1f1f1;
+}
