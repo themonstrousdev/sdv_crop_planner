@@ -709,9 +709,9 @@
 		{
 			"buy": 0,
 			"harvest": {},
-			"id": "taro_root",
+			"id": "taro_root_unirrigated",
 			"index": 347,
-			"name": "Taro Root",
+			"name": "Taro Root (Unirrigated)",
 			"seasons": [
 				"summer"
 			],
@@ -726,7 +726,7 @@
 		{
 			"buy": 0,
 			"harvest": {},
-			"id": "taro_root",
+			"id": "taro_root_irrigated",
 			"index": 347,
 			"name": "Taro Root (Irrigated)",
 			"seasons": [
@@ -803,9 +803,9 @@
 		{
 			"buy": 40,
 			"harvest": {},
-			"id": "unmilled_rice",
+			"id": "unmilled_rice_unirrigated",
 			"index": 299,
-			"name": "Unmilled Rice",
+			"name": "Unmilled Rice (Unirrigated)",
 			"seasons": [
 				"spring"
 			],
@@ -820,7 +820,7 @@
 		{
 			"buy": 40,
 			"harvest": {},
-			"id": "unmilled_rice",
+			"id": "unmilled_rice_irrigated",
 			"index": 299,
 			"name": "Unmilled Rice (Irrigated)",
 			"seasons": [
