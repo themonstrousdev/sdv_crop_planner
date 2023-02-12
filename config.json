@@ -718,6 +718,23 @@
 			"sell": 20,
 			"stages": [
 				1,
+				2,
+				3,
+				4
+			]
+		},
+		{
+			"buy": 0,
+			"harvest": {},
+			"id": "taro_root",
+			"index": 347,
+			"name": "Taro Root (Irrigated)",
+			"seasons": [
+				"summer"
+			],
+			"sell": 20,
+			"stages": [
+				1,
 				1,
 				2,
 				3
@@ -789,6 +806,23 @@
 			"id": "unmilled_rice",
 			"index": 299,
 			"name": "Unmilled Rice",
+			"seasons": [
+				"spring"
+			],
+			"sell": 30,
+			"stages": [
+				1,
+				2,
+				2,
+				3
+			]
+		},
+		{
+			"buy": 40,
+			"harvest": {},
+			"id": "unmilled_rice",
+			"index": 299,
+			"name": "Unmilled Rice (Irrigated)",
 			"seasons": [
 				"spring"
 			],
