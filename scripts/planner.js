@@ -44,7 +44,7 @@ function planner_controller($scope){
 	self.planner_modal;
 	
 	// Static planner data
-	self.days = new Array(YEAR_DAYS);	// Array of days in a year (only used by one ng-repeat)
+	self.dayNums = new Array(YEAR_DAYS);	// Array of days in a year (only used by one ng-repeat)
 	self.seasons = [];					// Array of seasons
 	self.SEASON_DAYS = SEASON_DAYS;		// Exposing SEASON_DAYS constant to app scope
 	self.crops_list = []; 				// [id, id, ...]
@@ -57,6 +57,7 @@ function planner_controller($scope){
 	self.years = [];
 	
 	self.cdate;							// Current date to add plan to
+	self.cday;							// Current day to add plan to
 	self.cseason;						// Current season
 	self.cmode = "farm";				// Current farm mode (farm / greenhouse)
 	self.cyear;							// Current year
@@ -87,6 +88,7 @@ function planner_controller($scope){
 	self.get_date = get_date;			// Get formatted date string
 	self.ci_set_sort = ci_set_sort;		// Set key to sort crop info by
 	self.planner_valid_crops = planner_valid_crops;
+	self.save_data = save_data;
 	
 	// Crop info search/filter settings
 	self.cinfo_settings = {
@@ -110,9 +112,9 @@ function planner_controller($scope){
 		self.player = new Player;
 		self.planner_modal  = $("#crop_planner");
 		
-		for (var i = 0; i < self.days.length; i++)
+		for (var i = 0; i < self.dayNums.length; i++)
 		{
-			self.days[i] = i + 1;
+			self.dayNums[i] = i + 1;
 		}
 
 		self.seasons = [new Season(0), new Season(1), new Season(2), new Season(3)];
@@ -299,6 +301,12 @@ function planner_controller($scope){
 			self.years.push(new_year);
 		});
 		self.cyear = self.years[0];
+
+		// Load days data
+		var days_data = LOAD_JSON("days");
+		if (days_data) {
+			self.days = days_data;
+		}
 		
 		return plan_count;
 	}
@@ -511,6 +519,7 @@ function planner_controller($scope){
 		$.each(farm.plans, function(date, plans){
 			farm.plans[date] = [];
 		});
+		year.generate_days();
 		save_data();
 		update(year, full_update);
 	}
@@ -528,6 +537,7 @@ function planner_controller($scope){
 	function open_plans(date){
 		self.planner_modal.modal();
 		self.cdate = date;
+		self.cday = self.cyear.data.days[date];
 	}
 	
 	////////////////////////////////
@@ -1128,7 +1138,9 @@ function planner_controller($scope){
 			self.index = year_index;
 			self.start = (self.index * YEAR_DAYS) + 1;
 			self.end = self.start + YEAR_DAYS - 1;
-			
+
+			self.generate_days();
+
 			self.data.farm = new Farm(self);
 			self.data.greenhouse = new Farm(self, true);
 		}
@@ -1181,11 +1193,13 @@ function planner_controller($scope){
 			
 			if (type_count) year_plans[type] = type_plans;
 		});
+
+		year_plans['days'] = self.data.days;
 		
-		if (!total_count) return;
+		//if (!total_count) return;
 		return year_plans;
 	};
-	
+
 	// Load data into year (from loading)
 	Year.prototype.set_data = function(l_data){
 		var self = this;
@@ -1204,10 +1218,22 @@ function planner_controller($scope){
 				});
 			});
 		});
+
+		if (l_data && l_data.days) self.data.days = l_data.days;
 		
 		return plan_count;
 	};
-	
+
+	// Create the list of days
+	Year.prototype.generate_days = function () {
+		var self = this;
+		self.data.days = {};
+
+		for (var i = 0; i < YEAR_DAYS; i++) {
+			self.data.days[i + 1] = new Day(i + 1);
+		}
+	}
+
 	// Add plan to this farm/year
 	Year.prototype.add_plan = function(newplan, date, auto_replant){
 		// Validate data
@@ -1253,7 +1279,30 @@ function planner_controller($scope){
 		save_data();
 		update(this, full_update);
 	};
-	
+
+	/****************
+		Day class - Days
+	****************/
+	function Day(date) {
+		var self = this;
+		self.date;
+		self.isComplete = false;
+
+		init();
+
+		function init() {
+			self.date = date;
+		}
+	}
+
+	Day.prototype.get_data = function(){
+		var data = {};
+		data.date = this.date;
+		data.isComplete = this.isComplete;
+
+		return data;
+	}
+
 	/****************
 		Farm class - used only within Year
 	****************/
@@ -1274,8 +1323,9 @@ function planner_controller($scope){
 			self.greenhouse = is_greenhouse;
 			
 			for (var i = 0; i < YEAR_DAYS; i++){
-				self.plans[i+1] = [];
+				self.plans[i + 1] = [];
 			}
+
 			self.totals.season = [new Finance, new Finance, new Finance, new Finance];
 		}
 	}
