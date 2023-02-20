@@ -833,6 +833,10 @@ header .page_title {
     }
 }
 
+#calendar .day_container .day.dayComplete{
+    background-color: gray;
+}
+
 #calendar .day_container .day .date_top {
     height: 20px;
     position: relative;
@@ -916,6 +920,12 @@ header .page_title {
 #calendar .day_container .day .planting .plan img {
     width: 20px;
     height: auto;
+}
+
+#calendar .day_container .day.dayComplete .harvesting .plan img,
+#calendar .day_container .day.dayComplete .planting .plan img,
+#calendar .day_container .day.dayComplete .date_top {
+    opacity: 50%;
 }
 
 #calendar .day_container .day .harvesting .plan .amount,
@@ -1204,6 +1214,9 @@ header .page_title {
     border-color: #ccc;
             }
 
+.modal .modal-dialog .modal-content .modal-footer .modalIsComplete {
+    float: left;
+}
 
 
 /* Style the button that is used to open and close the collapsible content */

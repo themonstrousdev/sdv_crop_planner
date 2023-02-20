@@ -1005,6 +1005,10 @@
 				"name": "Willy"
 			},
 			{
+				"day": 26,
+				"name": "Leo"
+			},
+			{
 				"day": 28,
 				"name": "Dance of the Moonlight Jellies",
 				"festival": true
