@@ -60,6 +60,7 @@ function planner_controller($scope){
 	self.cday;							// Current day to add plan to
 	self.cseason;						// Current season
 	self.cmode = "farm";				// Current farm mode (farm / greenhouse)
+	self.cmodeName = "Farm";
 	self.cyear;							// Current year
 	
 	self.newplan;
@@ -223,6 +224,7 @@ function planner_controller($scope){
 				// Update plans
 				update(self.years[0].data.farm, true); // Update farm
 				update(self.years[0].data.greenhouse, true); // Update greenhouse
+				update(self.years[0].data.ginger_island, true); // Update ginger island
 				
 				self.loaded = true;
 				$scope.$apply();
@@ -342,7 +344,7 @@ function planner_controller($scope){
 				var season = self.seasons[Math.floor((plan.date-1)/SEASON_DAYS)];
 				var crop_end = crop.end;
 				
-				if (farm.greenhouse){
+				if (farm.greenhouse || farm.ginger_island){
 					crop_end = YEAR_DAYS;
 				}
 				
@@ -591,14 +593,17 @@ function planner_controller($scope){
 	
 	// Check if current farm mode is greenhouse
 	function in_greenhouse(){
-		return self.cmode == "greenhouse";
+		return self.cmode == "greenhouse" || self.cmode == "ginger_island";
 	}
 	
 	// Toggle current farm mode
 	function toggle_mode(){
 		if (self.cmode == "farm"){
 			set_mode("greenhouse");
-		} else {
+		} else if (self.cmode == "greenhouse") {
+			set_mode("ginger_island");
+		}
+		else {
 			set_mode("farm");
 		}
 	}
@@ -606,6 +611,7 @@ function planner_controller($scope){
 	// Set current farm mode
 	function set_mode(mode){
 		self.cmode = mode;
+		self.cmodeName = mode.replace("_", " ");
 	}
 	
 	////////////////////////////////
@@ -813,6 +819,7 @@ function planner_controller($scope){
 				//planner.player.load();
 				update(planner.years[0].data.farm, true); // Update farm
 				update(planner.years[0].data.greenhouse, true); // Update greenhouse
+				update(planner.years[0].data.ginger_island, true); // Update ginger island
 				$scope.$apply();
 				alert("Successfully imported " + plan_count + " plans into " + planner.years.length + " year(s).");
 				console.log("Imported " + plan_count + " plans into " + planner.years.length + " year(s).");
@@ -831,17 +838,21 @@ function planner_controller($scope){
 			if (!plan_data){ alert("No plan data to import"); return; }
 			
 			// Create new plan data
-			var new_plans = [{"farm":{}, "greenhouse":{}}];
+			var new_plans = [{ "farm": {}, "greenhouse": {}, "ginger_island": {} }];
 			$.each(plan_data, function(date, plans){
 				date = parseInt(date);
 				$.each(plans, function(i, plan){
 					plan.date = date;
 					if (!planner.crops[plan.crop]) return; // Invalid crop
 					
-					if (plan.greenhouse){
+					if (plan.greenhouse) {
 						if (!new_plans[0].greenhouse[date]) new_plans[0].greenhouse[date] = [];
 						delete plan.greenhouse;
 						new_plans[0].greenhouse[date].push(plan);
+					} else if (plan.ginger_island) {
+						if (!new_plans[0].ginger_island[date]) new_plans[0].ginger_island[date] = [];
+						delete plan.ginger_island;
+						new_plans[0].ginger_island[date].push(plan);
 					} else {
 						if (!new_plans[0].farm[date]) new_plans[0].farm[date] = [];
 						new_plans[0].farm[date].push(plan);
@@ -1143,6 +1154,7 @@ function planner_controller($scope){
 
 			self.data.farm = new Farm(self);
 			self.data.greenhouse = new Farm(self, true);
+			self.data.ginger_island = new Farm(self, true, true);
 		}
 	}
 	
@@ -1306,10 +1318,11 @@ function planner_controller($scope){
 	/****************
 		Farm class - used only within Year
 	****************/
-	function Farm(parent_year, is_greenhouse){
+	function Farm(parent_year, is_greenhouse, is_ginger_island){
 		var self = this;
 		self.year;
 		self.greenhouse = false;
+		self.ginger = false;
 		self.plans = {};
 		self.harvests = {};
 		self.totals = {};
@@ -1321,6 +1334,7 @@ function planner_controller($scope){
 		function init(){
 			self.year = parent_year;
 			self.greenhouse = is_greenhouse;
+			self.ginger = is_ginger_island;
 			
 			for (var i = 0; i < YEAR_DAYS; i++){
 				self.plans[i + 1] = [];
@@ -1352,7 +1366,10 @@ function planner_controller($scope){
 	
 	// Get image representing farm type
 	Farm.prototype.get_image = function(){
-		var type = this.greenhouse ? "greenhouse" : "scarecrow";
+		var type = "scarecrow";
+		if (this.greenhouse) type = "greenhouse";
+		if (this.ginger) type = "ginger_island";
+
 		return "images/" + type + ".png";
 	};
 	
