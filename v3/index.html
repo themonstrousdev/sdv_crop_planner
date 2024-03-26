@@ -579,7 +579,7 @@
 												</span>
 											</td>
 											<td>
-												<span ng-show="harvest.profit.min==harvest.profit.max">+{{harvest.get_profit(1)}}g</span>
+												<span ng-show="harvest.profit.min==harvest.profit.max">{{harvest.get_profit(1) > 0 ? '+' : ''}}{{harvest.get_profit(1)}}g</span>
 												<span ng-show="harvest.profit.min!=harvest.profit.max">
 													{{harvest.get_profit(1)}}g
 													<i class="fa fa-fw fa-sort-amount-asc fa-rotate-270 compare"></i>
