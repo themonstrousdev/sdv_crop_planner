@@ -86,8 +86,8 @@
 				</div>
 				
 				<div class="col-md-2 col-md-offset-1 col-xs-4 clear_buttons">
-					<div class="btn btn-default btn-block" ng-click="self.clear_season(self.cseason)"><i class="fa fa-calendar"></i> Clear {{self.cseason.name}}</div>
-					<div class="btn btn-default btn-block" ng-click="self.clear_year(self.cyear)"><i class="fa fa-trash"></i> Clear Year</div>
+					<div class="btn btn-warning btn-block" ng-click="self.clear_season(self.cseason)"><i class="fa fa-calendar"></i> Clear {{self.cseason.name}}</div>
+					<div class="btn btn-info btn-block" ng-click="self.clear_year(self.cyear)"><i class="fa fa-trash"></i> Clear Year</div>
 				</div>
 			</nav>
 			<!-- [/TOP_MENU] -->
@@ -400,34 +400,34 @@
 					<!-- Plant crop input section -->
 					<div class="plant_crop">
 						<div class="row">
-							<div class="col-md-4 col-xs-12">
-								<b>Plant Crop</b><br>
+							<div class="col-md-2 col-xs-4">
+								<label><b>Plant Crop</b><br></label>
 								<select class="form-control" ng-model="self.newplan.crop_id"
 										ng-options="crop.id as crop.name for crop in self.crops_list | filter:self.planner_valid_crops">
 								</select>
 							</div>
 							<div class="col-md-2 col-xs-4">
-								<label>
-									<b>Amount</b><br>
+								<label><b>Amount</b><br></label>
 									<input class="form-control" type="text" ng-model="self.newplan.amount" ng-keypress="self.add_plan_key(self.cdate, $event)">
-								</label>
 							</div>
 							<div class="col-md-2 col-xs-4">
-								<label>
-									<b>Adjusted Price</b><br>
+								<label><b>Seed Price</b><br></label>
 									<input class="form-control" type="text" ng-model="self.newplan.buy" ng-keypress="self.add_plan_key(self.cdate, $event)">
-								</label>
 							</div>
 							
 							<div class="col-md-3 col-xs-4">
-								<b>Fertilizer</b><br>
+								<label><b>Fertilizer</b><br></label>
 								<select class="form-control" ng-model="self.newplan.fertilizer" ng-options="fert as fert.name for fert in self.config.fertilizer track by fert.id">
 								</select>
 							</div>
 							<div class="col-md-3 col-xs-4">
+								<label><b>Fertilizer Price</b><br></label>
+									<input class="form-control" type="text" ng-model="self.newplan.fertilizerBuy" ng-keypress="self.add_plan_key(self.cdate, $event)">
+							</div>
+							<div class="col-md-3 col-xs-4">
 								<b></b><br>
-								<div class="btn btn-default" ng-click="self.add_plan(self.cdate)"><i class="fa fa-plus"></i> Plant</div>
-								<div class="btn btn-default" ng-click="self.add_plan(self.cdate, true)" data-toggle="tooltip" data-placement="bottom" title="Auto-replant on day of harvest"><i class="fa fa-calendar"></i> Autoplant</div>
+								<div class="btn btn-success" ng-click="self.add_plan(self.cdate)"><i class="fa fa-plus" style="padding-right: 10px"></i> Plant</div>
+								<div class="btn btn-info" ng-click="self.add_plan(self.cdate, true)" data-toggle="tooltip" data-placement="bottom" title="Auto-replant on day of harvest"><i class="fa fa-calendar"></i> Autoplant</div>
 							</div>
 						</div>
 						<br>
@@ -470,19 +470,20 @@
 
 							<div class="panel-body">
 								<table class="crops table table-condensed">
-									<thead>
+
+									<tbody>
 										<tr>
 											<th colspan="2">Crop</th>
 											<th>Amount</th>
+											<th>Seed Price</th>
 											<th>Fertilizer</th>
-											<th>Cost</th>
+											<th>Fert. Price</th>
+											<th>Total Cost</th>
 											<th><i class="fa fa-clock-o"></i> Days</th>
 											<th><i class="fa fa-refresh"></i> Regrows</th>
 											<th width="1"></th>
 											<th width="1"></th>
 										</tr>
-									</thead>
-									<tbody>
 										<tr class="crop" ng-repeat="plan in self.cfarm().plans[self.cdate]">
 											<td width="1">
 												<img ng-src="{{plan.crop.get_image(1)}}">
@@ -492,10 +493,18 @@
 											</td>
 											<td>
 												<span ng-show="self.editplan!=plan">x{{plan.amount}}</span>
-												<span ng-show="self.editplan==plan">x<input style="padding-left:2px;width:100px" class="form-control" type="number" min="1" ng-model="plan.amount"></span>
+												<span ng-show="self.editplan==plan">
+														x <input style="padding-left:2px;width:50px" class="form-control" type="number" min="1" ng-model="plan.amount">
+												</span>
 											</td>
 											<td>
-												<div ng-show="plan.fertilizer.id!='none' && self.editplan!=plan">
+												<span ng-show="self.editplan==plan">
+													<input class="form-control" style="padding-left:2px;width:50px" type="text" ng-model="plan.buy" placeholder="{{plan.crop.buy}}">
+												</span>
+												<span ng-show="self.editplan!=plan">{{plan.get_seed_cost(1) > 0 ? '-' : ''}}{{plan.get_seed_cost(1)}}g</span>
+											</td>
+											<td>
+												<div ng-show="self.editplan!=plan">
 													<img ng-src="{{plan.fertilizer.get_image()}}">
 													{{plan.fertilizer.name}}
 												</div>
@@ -505,17 +514,18 @@
 											</td>
 											<td>
 												<span ng-show="self.editplan==plan">
-													<input class="form-control" type="text" ng-model="plan.buy" placeholder="{{plan.crop.buy}}">
+													<input class="form-control" style="padding-left:2px;width:50px" type="text" ng-model="plan.fertilizerBuy" placeholder="{{plan.fertilizer.buy}}">
 												</span>
-												<span ng-show="self.editplan!=plan">{{plan.get_cost(1) > 0 ? '-' : ''}}{{plan.get_cost(1)}}g</span>
+												<span ng-show="self.editplan!=plan">{{plan.get_fertilizer_cost(1) > 0 ? '-' : ''}}{{plan.get_fertilizer_cost(1)}}g</span>
 											</td>
+											<td>{{plan.get_cost(1) > 0 ? '-':''}}{{plan.get_cost(1)}}g</td>
 											<td>{{plan.get_grow_time()}}</td>
 											<td>{{plan.crop.regrow}}</td>
 											<td>
-												<div ng-show="self.editplan!=plan" class="btn btn-default" ng-click="self.edit_plan(plan)"><i class="fa fa-pencil"></i></div>
+												<div ng-show="self.editplan!=plan" class="btn btn-info" ng-click="self.edit_plan(plan)"><i class="fa fa-pencil"></i></div>
 												<div ng-show="self.editplan==plan" class="btn btn-success" ng-click="self.edit_plan(plan, 1)"><i class="fa fa-save"></i></div>
 											</td>
-											<td><div class="btn btn-default" ng-click="self.remove_plan(self.cdate, $index)"><i class="fa fa-trash"></i></div></td>
+											<td><div class="btn btn-danger" ng-click="self.remove_plan(self.cdate, $index)"><i class="fa fa-trash"></i></div></td>
 										</tr>
 									</tbody>
 								</table>
@@ -588,7 +598,7 @@
 				</div>
 				<div class="modal-footer">
 					<label class="modalIsComplete"><input type="checkbox" ng-model="self.cday.isComplete" ng-click="self.save_data()"> Day Complete</label>
-					<div class="btn btn-default" data-dismiss="modal"><i class="fa fa-check"></i> Done</div>
+					<div class="btn btn-success" data-dismiss="modal"><i class="fa fa-check"></i> Done</div>
 				</div>
 			</div>
 		</div>
