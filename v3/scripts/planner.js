@@ -259,6 +259,15 @@ function planner_controller($scope){
 			self.newplan.fertilizerBuy = fertilizer.buy;
 		}
 	}, true);
+
+	$scope.$watch("self.editplan", function(newPlan, oldPlan){
+		if(!oldPlan || !newPlan) return;
+		if(oldPlan.fertilizer.id != newPlan.fertilizer.id) {
+			var fertilizer = self.fertilizer[newPlan.fertilizer.id];
+			if (!fertilizer) return;
+			self.editplan.fertilizerBuy = fertilizer.buy;
+		}
+	}, true);
 	
 	/********************************
 		CORE PLANNER FUNCTIONS
@@ -405,6 +414,13 @@ function planner_controller($scope){
 				
 				// Assign harvests to plan object
 				plan.harvests = harvests;
+
+				// update costs for harvest based on regrowth
+				plan.harvests.forEach(function(harvest){
+					if(harvest.is_regrowth) {
+						harvest.update_cost();
+					}
+				});
 				
 				// Add up all harvests
 				for (var i = 0; i < harvests.length; i++){
@@ -1467,7 +1483,7 @@ function planner_controller($scope){
 			// and not to extra dropped yields
 			self.revenue.min = Math.floor(min_revenue) * self.yield.min;
 			self.revenue.max = Math.floor(max_revenue) + (Math.floor(min_revenue) * Math.max(0, self.yield.max - 1));
-			self.cost = (self.buy * plan.amount) + parseInt(self.fertilizerBuy);
+			self.cost = (self.buy * plan.amount) + (parseInt(self.fertilizerBuy) == isNaN() ? 0 : parseInt(self.fertilizerBuy));
 			
 			// Tiller profession (ID 1)
 			// [SOURCE: StardewValley/Object.cs : function sellToStorePrice]
@@ -1479,7 +1495,6 @@ function planner_controller($scope){
 			// Regrowth
 			if (is_regrowth){
 				self.is_regrowth = true;
-				self.cost = 0;
 			}
 			
 			// Harvest profit
@@ -1504,6 +1519,38 @@ function planner_controller($scope){
 		if (locale) return value.toLocaleString();
 		return value;
 	};
+
+	Harvest.prototype.get_previous_harvest = function() {
+		var harvestIndex;
+		var previous_harvest;
+		if(this.plan.harvests && this.plan.harvests.length > 1) {
+			harvestIndex = this.plan.harvests.indexOf(this);
+			previous_harvest = this.plan.harvests[harvestIndex - 1];
+		} else {
+			previous_harvest = null;
+		}
+
+		return previous_harvest;
+	}
+
+	Harvest.prototype.update_cost = function() {
+		var prev_harvest = this.get_previous_harvest();
+		if(!prev_harvest) {
+			this.cost = 0;
+		} else {
+			this.cost = prev_harvest.get_profit(1);
+
+			if(this.cost > 0) {
+				this.cost = 0;
+			} else if (this.cost < 0){
+				this.cost = Math.abs(this.cost);
+			}
+
+			// Harvest profit
+			this.profit.min = this.revenue.min - this.cost;
+			this.profit.max = this.revenue.max - this.cost;
+		}
+	}
 	
 	
 	/****************
@@ -1520,6 +1567,7 @@ function planner_controller($scope){
 		self.harvests = [];
 		self.greenhouse = false;
 		self.buy;
+		self.id;
 		
 		
 		init();
@@ -1533,8 +1581,12 @@ function planner_controller($scope){
 			self.buy = (data.buy != null || data.buy != "" || data.buy != undefined) && data.buy != self.crop.buy ? data.buy : self.crop.buy;
 			if (data.fertilizer && planner.fertilizer[data.fertilizer]) {
 				self.fertilizer = planner.fertilizer[data.fertilizer];
-				self.fertilizerBuy = data.fertilizerBuy && data.fertilizerBuy != self.fertilizer.buy ? data.fertilizerBuy : self.fertilizer.buy;
+				self.fertilizerBuy = (data.fertilizerBuy != null || data.fertilizerBuy != "" || data.fertilizerBuy != undefined) && data.fertilizerBuy != self.fertilizer.buy ? data.fertilizerBuy : self.fertilizer.buy;
+			} else {
+				self.fertilizer = planner.fertilizer["none"];
+				self.fertilizerBuy = 0;
 			}
+			
 			self.greenhouse = in_greenhouse ? true : false;
 		}
 	}
@@ -1602,7 +1654,7 @@ function planner_controller($scope){
 	};
 	
 	Plan.prototype.get_cost = function(locale){
-		var amount = (this.buy * this.amount) + parseInt(this.fertilizerBuy);
+		var amount = (this.buy * this.amount) + (parseInt(this.fertilizerBuy) == isNaN() ? 0 : parseInt(this.fertilizerBuy));
 		if (locale) return amount.toLocaleString();
 		return amount;
 	};
