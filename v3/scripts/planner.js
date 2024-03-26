@@ -719,6 +719,16 @@ function planner_controller($scope){
 		// calculate season of harvest
 		if(!self.cdate) return;
 		var harvest_day = self.cdate + crop.grow;
+		var rate = 0;
+
+		if(planner.player.agriculturist) rate += 0.1;
+
+		if(self.newplan.fertilizer.id != "none" && self.newplan.fertilizer.growth_rate) {
+			rate += self.newplan.fertilizer.growth_rate;
+			var remove_days = Math.ceil(crop.grow * rate);
+			harvest_day -= remove_days;
+		}
+
 		var harvest_season = self.seasons[Math.floor((harvest_day-1)/SEASON_DAYS)];
 
 		return (crop.can_grow(self.cseason, true) && crop.can_grow(harvest_season, true)) || self.in_greenhouse();
@@ -1612,16 +1622,11 @@ function planner_controller($scope){
 	Plan.prototype.get_grow_time = function(){
 		var stages = $.extend([], this.crop.stages);
 		
-		if (this.fertilizer.id == "speed_gro" || this.fertilizer.id == "delux_speed_gro" || planner.player.agriculturist){
+		if (this.fertilizer.id || planner.player.agriculturist){
 			// [SOURCE: StardewValley.TerrainFeatures/HoeDirt.cs : function plant]
 			var rate = 0;
-			switch (this.fertilizer.id){
-				case "speed_gro":
-					rate = 0.1;
-					break;
-				case "delux_speed_gro":
-					rate = 0.25;
-					break;
+			if(this.fertilizer.id != "none") {
+				rate = this.fertilizer.growth_rate;
 			}
 			
 			// Agriculturist profession (ID 5)
