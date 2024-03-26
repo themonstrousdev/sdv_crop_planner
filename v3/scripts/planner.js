@@ -246,12 +246,18 @@ function planner_controller($scope){
 	// adjust the price according to default price
 	$scope.$watch("self.newplan", function(newPlan, oldPlan){
 		if(!oldPlan || !newPlan) return;
-		if(oldPlan.crop_id == newPlan.crop_id) return;
-		if(!newPlan.crop_id) return;
-		var crop = self.crops[newPlan.crop_id];
-		if (!crop) return;
-		self.newplan.buy = crop.buy;
-		self.disableAmount = false;
+		if(oldPlan.crop_id == newPlan.crop_id && oldPlan.fertilizer.id == newPlan.fertilizer.id) return;
+		if(oldPlan.crop.id != newPlan.crop_id) {
+			var crop = self.crops[newPlan.crop_id];
+			if (!crop) return;
+			self.newplan.buy = crop.buy;
+		}
+
+		if(oldPlan.fertilizer.id != newPlan.fertilizer.id) {
+			var fertilizer = self.fertilizer[newPlan.fertilizer.id];
+			if (!fertilizer) return;
+			self.newplan.fertilizerBuy = fertilizer.buy;
+		}
 	}, true);
 	
 	/********************************
@@ -505,6 +511,10 @@ function planner_controller($scope){
 			// if the adjusted price is removed, the cost will be set to the default price
 			if(!plan.buy) {
 				plan.buy = self.crops[plan.crop.id].buy;
+			}
+
+			if(!plan.fertilizerBuy) {
+				plan.fertilizerBuy = self.fertilizer[plan.fertilizer.id].buy;
 			}
 			self.editplan = null;
 			save_data();
@@ -1405,6 +1415,7 @@ function planner_controller($scope){
 		self.yield = {min: 0, max: 0};
 		self.revenue = {min: 0, max: 0};
 		self.cost = 0;
+		self.fertilizerBuy = 0;
 		self.profit = {min: 0, max: 0};
 		self.is_regrowth = false;
 		
@@ -1419,6 +1430,7 @@ function planner_controller($scope){
 			self.crop = crop;
 			self.date = date;
 			self.buy = plan.buy;
+			self.fertilizerBuy = plan.fertilizerBuy;
 			
 			// Calculate crop yield (+ extra crop drops)
 			// [SOURCE: StardewValley/Crop.cs : function harvest]
@@ -1455,7 +1467,7 @@ function planner_controller($scope){
 			// and not to extra dropped yields
 			self.revenue.min = Math.floor(min_revenue) * self.yield.min;
 			self.revenue.max = Math.floor(max_revenue) + (Math.floor(min_revenue) * Math.max(0, self.yield.max - 1));
-			self.cost = self.buy * plan.amount;
+			self.cost = (self.buy * plan.amount) + parseInt(self.fertilizerBuy);
 			
 			// Tiller profession (ID 1)
 			// [SOURCE: StardewValley/Object.cs : function sellToStorePrice]
@@ -1504,6 +1516,7 @@ function planner_controller($scope){
 		self.crop = {};
 		self.amount = 1;
 		self.fertilizer = planner.fertilizer["none"];
+		self.fertilizerBuy;
 		self.harvests = [];
 		self.greenhouse = false;
 		self.buy;
@@ -1518,8 +1531,10 @@ function planner_controller($scope){
 			self.crop = planner.crops[data.crop];
 			self.amount = data.amount;
 			self.buy = (data.buy != null || data.buy != "" || data.buy != undefined) && data.buy != self.crop.buy ? data.buy : self.crop.buy;
-			if (data.fertilizer && planner.fertilizer[data.fertilizer])
+			if (data.fertilizer && planner.fertilizer[data.fertilizer]) {
 				self.fertilizer = planner.fertilizer[data.fertilizer];
+				self.fertilizerBuy = data.fertilizerBuy != self.fertilizer.buy ? data.fertilizerBuy : self.fertilizer.buy;
+			}
 			self.greenhouse = in_greenhouse ? true : false;
 		}
 	}
@@ -1530,7 +1545,10 @@ function planner_controller($scope){
 		data.crop = this.crop.id;
 		data.amount = this.amount;
 		data.buy = this.buy;
-		if (this.fertilizer && !this.fertilizer.is_none()) data.fertilizer = this.fertilizer.id;
+		if (this.fertilizer && !this.fertilizer.is_none()) {
+			data.fertilizer = this.fertilizer.id;
+			data.fertilizerBuy = this.fertilizerBuy;
+		}
 		return data;
 	};
 	
@@ -1584,10 +1602,22 @@ function planner_controller($scope){
 	};
 	
 	Plan.prototype.get_cost = function(locale){
-		var amount = this.buy * this.amount;
+		var amount = (this.buy * this.amount) + parseInt(this.fertilizerBuy);
 		if (locale) return amount.toLocaleString();
 		return amount;
 	};
+
+	Plan.prototype.get_seed_cost = function(locale){
+		var amount = this.buy * this.amount;
+		if (locale) return amount.toLocaleString();
+		return amount;
+	}
+
+	Plan.prototype.get_fertilizer_cost = function(locale){
+		var amount = this.fertilizerBuy;
+		if (locale) return amount.toLocaleString();
+		return amount;
+	}
 	
 	Plan.prototype.get_revenue = function(locale, max){
 		var amount = 0;
