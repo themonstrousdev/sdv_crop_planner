@@ -178,7 +178,7 @@ class Main:
 		
 	def update_files(self):
 		source_files = [
-			["ObjectInformation", "objects"],
+			["Objects", "objects"],
 			["Crops", "crops"]
 		]
 		
