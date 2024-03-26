@@ -238,6 +238,21 @@ function planner_controller($scope){
 		});
 	}
 	
+	/********************************
+		WATCH INITIALIZATION
+	********************************/
+
+	// watch the change in new plan crop
+	// adjust the price according to default price
+	$scope.$watch("self.newplan", function(newPlan, oldPlan){
+		if(!oldPlan || !newPlan) return;
+		if(oldPlan.crop_id == newPlan.crop_id) return;
+		if(!newPlan.crop_id) return;
+		var crop = self.crops[newPlan.crop_id];
+		if (!crop) return;
+		self.newplan.buy = crop.buy;
+		self.disableAmount = false;
+	}, true);
 	
 	/********************************
 		CORE PLANNER FUNCTIONS
@@ -485,6 +500,12 @@ function planner_controller($scope){
 	// Edit plan
 	function edit_plan(plan, save){
 		if (save){
+			// Save edit
+
+			// if the adjusted price is removed, the cost will be set to the default price
+			if(!plan.buy) {
+				plan.buy = self.crops[plan.crop.id].buy;
+			}
 			self.editplan = null;
 			save_data();
 			update(self.cyear);
@@ -494,7 +515,7 @@ function planner_controller($scope){
 			save_data();
 			update(self.cyear);
 		}
-		
+
 		self.editplan = plan;
 	}
 	
@@ -1397,6 +1418,7 @@ function planner_controller($scope){
 			self.plan = plan;
 			self.crop = crop;
 			self.date = date;
+			self.buy = plan.buy;
 			
 			// Calculate crop yield (+ extra crop drops)
 			// [SOURCE: StardewValley/Crop.cs : function harvest]
@@ -1433,7 +1455,7 @@ function planner_controller($scope){
 			// and not to extra dropped yields
 			self.revenue.min = Math.floor(min_revenue) * self.yield.min;
 			self.revenue.max = Math.floor(max_revenue) + (Math.floor(min_revenue) * Math.max(0, self.yield.max - 1));
-			self.cost = crop.buy * plan.amount;
+			self.cost = self.buy * plan.amount;
 			
 			// Tiller profession (ID 1)
 			// [SOURCE: StardewValley/Object.cs : function sellToStorePrice]
@@ -1484,6 +1506,7 @@ function planner_controller($scope){
 		self.fertilizer = planner.fertilizer["none"];
 		self.harvests = [];
 		self.greenhouse = false;
+		self.buy;
 		
 		
 		init();
@@ -1494,6 +1517,7 @@ function planner_controller($scope){
 			self.date = data.date;
 			self.crop = planner.crops[data.crop];
 			self.amount = data.amount;
+			self.buy = (data.buy != null || data.buy != "" || data.buy != undefined) && data.buy != self.crop.buy ? data.buy : self.crop.buy;
 			if (data.fertilizer && planner.fertilizer[data.fertilizer])
 				self.fertilizer = planner.fertilizer[data.fertilizer];
 			self.greenhouse = in_greenhouse ? true : false;
@@ -1505,6 +1529,7 @@ function planner_controller($scope){
 		var data = {};
 		data.crop = this.crop.id;
 		data.amount = this.amount;
+		data.buy = this.buy;
 		if (this.fertilizer && !this.fertilizer.is_none()) data.fertilizer = this.fertilizer.id;
 		return data;
 	};
@@ -1559,7 +1584,7 @@ function planner_controller($scope){
 	};
 	
 	Plan.prototype.get_cost = function(locale){
-		var amount = this.crop.buy * this.amount;
+		var amount = this.buy * this.amount;
 		if (locale) return amount.toLocaleString();
 		return amount;
 	};

@@ -161,7 +161,7 @@
 						<!-- To be planted -->
 						<div ng-show="self.cfarm().plans[date].length" class="items">
 							<div class="planting">
-								<div class="plan" ng-repeat="plan in self.cfarm().plans[date] | limitTo:10" title="{{(plan.fertilizer.name != 'None' ? plan.crop.name + ' w/' + plan.fertilizer.name : plan.crop.name) + ' (-' + plan.get_cost(1) + 'g)'}}">
+								<div class="plan" ng-repeat="plan in self.cfarm().plans[date] | limitTo:10" title="{{(plan.fertilizer.name != 'None' ? plan.crop.name + ' w/' + plan.fertilizer.name : plan.crop.name) + ' (' + (plan.get_cost(1) < 0 ? '-' : '') + plan.get_cost(1) + 'g)'}}">
 									<img ng-src="{{plan.crop.get_image(1)}}" >
 									<div class="amount" ng-class="{'purple':plan.fertilizer.name != 'None'}">x{{plan.amount}}</div>
 								</div>
@@ -412,6 +412,13 @@
 									<input class="form-control" type="text" ng-model="self.newplan.amount" ng-keypress="self.add_plan_key(self.cdate, $event)">
 								</label>
 							</div>
+							<div class="col-md-2 col-xs-4">
+								<label>
+									<b>Adjusted Price</b><br>
+									<input class="form-control" type="text" ng-model="self.newplan.buy" ng-keypress="self.add_plan_key(self.cdate, $event)">
+								</label>
+							</div>
+							
 							<div class="col-md-3 col-xs-4">
 								<b>Fertilizer</b><br>
 								<select class="form-control" ng-model="self.newplan.fertilizer" ng-options="fert as fert.name for fert in self.config.fertilizer track by fert.id">
@@ -496,7 +503,12 @@
 													<select class="form-control" ng-model="plan.fertilizer" ng-options="fert as fert.name for fert in self.config.fertilizer track by fert.id"></select>
 												</div>
 											</td>
-											<td>-{{plan.get_cost(1)}}g</td>
+											<td>
+												<span ng-show="self.editplan==plan">
+													<input class="form-control" type="text" ng-model="plan.buy" placeholder="{{plan.crop.buy}}">
+												</span>
+												<span ng-show="self.editplan!=plan">{{plan.get_cost(1) > 0 ? '-' : ''}}{{plan.get_cost(1)}}g</span>
+											</td>
 											<td>{{plan.get_grow_time()}}</td>
 											<td>{{plan.crop.regrow}}</td>
 											<td>
