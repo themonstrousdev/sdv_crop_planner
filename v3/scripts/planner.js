@@ -1533,7 +1533,7 @@ function planner_controller($scope){
 			self.buy = (data.buy != null || data.buy != "" || data.buy != undefined) && data.buy != self.crop.buy ? data.buy : self.crop.buy;
 			if (data.fertilizer && planner.fertilizer[data.fertilizer]) {
 				self.fertilizer = planner.fertilizer[data.fertilizer];
-				self.fertilizerBuy = data.fertilizerBuy != self.fertilizer.buy ? data.fertilizerBuy : self.fertilizer.buy;
+				self.fertilizerBuy = data.fertilizerBuy && data.fertilizerBuy != self.fertilizer.buy ? data.fertilizerBuy : self.fertilizer.buy;
 			}
 			self.greenhouse = in_greenhouse ? true : false;
 		}
