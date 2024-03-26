@@ -716,7 +716,12 @@ function planner_controller($scope){
 	
 	// Filter crops that can be planted in the planner's drop down list
 	function planner_valid_crops(crop){
-		return crop.can_grow(self.cseason, true) || self.in_greenhouse();
+		// calculate season of harvest
+		if(!self.cdate) return;
+		var harvest_day = self.cdate + crop.grow;
+		var harvest_season = self.seasons[Math.floor((harvest_day-1)/SEASON_DAYS)];
+
+		return (crop.can_grow(self.cseason, true) && crop.can_grow(harvest_season, true)) || self.in_greenhouse();
 	}
 	
 	
