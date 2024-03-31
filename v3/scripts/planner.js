@@ -92,6 +92,7 @@ function planner_controller($scope){
 	self.save_data = save_data;
 
 	self.refresh_alert = false;
+	self.paddy_alert = false;
 	
 	// Crop info search/filter settings
 	self.cinfo_settings = {
@@ -253,6 +254,7 @@ function planner_controller($scope){
 			var crop = self.crops[newPlan.crop_id];
 			if (!crop) return;
 			self.newplan.buy = crop.buy;
+			self.paddy_alert = crop.paddy_crop;
 		}
 
 		if(oldPlan.fertilizer.id != newPlan.fertilizer.id) {
@@ -1092,6 +1094,7 @@ function planner_controller($scope){
 		self.stages = [];
 		self.regrow;
 		self.wild = false;
+		self.paddy_crop = false;
 		
 		// Harvest data
 		self.harvest = {
@@ -1127,6 +1130,7 @@ function planner_controller($scope){
 			self.stages = data.stages;
 			self.regrow = data.regrow;
 			self.deny = data.deny;
+			self.paddy_crop = data.paddy_crop;
 			if (data.wild) self.wild = true;
 			
 			// Harvest data
