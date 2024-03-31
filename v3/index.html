@@ -353,6 +353,23 @@
 					</div>
 					
 					<hr>
+
+					<div>
+						<h4>Profit Margin</h4>
+						<label>
+							<select class="form-control" ng-model="self.player.profit_margin">
+								<option value="1">Normal</option>
+								<option value="0.25">25%</option>
+								<option value="0.50">50%</option>
+								<option value="0.75">75%</option>
+							</select>
+						</label>
+						<br>
+						<span class="text-muted">This will affect the profit calculations.</span> <br>
+						<span class="text-danger" ng-show="self.refresh_alert">Please refresh to apply the new profit margin.</span>
+					</div>
+
+					<hr>
 					
 					<div>
 						<h4>Miscellaneous</h4>

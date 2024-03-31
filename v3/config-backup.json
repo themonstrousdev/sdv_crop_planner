@@ -19,7 +19,7 @@
 			]
 		},
 		{
-			"buy": 0,
+			"buy": 700,
 			"harvest": {},
 			"id": "ancient_fruit",
 			"index": 499,
@@ -94,9 +94,10 @@
 		{
 			"buy": 80,
 			"harvest": {
-				"min": 3,
-				"max": 3,
-				"extra_chance": 0.02
+				"extra_chance": 0.02,
+				"level_increase": 5,
+				"max": 5,
+				"min": 3
 			},
 			"id": "blueberry",
 			"index": 481,
@@ -132,65 +133,6 @@
 			]
 		},
 		{
-			"buy": 0,
-			"harvest": {},
-			"id": "broccoli",
-			"index": "BroccoliSeeds",
-			"name": "Broccoli",
-			"regrow": 4,
-			"seasons": [
-				"fall"
-			],
-			"sell": 70,
-			"stages": [
-				1,
-				2,
-				2,
-				3
-			]
-		},
-		{
-			"buy": 150,
-			"harvest": {},
-			"id": "cactus_fruit",
-			"index": 802,
-			"name": "Cactus Fruit",
-			"regrow": 3,
-			"seasons": [
-				"spring",
-				"summer",
-				"fall",
-				"winter"
-			],
-			"sell": 75,
-			"stages": [
-				2,
-				2,
-				2,
-				3,
-				3
-			],
-			"deny": [
-				"farm"
-			]
-		},
-		{
-			"buy": 0,
-			"harvest": {},
-			"id": "carrot",
-			"index": "CarrotSeeds",
-			"name": "Carrot",
-			"seasons": [
-				"spring"
-			],
-			"sell": 35,
-			"stages": [
-				1,
-				1,
-				1
-			]
-		},
-		{
 			"buy": 80,
 			"harvest": {},
 			"id": "cauliflower",
@@ -209,15 +151,17 @@
 			]
 		},
 		{
-			"buy": 2500,
+			"buy": 30,
 			"harvest": {
-				"min": 4,
-				"max": 1,
-				"extra_chance": 0.02
+				"extra_chance": 0.02,
+				"level_increase": 10,
+				"max": 6,
+				"min": 4
 			},
 			"id": "coffee_bean",
 			"index": 433,
 			"name": "Coffee Bean",
+			"note": "Sold by Travelling Cart for ~2500g",
 			"regrow": 2,
 			"seasons": [
 				"spring",
@@ -234,7 +178,12 @@
 		},
 		{
 			"buy": 150,
-			"harvest": {},
+			"harvest": {
+				"extra_chance": 0.0,
+				"level_increase": 5,
+				"max": 2,
+				"min": 1
+			},
 			"id": "corn",
 			"index": 487,
 			"name": "Corn",
@@ -255,9 +204,10 @@
 		{
 			"buy": 240,
 			"harvest": {
-				"min": 2,
-				"max": 1,
-				"extra_chance": 0.1
+				"extra_chance": 0.1,
+				"level_increase": 5,
+				"max": 6,
+				"min": 2
 			},
 			"id": "cranberries",
 			"index": 493,
@@ -278,7 +228,10 @@
 		{
 			"buy": 20,
 			"harvest": {
-				"extra_chance": 0.002
+				"extra_chance": 0.002,
+				"level_increase": 10,
+				"max": 2,
+				"min": 1
 			},
 			"id": "eggplant",
 			"index": 488,
@@ -297,6 +250,21 @@
 			]
 		},
 		{
+			"buy": 0,
+			"harvest": {},
+			"id": "fall_seeds",
+			"index": 478,
+			"name": "Fall Seeds",
+			"seasons": [
+				"fall"
+			],
+			"sell": 57,
+			"stages": [
+				3,
+				4
+			]
+		},
+		{
 			"buy": 200,
 			"harvest": {},
 			"id": "fairy_rose",
@@ -311,51 +279,6 @@
 				4,
 				4,
 				3
-			]
-		},
-		{
-			"buy": 0,
-			"harvest": {},
-			"sell_prices": {
-				"min": 20,
-				"max": 90
-			},
-			"seasonal_seeds": true,
-			"id": "fall_seeds",
-			"index": 497,
-			"name": "Fall Seeds",
-			"seasons": [
-				"fall"
-			],
-			"sell": 0,
-			"stages": [
-				3,
-				4
-			]
-		},
-		{
-			"buy": 0,
-			"harvest": {
-				"min": 4,
-				"max": 7,
-				"extra_chance": 0.01
-			},
-			"id": "fiber",
-			"index": 885,
-			"name": "Fiber",
-			"scythe": true,
-			"seasons": [
-				"spring",
-				"summer",
-				"fall",
-				"winter"
-			],
-			"sell": 1,
-			"stages": [
-				1,
-				2,
-				2,
-				2
 			]
 		},
 		{
@@ -377,7 +300,12 @@
 		},
 		{
 			"buy": 60,
-			"harvest": {},
+			"harvest": {
+				"extra_chance": 0.0,
+				"level_increase": 6,
+				"max": 2,
+				"min": 1
+			},
 			"id": "grape",
 			"index": 301,
 			"name": "Grape",
@@ -392,11 +320,17 @@
 				2,
 				3,
 				3
-			]
+			],
+			"trellis": true
 		},
 		{
 			"buy": 60,
-			"harvest": {},
+			"harvest": {
+				"extra_chance": 0.0,
+				"level_increase": 6,
+				"max": 2,
+				"min": 1
+			},
 			"id": "green_bean",
 			"index": 473,
 			"name": "Green Bean",
@@ -411,11 +345,17 @@
 				1,
 				3,
 				4
-			]
+			],
+			"trellis": true
 		},
 		{
 			"buy": 60,
-			"harvest": {},
+			"harvest": {
+				"extra_chance": 0.0,
+				"level_increase": 6,
+				"max": 2,
+				"min": 1
+			},
 			"id": "hops",
 			"index": 302,
 			"name": "Hops",
@@ -430,12 +370,16 @@
 				2,
 				3,
 				4
-			]
+			],
+			"trellis": true
 		},
 		{
 			"buy": 40,
 			"harvest": {
-				"extra_chance": 0.03
+				"extra_chance": 0.03,
+				"level_increase": 5,
+				"max": 1,
+				"min": 1
 			},
 			"id": "hot_pepper",
 			"index": 482,
@@ -510,13 +454,13 @@
 			"buy": 0,
 			"harvest": {},
 			"id": "pineapple",
-			"index": 833,
+			"index": 472,
 			"name": "Pineapple",
-			"regrow": 7,
 			"seasons": [
 				"summer"
 			],
 			"sell": 300,
+			"regrow": 7,
 			"stages": [
 				1,
 				3,
@@ -545,7 +489,10 @@
 		{
 			"buy": 50,
 			"harvest": {
-				"extra_chance": 0.2
+				"extra_chance": 0.2,
+				"level_increase": 8,
+				"max": 2,
+				"min": 1
 			},
 			"id": "potato",
 			"index": 475,
@@ -560,24 +507,6 @@
 				1,
 				2,
 				1
-			]
-		},
-		{
-			"buy": 0,
-			"harvest": {},
-			"id": "powdermelon",
-			"index": "PowdermelonSeeds",
-			"name": "Powdermelon",
-			"seasons": [
-				"winter"
-			],
-			"sell": 60,
-			"stages": [
-				1,
-				1,
-				1,
-				2,
-				2
 			]
 		},
 		{
@@ -596,26 +525,6 @@
 				3,
 				4,
 				3
-			]
-		},
-		{
-			"buy": 0,
-			"harvest": {},
-			"id": "qi_fruit",
-			"index": 890,
-			"name": "Qi Fruit",
-			"seasons": [
-				"spring",
-				"summer",
-				"fall",
-				"winter"
-			],
-			"sell": 1,
-			"stages": [
-				1,
-				1,
-				1,
-				1
 			]
 		},
 		{
@@ -674,18 +583,13 @@
 		{
 			"buy": 0,
 			"harvest": {},
-			"sell_prices": {
-				"min": 30,
-				"max": 60
-			},
-			"seasonal_seeds": true,
 			"id": "spring_seeds",
-			"index": 495,
+			"index": 478,
 			"name": "Spring Seeds",
 			"seasons": [
 				"spring"
 			],
-			"sell": 0,
+			"sell": 45,
 			"stages": [
 				3,
 				4
@@ -712,7 +616,10 @@
 		{
 			"buy": 100,
 			"harvest": {
-				"extra_chance": 0.02
+				"extra_chance": 0.02,
+				"level_increase": 5,
+				"max": 1,
+				"min": 1
 			},
 			"id": "strawberry",
 			"index": 745,
@@ -733,18 +640,13 @@
 		{
 			"buy": 0,
 			"harvest": {},
-			"sell_prices": {
-				"min": 50,
-				"max": 80
-			},
-			"seasonal_seeds": true,
 			"id": "summer_seeds",
-			"index": 496,
+			"index": 478,
 			"name": "Summer Seeds",
 			"seasons": [
 				"summer"
 			],
-			"sell": 0,
+			"sell": 70,
 			"stages": [
 				3,
 				4
@@ -768,30 +670,12 @@
 			]
 		},
 		{
-			"buy": 0,
-			"harvest": {},
-			"id": "summer_squash",
-			"index": "SummerSquashSeeds",
-			"name": "Summer Squash",
-			"regrow": 3,
-			"seasons": [
-				"summer"
-			],
-			"sell": 45,
-			"stages": [
-				1,
-				1,
-				1,
-				1,
-				2
-			]
-		},
-		{
-			"buy": 100,
+			"buy": 125,
 			"harvest": {},
 			"id": "sunflower",
 			"index": 431,
 			"name": "Sunflower",
+			"note": "Cheapest at JojaMart",
 			"seasons": [
 				"summer",
 				"fall"
@@ -825,14 +709,13 @@
 		{
 			"buy": 0,
 			"harvest": {},
-			"id": "taro_root",
-			"index": 831,
-			"name": "Taro Root",
-			"paddy_crop": true,
+			"id": "taro_root_unirrigated",
+			"index": 347,
+			"name": "Taro Root (Unirrigated)",
 			"seasons": [
 				"summer"
 			],
-			"sell": 100,
+			"sell": 20,
 			"stages": [
 				1,
 				2,
@@ -841,9 +724,48 @@
 			]
 		},
 		{
+			"buy": 0,
+			"harvest": {},
+			"id": "taro_root_irrigated",
+			"index": 347,
+			"name": "Taro Root (Irrigated)",
+			"seasons": [
+				"summer"
+			],
+			"sell": 20,
+			"stages": [
+				1,
+				1,
+				2,
+				3
+			]
+		},
+		{
+			"buy": 0,
+			"harvest": { "days": [ 22, 23, 24, 25, 26, 27, 28, 50, 51, 52, 53, 54, 55, 56, 78, 79, 80, 81, 82, 83, 84 ] },
+			"id": "tea_leaves",
+			"index": 299,
+			"name": "Tea Leaves",
+			"regrow": "1",
+			"seasons": [
+				"spring",
+				"summer",
+				"fall"
+			],
+			"sell": 50,
+			"stages": [
+				10,
+				10,
+				1
+			]
+		},
+		{
 			"buy": 50,
 			"harvest": {
-				"extra_chance": 0.05
+				"extra_chance": 0.05,
+				"level_increase": 6,
+				"max": 1,
+				"min": 1
 			},
 			"id": "tomato",
 			"index": 480,
@@ -880,15 +802,10 @@
 		},
 		{
 			"buy": 40,
-			"harvest": {
-				"level_chance": 0.1,
-				"extra_chance": 0.1
-			},
-			"id": "unmilled_rice",
-			"index": 273,
-			"name": "Unmilled Rice",
-			"paddy_crop": true,
-			"scythe": true,
+			"harvest": {},
+			"id": "unmilled_rice_unirrigated",
+			"index": 299,
+			"name": "Unmilled Rice (Unirrigated)",
 			"seasons": [
 				"spring"
 			],
@@ -898,6 +815,38 @@
 				2,
 				2,
 				3
+			]
+		},
+		{
+			"buy": 40,
+			"harvest": {},
+			"id": "unmilled_rice_irrigated",
+			"index": 299,
+			"name": "Unmilled Rice (Irrigated)",
+			"seasons": [
+				"spring"
+			],
+			"sell": 30,
+			"stages": [
+				1,
+				1,
+				1,
+				3
+			]
+		},
+		{
+			"buy": 0,
+			"harvest": {},
+			"id": "winter_seeds",
+			"index": 478,
+			"name": "Winter Seeds",
+			"seasons": [
+				"winter"
+			],
+			"sell": 95,
+			"stages": [
+				3,
+				4
 			]
 		},
 		{
@@ -917,26 +866,6 @@
 				1,
 				1,
 				1
-			]
-		},
-		{
-			"buy": 0,
-			"harvest": {},
-			"sell_prices": {
-				"min": 60,
-				"max": 150
-			},
-			"seasonal_seeds": true,
-			"id": "winter_seeds",
-			"index": 498,
-			"name": "Winter Seeds",
-			"seasons": [
-				"winter"
-			],
-			"sell": 0,
-			"stages": [
-				3,
-				4
 			]
 		},
 		{
@@ -1158,7 +1087,7 @@
 			{
 				"day": 15,
 				"name": "Night Market",
-				"festival": true
+				"festival":  true
 			},
 			{
 				"day": 16,

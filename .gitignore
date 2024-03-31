@@ -1,4 +1,5 @@
 utils/data/*
+*/data/*
 *.pyo
 *.pyc
 .vs*
