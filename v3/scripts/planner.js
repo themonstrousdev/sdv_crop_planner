@@ -90,6 +90,9 @@ function planner_controller($scope){
 	self.ci_set_sort = ci_set_sort;		// Set key to sort crop info by
 	self.planner_valid_crops = planner_valid_crops;
 	self.save_data = save_data;
+
+	self.refresh_alert = false;
+	self.paddy_alert = false;
 	
 	// Crop info search/filter settings
 	self.cinfo_settings = {
@@ -251,6 +254,7 @@ function planner_controller($scope){
 			var crop = self.crops[newPlan.crop_id];
 			if (!crop) return;
 			self.newplan.buy = crop.buy;
+			self.paddy_alert = crop.paddy_crop;
 		}
 
 		if(oldPlan.fertilizer.id != newPlan.fertilizer.id) {
@@ -266,6 +270,15 @@ function planner_controller($scope){
 			var fertilizer = self.fertilizer[newPlan.fertilizer.id];
 			if (!fertilizer) return;
 			self.editplan.fertilizerBuy = fertilizer.buy;
+		}
+	}, true);
+
+	$scope.$watch("self.player", function(newPlayer, oldPlayer){
+		if(!oldPlayer || !newPlayer) return;
+		if(newPlayer.profit_margin != newPlayer.current_profit_margin) {
+			self.refresh_alert = true;
+		} else {
+			self.refresh_alert = false;
 		}
 	}, true);
 	
@@ -731,7 +744,7 @@ function planner_controller($scope){
 
 		var harvest_season = self.seasons[Math.floor((harvest_day-1)/SEASON_DAYS)];
 
-		return (crop.can_grow(self.cseason, true) && crop.can_grow(harvest_season, true)) || self.in_greenhouse();
+		return ((crop.can_grow(self.cseason, true) && crop.can_grow(harvest_season, true)) || self.in_greenhouse()) && (!crop.deny || !crop.deny.includes(self.cmode));
 	}
 	
 	
@@ -945,6 +958,8 @@ function planner_controller($scope){
 		self.level = 0; // farming level; starts at 0
 		self.tiller = false;
 		self.agriculturist = false;
+		self.current_profit_margin = 1; // Currently applied profit margin
+		self.profit_margin = 1; // 100% profit margin
 		
 		self.load = load
 		self.save = save;
@@ -973,6 +988,10 @@ function planner_controller($scope){
 			if (pdata.tiller) self.tiller = true;
 			if (pdata.agriculturist) self.agriculturist = true;
 			if (pdata.level) self.level = pdata.level;
+			if (pdata.profit_margin) {
+				self.profit_margin = pdata.profit_margin; 
+				self.current_profit_margin = pdata.profit_margin;
+			}
 			if (pdata.settings) self.settings = pdata.settings;
 		}
 		
@@ -983,6 +1002,7 @@ function planner_controller($scope){
 			if (self.agriculturist) pdata.agriculturist = self.agriculturist;
 			pdata.settings = self.settings;
 			pdata.level = self.level;
+			pdata.profit_margin = self.profit_margin;
 			SAVE_JSON("player", pdata);
 		}
 		
@@ -1022,6 +1042,10 @@ function planner_controller($scope){
 			
 			if (locale) return Math.round(chance * 100);
 			return chance;
+		}
+
+		function select_profit_margin(margin){
+			self.profit_margin = margin;
 		}
 	}
 	
@@ -1070,6 +1094,7 @@ function planner_controller($scope){
 		self.stages = [];
 		self.regrow;
 		self.wild = false;
+		self.paddy_crop = false;
 		
 		// Harvest data
 		self.harvest = {
@@ -1098,15 +1123,26 @@ function planner_controller($scope){
 			self.id = data.id;
 			self.name = data.name;
 			self.sell = data.sell;
+			self.sell_prices = data.sell_prices;
+			self.seasonal_seeds = data.seasonal_seeds;
 			self.buy = data.buy;
 			self.seasons = data.seasons;
 			self.stages = data.stages;
 			self.regrow = data.regrow;
+			self.deny = data.deny;
+			self.paddy_crop = data.paddy_crop;
 			if (data.wild) self.wild = true;
 			
 			// Harvest data
-			if (data.harvest.min) self.harvest.min = data.harvest.min;
-			if (data.harvest.max) self.harvest.max = data.harvest.max;
+			if (data.harvest.min) {
+				self.harvest.min = data.harvest.min;
+				if (data.harvest.max > data.harvest.mind) {
+					self.harvest.max = data.harvest.max;
+				} else {
+					self.harvest.max = data.harvest.min;
+				}
+			}
+			if (data.harvest.level_chance) self.harvest.level_increase = data.harvest.level_chance;
 			if (data.harvest.level_increase) self.harvest.level_increase = data.harvest.level_increase;
 			if (data.harvest.extra_chance) self.harvest.extra_chance = data.harvest.extra_chance;
 			
@@ -1117,6 +1153,16 @@ function planner_controller($scope){
 			self.grow = 0;
 			for (var i = 0; i < data.stages.length; i++){
 				self.grow += data.stages[i];
+			}
+
+			// Change buy and sell based on player profit margin
+			if(planner.player.profit_margin != 1) {
+				self.buy = Math.floor(self.buy * planner.player.profit_margin);
+				self.sell = Math.floor(self.sell * planner.player.profit_margin);
+				if(self.sell_prices) {
+					self.sell_prices.min = Math.floor(self.sell_prices.min * planner.player.profit_margin);
+					self.sell_prices.max = Math.floor(self.sell_prices.max * planner.player.profit_margin);
+				}
 			}
 			
 			// Calculate profit per day
@@ -1144,9 +1190,18 @@ function planner_controller($scope){
 	
 	// Get crop quality-modified sell price
 	// [SOURCE: StardewValley/Object.cs : function sellToStorePrice]
-	Crop.prototype.get_sell = function(quality){
+	Crop.prototype.get_sell = function(quality, max){
 		quality = quality || 0;
-		return Math.floor(this.sell * (1 + (quality * 0.25)));
+		max = max || false;
+		var sellValue = 0;
+		if (!this.seasonal_seeds) {
+			sellValue = Math.floor(this.sell * (1 + (quality * 0.25)))
+		} else if (max == false) {
+			sellValue = Math.floor(this.sell_prices.min * (1 + (quality * 0.25)))
+		} else {
+			sellValue = Math.floor(this.sell_prices.max * (1 + (quality * 0.25)))
+		}
+		return sellValue;
 	};
 	
 	// Check if crop can grow on date/season
@@ -1466,7 +1521,7 @@ function planner_controller($scope){
 			// Calculate crop yield (+ extra crop drops)
 			// [SOURCE: StardewValley/Crop.cs : function harvest]
 			self.yield.min = crop.harvest.min * plan.amount;
-			self.yield.max = (Math.min(crop.harvest.min + 1, crop.harvest.max + 1 + (planner.player.level / crop.harvest.level_increase))-1) * plan.amount;
+			self.yield.max = (Math.min(crop.harvest.min + 1, crop.harvest.max + 1 + (crop.harvest.level_chance ? planner.player.level * crop.harvest.level_chance : 0))-1) * plan.amount;
 			
 			// Harvest revenue and costs
 			var q_mult = 0;
@@ -1489,10 +1544,15 @@ function planner_controller($scope){
 			var regular_chance = planner.player.quality_chance(0, q_mult);
 			var silver_chance = planner.player.quality_chance(1, q_mult);
 			var gold_chance = planner.player.quality_chance(2, q_mult);
-			
+
 			var min_revenue = crop.get_sell(0);
 			var max_revenue = (min_revenue*regular_chance) + (crop.get_sell(1)*silver_chance) + (crop.get_sell(2)*gold_chance);
 			max_revenue = Math.min(crop.get_sell(2), max_revenue);
+
+			if(crop.seasonal_seeds) {
+				min_revenue = crop.get_sell(0, false);
+				max_revenue = (crop.get_sell(0, true)*regular_chance) + (crop.get_sell(1, true)*silver_chance) + (crop.get_sell(2, true)*gold_chance);
+			}
 			
 			// Quality from fertilizer only applies to picked harvest
 			// and not to extra dropped yields
