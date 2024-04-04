@@ -53,6 +53,11 @@
 						<div class="yi_name">Year {{self.cyear.index+1}}, {{self.cseason.name}}</div>
 						<div class="yi_farmtype">{{self.cmodeName}}</div>
 					</div>
+					<div class="choose-player">
+							<select class="form-control" style="margin-bottom: 5px" ng-model="self.current_player" ng-options="player.id as player.name for player in self.players">
+							</select>
+						<button class="btn btn-success" ng-click="self.open_add_player()"><i class="fa fa-plus"></i> Add Player</button>
+					</div>
 				</div>
 				
 				<div class="col-md-6 col-xs-8">
@@ -319,6 +324,12 @@
 				</div>
 				<div class="panel-body">
 					<div class="farm_level">
+						<h4>Player Name</h4>
+						<input type="text" ng-model="self.player.name" class="form-control">
+						<br>
+						<button class="btn btn-danger" ng-click="self.delete_player()"><i class="fa fa-trash"></i> Delete Player</button>
+						<br>
+						<small class="text-danger"><i>WARNING: This will delete the players planning data. This action cannot be undone.</i></small>
 						<h4>Farming Level</h4>
 						<label><input type="number" ng-model="self.player.level" min="0" max="10" class="form-control"></label>
 						
@@ -403,6 +414,45 @@
 	</div>
 	<!-- [/SIDEBAR] -->
 	
+	<!-- [ADD_PLAYER_MODAL] -->
+	<div class="modal fade" id="add_player">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div class="close" data-dismiss="modal"><i class="fa fa-times"></i></div>
+					<h4 class="modal-title">Add Player</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label>Name</label>
+						<input class="form-control" type="text" ng-model="self.newPlayer.name">
+					</div>
+					<div class="form-group">
+						<label>Level</label>
+						<input class="form-control" type="number" ng-model="self.newPlayer.level" min="0" max="10">
+					</div>
+					<div class="form-group">
+						<label>Professions</label>
+						<div class="btn" ng-class="{'btn-success': self.newPlayer.tiller, 'btn-default': !self.newPlayer.tiller}" ng-click="self.newPlayer.toggle_perk('tiller')">Tiller</div>
+						<div class="btn" ng-class="{'btn-success': self.newPlayer.agriculturist, 'btn-default': !self.newPlayer.agriculturist}" ng-click="self.newPlayer.toggle_perk('agriculturist')">Agriculturist</div>
+					</div>
+					<div class="form-group">
+						<label>Profit Margin</label>
+						<select class="form-control" ng-model="self.newPlayer.profit_margin">
+							<option value="1">Normal</option>
+							<option value="0.25">25%</option>
+							<option value="0.50">50%</option>
+							<option value="0.75">75%</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<div class="btn btn-success" ng-click="self.add_player(true)">Add Player</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- [/ADD_PLAYER_MODAL] -->
 	
 	<!-- [CROP_PLANNER_MODAL] -->
 	<div class="modal fade" id="crop_planner">
@@ -573,6 +623,7 @@
 											<th>Yield</th>
 											<th>Revenue</th>
 											<th>Profit</th>
+											<th>Experience</th>
 											<th><i class="fa fa-refresh"></i> Regrows</th>
 										</tr>
 									</thead>
@@ -606,6 +657,7 @@
 													{{harvest.get_profit(1, 1)}}g
 												</span>
 											</td>
+											<td>{{harvest.get_experience()}}</td>
 											<td>{{harvest.crop.regrow && harvest.crop.regrow+' days' || ''}}</td>
 										</tr>
 									</tbody>
@@ -628,11 +680,11 @@
 	
 	<!-- [LICENSE] -->
 	<div class="license">
-		<a href="http://stardewvalley.net/" target="_blank" rel="noreferrer">Stardew Valley</a> (v1.1) © <a href="https://twitter.com/ConcernedApe" target="_blank" rel="noreferrer">ConcernedApe</a>. Unofficial <a href="https://github.com/exnil/crop_planner" target="_blank" rel="noreferrer">crop planner source code</a> made available under the MIT License. 
+		<a href="http://stardewvalley.net/" target="_blank" rel="noreferrer">Stardew Valley</a> (v1.6) © <a href="https://twitter.com/ConcernedApe" target="_blank" rel="noreferrer">ConcernedApe</a>. Unofficial <a href="https://github.com/exnil/crop_planner" target="_blank" rel="noreferrer">crop planner source code</a> made available under the MIT License. 
 		<br>
-		<a href="https://github.com/exnil/crop_planner" target="_blank" rel="noreferrer" title="GitHub Page"><i class="fa fa-github fa-lg"></i></a>
+		<a href="https://github.com/themonstrousdev/sdv_crop_planner/tree/gh-pages" target="_blank" rel="noreferrer" title="GitHub Page"><i class="fa fa-github fa-lg"></i></a>
 		&ensp;
-		<a href="https://www.reddit.com/r/StardewValley/comments/55puw1/crop_planner_v2_released_multiple_years_importing/" target="_blank" rel="noreferrer" title="Reddit Thread"><i class="fa fa-reddit-alien fa-lg"></i></a>
+		<a href="https://www.reddit.com/r/StardewValley/comments/1bo18ds/crop_planner_v3_website/" target="_blank" rel="noreferrer" title="Reddit Thread"><i class="fa fa-reddit-alien fa-lg"></i></a>
 	</div>
 	<!-- [/LICENSE] -->
 </body>
