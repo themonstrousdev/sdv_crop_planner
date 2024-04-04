@@ -134,9 +134,11 @@ function planner_controller($scope){
 			}
 
 			self.players.push(self.player);
+			self.player.save();
 		} else if (!self.player.id) {
 			self.player.id = "player-" + loaded_players.length;
 			self.players.push(self.player);
+			self.player.save();
 		} else {
 			// create new player object for all players
 			loaded_players.forEach(function(player) {
@@ -415,7 +417,7 @@ function planner_controller($scope){
 	function load_data(){
 		// Load plan data
 		var plan_data = LOAD_JSON("plans");
-		var players_data = LOAD_JSON("players");
+		var players_data = LOAD_JSON("players") ? LOAD_JSON("players") : [];
 		var plan_count = 0;
 		if (!plan_data) return 0;
 		
@@ -434,6 +436,15 @@ function planner_controller($scope){
 
 			self.years[playerId] = player_years;
 		});
+
+		// if from old version
+		if(Array.isArray(plan_data)) {
+			$.each(plan_data, function(i, year_data){
+				var new_year = new Year(i);
+				plan_count += new_year.set_data(year_data);
+				self.years[self.player.id].push(new_year);
+			});
+		}
 
 		// Set current player year
 		self.cyear = self.years[self.player.id][0];
