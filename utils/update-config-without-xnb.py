@@ -9,9 +9,11 @@
 #	xcompress32.dll - proprietary, not included with XNBNode
 ################################
 
-import re, os, sys, shutil, json, subprocess, time
+import os, sys, shutil, json
 from os.path import getmtime
 from collections import OrderedDict
+
+import math
 
 # For downloading XNBNode (on user prompt)
 # Not used for now
@@ -441,7 +443,6 @@ class Main:
 			
 				if crop["harvest"]["extra_chance"] != 0:
 					crop_data["harvest"]["extra_chance"] = crop["harvest"]["extra_chance"]
-				
 		
 				crop_data["id"] = harvested_crop["name"].lower().replace(" ", "_")
 				crop_data["index"] = int(cropId) if cropId.isnumeric() else cropId
@@ -466,6 +467,12 @@ class Main:
 				crop_data["sell"] = 0
 			else:
 				crop_data["sell"] = harvested_crop["price"]
+    
+			if not crop_data["sell"] == 0:
+				crop_data["harvest"]["experience"] = self.calculate_xp(crop_data["sell"])
+    
+				if crop_data["harvest"]["experience"] < 0:
+					crop_data["harvest"]["experience"] = crop_data["harvest"]["experience"] * -1
    
 			# Get stages
 			crop_data["stages"] = crop["stages"]
@@ -476,6 +483,12 @@ class Main:
 					crop_data["deny"] = ["farm"]
    
 			self.config["crops"][crop_data["id"]] = crop_data
+
+	def calculate_xp(self, price):
+		xp = round(16 * math.log(0.018 * price + 1))
+		if xp < 0:
+			xp = xp * -1
+		return xp
 
 	def split_words(self, text):
 		words = []

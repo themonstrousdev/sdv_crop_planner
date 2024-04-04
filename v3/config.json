@@ -2,7 +2,9 @@
 	"crops": [
 		{
 			"buy": 70,
-			"harvest": {},
+			"harvest": {
+				"experience": 21
+			},
 			"id": "amaranth",
 			"index": 299,
 			"name": "Amaranth",
@@ -20,7 +22,9 @@
 		},
 		{
 			"buy": 0,
-			"harvest": {},
+			"harvest": {
+				"experience": 38
+			},
 			"id": "ancient_fruit",
 			"index": 499,
 			"name": "Ancient Fruit",
@@ -41,7 +45,9 @@
 		},
 		{
 			"buy": 30,
-			"harvest": {},
+			"harvest": {
+				"experience": 22
+			},
 			"id": "artichoke",
 			"index": 489,
 			"name": "Artichoke",
@@ -59,7 +65,9 @@
 		},
 		{
 			"buy": 20,
-			"harvest": {},
+			"harvest": {
+				"experience": 16
+			},
 			"id": "beet",
 			"index": 494,
 			"name": "Beet",
@@ -76,7 +84,9 @@
 		},
 		{
 			"buy": 30,
-			"harvest": {},
+			"harvest": {
+				"experience": 10
+			},
 			"id": "blue_jazz",
 			"index": 429,
 			"name": "Blue Jazz",
@@ -96,7 +106,8 @@
 			"harvest": {
 				"min": 3,
 				"max": 3,
-				"extra_chance": 0.02
+				"extra_chance": 0.02,
+				"experience": 10
 			},
 			"id": "blueberry",
 			"index": 481,
@@ -116,7 +127,9 @@
 		},
 		{
 			"buy": 50,
-			"harvest": {},
+			"harvest": {
+				"experience": 14
+			},
 			"id": "bok_choy",
 			"index": 491,
 			"name": "Bok Choy",
@@ -133,7 +146,9 @@
 		},
 		{
 			"buy": 0,
-			"harvest": {},
+			"harvest": {
+				"experience": 13
+			},
 			"id": "broccoli",
 			"index": "BroccoliSeeds",
 			"name": "Broccoli",
@@ -151,7 +166,9 @@
 		},
 		{
 			"buy": 150,
-			"harvest": {},
+			"harvest": {
+				"experience": 14
+			},
 			"id": "cactus_fruit",
 			"index": 802,
 			"name": "Cactus Fruit",
@@ -176,7 +193,9 @@
 		},
 		{
 			"buy": 0,
-			"harvest": {},
+			"harvest": {
+				"experience": 8
+			},
 			"id": "carrot",
 			"index": "CarrotSeeds",
 			"name": "Carrot",
@@ -192,7 +211,9 @@
 		},
 		{
 			"buy": 80,
-			"harvest": {},
+			"harvest": {
+				"experience": 23
+			},
 			"id": "cauliflower",
 			"index": 474,
 			"name": "Cauliflower",
@@ -213,7 +234,8 @@
 			"harvest": {
 				"min": 4,
 				"max": 1,
-				"extra_chance": 0.02
+				"extra_chance": 0.02,
+				"experience": 4
 			},
 			"id": "coffee_bean",
 			"index": 433,
@@ -234,7 +256,9 @@
 		},
 		{
 			"buy": 150,
-			"harvest": {},
+			"harvest": {
+				"experience": 10
+			},
 			"id": "corn",
 			"index": 487,
 			"name": "Corn",
@@ -257,7 +281,8 @@
 			"harvest": {
 				"min": 2,
 				"max": 1,
-				"extra_chance": 0.1
+				"extra_chance": 0.1,
+				"experience": 14
 			},
 			"id": "cranberries",
 			"index": 493,
@@ -278,7 +303,8 @@
 		{
 			"buy": 20,
 			"harvest": {
-				"extra_chance": 0.002
+				"extra_chance": 0.002,
+				"experience": 12
 			},
 			"id": "eggplant",
 			"index": 488,
@@ -298,7 +324,9 @@
 		},
 		{
 			"buy": 200,
-			"harvest": {},
+			"harvest": {
+				"experience": 29
+			},
 			"id": "fairy_rose",
 			"index": 425,
 			"name": "Fairy Rose",
@@ -338,7 +366,8 @@
 			"harvest": {
 				"min": 4,
 				"max": 7,
-				"extra_chance": 0.01
+				"extra_chance": 0.01,
+				"experience": 0
 			},
 			"id": "fiber",
 			"index": 885,
@@ -360,7 +389,9 @@
 		},
 		{
 			"buy": 40,
-			"harvest": {},
+			"harvest": {
+				"experience": 12
+			},
 			"id": "garlic",
 			"index": 476,
 			"name": "Garlic",
@@ -377,7 +408,9 @@
 		},
 		{
 			"buy": 60,
-			"harvest": {},
+			"harvest": {
+				"experience": 14
+			},
 			"id": "grape",
 			"index": 301,
 			"name": "Grape",
@@ -396,7 +429,9 @@
 		},
 		{
 			"buy": 60,
-			"harvest": {},
+			"harvest": {
+				"experience": 9
+			},
 			"id": "green_bean",
 			"index": 473,
 			"name": "Green Bean",
@@ -415,7 +450,9 @@
 		},
 		{
 			"buy": 60,
-			"harvest": {},
+			"harvest": {
+				"experience": 6
+			},
 			"id": "hops",
 			"index": 302,
 			"name": "Hops",
@@ -435,7 +472,8 @@
 		{
 			"buy": 40,
 			"harvest": {
-				"extra_chance": 0.03
+				"extra_chance": 0.03,
+				"experience": 9
 			},
 			"id": "hot_pepper",
 			"index": 482,
@@ -455,7 +493,9 @@
 		},
 		{
 			"buy": 70,
-			"harvest": {},
+			"harvest": {
+				"experience": 17
+			},
 			"id": "kale",
 			"index": 477,
 			"name": "Kale",
@@ -473,7 +513,9 @@
 		},
 		{
 			"buy": 80,
-			"harvest": {},
+			"harvest": {
+				"experience": 27
+			},
 			"id": "melon",
 			"index": 479,
 			"name": "Melon",
@@ -491,7 +533,9 @@
 		},
 		{
 			"buy": 20,
-			"harvest": {},
+			"harvest": {
+				"experience": 8
+			},
 			"id": "parsnip",
 			"index": 472,
 			"name": "Parsnip",
@@ -508,7 +552,9 @@
 		},
 		{
 			"buy": 0,
-			"harvest": {},
+			"harvest": {
+				"experience": 30
+			},
 			"id": "pineapple",
 			"index": 833,
 			"name": "Pineapple",
@@ -527,7 +573,9 @@
 		},
 		{
 			"buy": 100,
-			"harvest": {},
+			"harvest": {
+				"experience": 20
+			},
 			"id": "poppy",
 			"index": 453,
 			"name": "Poppy",
@@ -545,7 +593,8 @@
 		{
 			"buy": 50,
 			"harvest": {
-				"extra_chance": 0.2
+				"extra_chance": 0.2,
+				"experience": 14
 			},
 			"id": "potato",
 			"index": 475,
@@ -564,7 +613,9 @@
 		},
 		{
 			"buy": 0,
-			"harvest": {},
+			"harvest": {
+				"experience": 12
+			},
 			"id": "powdermelon",
 			"index": "PowdermelonSeeds",
 			"name": "Powdermelon",
@@ -582,7 +633,9 @@
 		},
 		{
 			"buy": 100,
-			"harvest": {},
+			"harvest": {
+				"experience": 31
+			},
 			"id": "pumpkin",
 			"index": 490,
 			"name": "Pumpkin",
@@ -600,7 +653,9 @@
 		},
 		{
 			"buy": 0,
-			"harvest": {},
+			"harvest": {
+				"experience": 0
+			},
 			"id": "qi_fruit",
 			"index": 890,
 			"name": "Qi Fruit",
@@ -620,7 +675,9 @@
 		},
 		{
 			"buy": 40,
-			"harvest": {},
+			"harvest": {
+				"experience": 15
+			},
 			"id": "radish",
 			"index": 484,
 			"name": "Radish",
@@ -637,7 +694,9 @@
 		},
 		{
 			"buy": 100,
-			"harvest": {},
+			"harvest": {
+				"experience": 28
+			},
 			"id": "red_cabbage",
 			"index": 485,
 			"name": "Red Cabbage",
@@ -655,7 +714,9 @@
 		},
 		{
 			"buy": 100,
-			"harvest": {},
+			"harvest": {
+				"experience": 26
+			},
 			"id": "rhubarb",
 			"index": 478,
 			"name": "Rhubarb",
@@ -693,7 +754,9 @@
 		},
 		{
 			"buy": 400,
-			"harvest": {},
+			"harvest": {
+				"experience": 43
+			},
 			"id": "starfruit",
 			"index": 486,
 			"name": "Starfruit",
@@ -712,7 +775,8 @@
 		{
 			"buy": 100,
 			"harvest": {
-				"extra_chance": 0.02
+				"extra_chance": 0.02,
+				"experience": 18
 			},
 			"id": "strawberry",
 			"index": 745,
@@ -752,7 +816,9 @@
 		},
 		{
 			"buy": 50,
-			"harvest": {},
+			"harvest": {
+				"experience": 15
+			},
 			"id": "summer_spangle",
 			"index": 455,
 			"name": "Summer Spangle",
@@ -769,7 +835,9 @@
 		},
 		{
 			"buy": 0,
-			"harvest": {},
+			"harvest": {
+				"experience": 9
+			},
 			"id": "summer_squash",
 			"index": "SummerSquashSeeds",
 			"name": "Summer Squash",
@@ -788,7 +856,9 @@
 		},
 		{
 			"buy": 100,
-			"harvest": {},
+			"harvest": {
+				"experience": 14
+			},
 			"id": "sunflower",
 			"index": 431,
 			"name": "Sunflower",
@@ -806,7 +876,9 @@
 		},
 		{
 			"buy": 1000,
-			"harvest": {},
+			"harvest": {
+				"experience": 64
+			},
 			"id": "sweet_gem_berry",
 			"index": 347,
 			"name": "Sweet Gem Berry",
@@ -824,7 +896,9 @@
 		},
 		{
 			"buy": 0,
-			"harvest": {},
+			"harvest": {
+				"experience": 16
+			},
 			"id": "taro_root",
 			"index": 831,
 			"name": "Taro Root",
@@ -843,7 +917,8 @@
 		{
 			"buy": 50,
 			"harvest": {
-				"extra_chance": 0.05
+				"extra_chance": 0.05,
+				"experience": 12
 			},
 			"id": "tomato",
 			"index": 480,
@@ -863,7 +938,9 @@
 		},
 		{
 			"buy": 20,
-			"harvest": {},
+			"harvest": {
+				"experience": 7
+			},
 			"id": "tulip",
 			"index": 427,
 			"name": "Tulip",
@@ -882,7 +959,8 @@
 			"buy": 40,
 			"harvest": {
 				"level_chance": 0.1,
-				"extra_chance": 0.1
+				"extra_chance": 0.1,
+				"experience": 7
 			},
 			"id": "unmilled_rice",
 			"index": 273,
@@ -902,7 +980,9 @@
 		},
 		{
 			"buy": 10,
-			"harvest": {},
+			"harvest": {
+				"experience": 6
+			},
 			"id": "wheat",
 			"index": 483,
 			"name": "Wheat",
@@ -941,7 +1021,9 @@
 		},
 		{
 			"buy": 60,
-			"harvest": {},
+			"harvest": {
+				"experience": 22
+			},
 			"id": "yam",
 			"index": 492,
 			"name": "Yam",

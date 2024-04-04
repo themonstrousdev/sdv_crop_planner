@@ -1,8 +1,8 @@
 // CONSTANTS
 var SEASON_DAYS = 28;
 var YEAR_DAYS = SEASON_DAYS * 4;
-var VERSION = "2.1";
-var DATA_VERSION = "2";
+var VERSION = "3.3";
+var DATA_VERSION = "3";
 
 
 // Save/load helper functions
@@ -42,6 +42,8 @@ function planner_controller($scope){
 	self.sidebar;
 	self.player;
 	self.planner_modal;
+	self.players;
+	self.current_player;
 	
 	// Static planner data
 	self.dayNums = new Array(YEAR_DAYS);	// Array of days in a year (only used by one ng-repeat)
@@ -54,7 +56,7 @@ function planner_controller($scope){
 	self.events_list = []				// [{data}, {data}, ...]
 	
 	// State objects & variables
-	self.years = [];
+	self.years = {};
 	
 	self.cdate;							// Current date to add plan to
 	self.cday;							// Current day to add plan to
@@ -66,11 +68,17 @@ function planner_controller($scope){
 	self.newplan;
 	self.editplan;
 	
+	self.newPlayer;
+
 	// Core planner functions
 	self.update = update;
 	self.add_plan = add_plan;
 	self.add_plan_key = add_plan_key;
 	self.edit_plan = edit_plan;
+	self.change_player = change_player;
+	self.delete_player = delete_player;
+	self.add_player = add_player;
+	self.open_add_player = open_add_player;
 	self.remove_plan = remove_plan;
 	self.clear_season = clear_season;
 	self.clear_year = clear_year;
@@ -113,8 +121,31 @@ function planner_controller($scope){
 	function init(){
 		// Initialize planner variables
 		self.sidebar = new Sidebar;
+		self.players = [];
+		var loaded_players = LOAD_JSON("players", true) ? LOAD_JSON("players") : [];
 		self.player = new Player;
 		self.planner_modal  = $("#crop_planner");
+		self.add_player_modal = $("#add_player")
+
+		// add player to players list
+		if(self.player && loaded_players.length == 0) {
+			if(!self.player.id) {
+				self.player.id = "player-0";
+			}
+
+			self.players.push(self.player);
+		} else if (!self.player.id) {
+			self.player.id = "player-" + loaded_players.length;
+			self.players.push(self.player);
+		} else {
+			// create new player object for all players
+			loaded_players.forEach(function(player) {
+				let player_data = new Player(player);
+				self.players.push(player_data);
+			});
+		}
+
+		self.current_player = self.player.id;
 		
 		for (var i = 0; i < self.dayNums.length; i++)
 		{
@@ -210,24 +241,36 @@ function planner_controller($scope){
 				
 				// Create newplan template
 				self.newplan = new Plan;
+				self.newPlayer = new Player(null, true)
 				
 				// Load saved plans from browser storage
 				var plan_count = load_data();
 				
 				// Create first year if it doesn't exist
-				if (!self.years.length) self.years.push(new Year(0));
+				if (Object.keys(self.years).length == 0) {
+					// create years for each player
+					self.players.forEach(function(player) {
+						self.years[player.id] = [new Year(0)];
+					});
+				} else {
+					Object.keys(self.years).forEach(function(playerId) {
+						if(self.years[playerId].length == 0) {
+							self.years[playerId] = [new Year(0)];
+						}
+					});
+				}
 				
-				// Set current year to first year
-				self.cyear = self.years[0];
+				// Set year of current player
+				self.cyear = self.years[self.player.id][0];
 				
 				// Debug info
 				console.log("Loaded " + self.crops_list.length + " crops.");
-				console.log("Loaded " + plan_count + " plans into " + self.years.length + " year(s).");
+				console.log("Loaded " + plan_count + " plans into " + self.years[self.player.id].length + " year(s).");
 				
 				// Update plans
-				update(self.years[0].data.farm, true); // Update farm
-				update(self.years[0].data.greenhouse, true); // Update greenhouse
-				update(self.years[0].data.ginger_island, true); // Update ginger island
+				update(self.years[self.player.id][0].data.farm, true); // Update farm
+				update(self.years[self.player.id][0].data.greenhouse, true); // Update greenhouse
+				update(self.years[self.player.id][0].data.ginger_island, true); // Update ginger island
 				
 				self.loaded = true;
 				$scope.$apply();
@@ -280,6 +323,40 @@ function planner_controller($scope){
 		} else {
 			self.refresh_alert = false;
 		}
+
+		if(newPlayer.name != oldPlayer.name) {
+			self.players.forEach(function(player) {
+				if(player.id == newPlayer.id) {
+					player.name = newPlayer.name;
+				}
+			});
+
+			var json_players = [];
+
+			self.players.forEach(function(player) {
+				var player_data = {
+					agriculturist: player.agriculturist,
+					profit_margin: player.profit_margin,
+					id: player.id,
+					level: player.level,
+					name: player.name,
+					settings: player.settings,
+					tiller: player.tiller
+				}
+
+				json_players.push(player_data);
+			});
+		
+			newPlayer.save();
+		}
+	}, true);
+
+	$scope.$watch("self.current_player", function(newPlayer, oldPlayer){
+		if(!oldPlayer || !newPlayer || oldPlayer == newPlayer) return;
+		var new_player = self.players.find(function(player) {
+			return player.id == newPlayer;
+		});
+		self.change_player(new_player);
 	}, true);
 	
 	/********************************
@@ -323,29 +400,43 @@ function planner_controller($scope){
 	// Save plan data to browser storage
 	function save_data(){
 		// Save plan data
+		var old_plans = LOAD_JSON("plans", true) ? LOAD_JSON("plans") : {};
 		var plan_data = [];
-		$.each(self.years, function(i, year){
+		$.each(self.years[self.player.id], function(i, year){
 			var year_data = year.get_data();
 			//if (!year_data) return; // continue
 			plan_data.push(year_data);
 		});
-		SAVE_JSON("plans", plan_data);
+		old_plans[self.player.id] = plan_data;
+		SAVE_JSON("plans", old_plans);
 	}
 	
 	// Load plan data from browser storage
 	function load_data(){
 		// Load plan data
 		var plan_data = LOAD_JSON("plans");
+		var players_data = LOAD_JSON("players");
+		var plan_count = 0;
 		if (!plan_data) return 0;
 		
-		var plan_count = 0;
-		self.years = [];
-		$.each(plan_data, function(i, year_data){
-			var new_year = new Year(i);
-			plan_count += new_year.set_data(year_data);
-			self.years.push(new_year);
+		// get player plans
+		$.each(players_data, function(i, player) {
+			var playerId = player.id;
+
+			var player_plans = plan_data[playerId] ? plan_data[playerId] : [];
+			var player_years = [];
+
+			$.each(player_plans, function(i, year_data){
+				var new_year = new Year(i);
+				plan_count += new_year.set_data(year_data);
+				player_years.push(new_year);
+			});
+
+			self.years[playerId] = player_years;
 		});
-		self.cyear = self.years[0];
+
+		// Set current player year
+		self.cyear = self.years[self.player.id][0];
 
 		// Load days data
 		var days_data = LOAD_JSON("days");
@@ -362,7 +453,7 @@ function planner_controller($scope){
 		if (farm instanceof Year) farm = farm.farm();
 		
 		// If farm is null, get first farm/year
-		farm = farm || self.years[0].farm();
+		farm = farm || self.years[self.player.id][0].farm();
 		
 		// Update all years after this one VS just this year
 		full_update = full_update || (farm.greenhouse && farm.has_regrowing_crops());
@@ -563,6 +654,76 @@ function planner_controller($scope){
 		self.editplan = null;
 		self.cyear.remove_plan(date, index);
 	}
+
+	function change_player(player) {
+		self.player = player;
+		self.cmode = "farm";
+		self.cmodeName = "Farm";
+		self.cseason = self.seasons[0];
+		self.newplan = new Plan;
+		self.editplan = null;
+		self.refresh_alert = false;
+		self.paddy_alert = false;
+
+		console.log("Changing player to: ", player.id)
+		console.log("Years: ", self.years[player.id])
+
+		self.cyear = self.years[self.player.id][0];
+		update(self.years[self.player.id][0].data.farm, true); // Update farm
+		update(self.years[self.player.id][0].data.greenhouse, true); // Update greenhouse
+		update(self.years[self.player.id][0].data.ginger_island, true); // Update ginger island
+	}
+
+	function delete_player() {
+		self.players = self.players.filter(function(player) {
+			return player.id != self.player.id;
+		});
+
+		delete self.years[self.player.id];
+
+		if(self.players.length > 0) {
+			self.player = self.players[0];
+			self.current_player = self.player.id;
+			self.cyear = self.years[self.player.id][0];
+			update(self.years[self.player.id][0].data.farm, true); // Update farm
+			update(self.years[self.player.id][0].data.greenhouse, true); // Update greenhouse
+			update(self.years[self.player.id][0].data.ginger_island, true); // Update ginger island
+		} else {
+			self.player = new Player;
+			self.current_player = self.player.id;
+			self.years[self.player.id] = [new Year(0)];
+			self.cyear = self.years[self.player.id][0];
+			self.newplan = new Plan;
+			self.editplan = null;
+			update(self.years[self.player.id][0].data.farm, true); // Update farm
+			update(self.years[self.player.id][0].data.greenhouse, true); // Update greenhouse
+			update(self.years[self.player.id][0].data.ginger_island, true); // Update ginger island
+		}
+
+		self.player.save();
+	}
+
+	function add_player() {
+		self.players.push(self.newPlayer);
+		self.player = self.newPlayer;
+		self.current_player = self.player.id;
+		self.cmode = "farm";
+		self.cmodeName = "Farm";
+		self.cseason = self.seasons[0];
+		self.newplan = new Plan;
+		self.editplan = null;
+		self.add_player_modal.modal("hide");
+		self.refresh_alert = false;
+		self.paddy_alert = false;
+		save_data();
+
+		self.player.save();
+		self.newPlayer = new Player(null, true);
+
+		// add player to years
+		self.years[self.player.id] = [new Year(0)];
+		self.cyear = self.years[self.player.id][0];
+	}
 	
 	// Remove plans from current farm/season
 	function clear_season(season){
@@ -600,6 +761,11 @@ function planner_controller($scope){
 		self.planner_modal.modal();
 		self.cdate = date;
 		self.cday = self.cyear.data.days[date];
+	}
+
+	// Open new player modal
+	function open_add_player() {
+		self.add_player_modal.modal();
 	}
 	
 	////////////////////////////////
@@ -938,7 +1104,10 @@ function planner_controller($scope){
 			});
 			
 			// Save data
-			SAVE_JSON("plans", new_plans);
+			var save_plans = {
+				"player-0": new_plans
+			}
+			SAVE_JSON("plans", save_plans);
 			
 			// Reload data and update
 			var plan_count = load_data();
@@ -953,7 +1122,7 @@ function planner_controller($scope){
 	/****************
 		Player class - user-set player configs [single instance]
 	****************/
-	function Player(){
+	function Player(data, dummy_player = false){
 		var self = this;
 		self.level = 0; // farming level; starts at 0
 		self.tiller = false;
@@ -965,6 +1134,8 @@ function planner_controller($scope){
 		self.save = save;
 		self.toggle_perk = toggle_perk;
 		self.quality_chance = quality_chance;
+		self.id;
+		self.name = "Player";
 		
 		// Miscellaneous client settings
 		self.settings = {
@@ -982,27 +1153,92 @@ function planner_controller($scope){
 		
 		// Load player config from browser storage
 		function load(){
-			var pdata = LOAD_JSON("player");
-			if (!pdata) return;
-			
-			if (pdata.tiller) self.tiller = true;
-			if (pdata.agriculturist) self.agriculturist = true;
-			if (pdata.level) self.level = pdata.level;
-			if (pdata.profit_margin) {
-				self.profit_margin = pdata.profit_margin; 
-				self.current_profit_margin = pdata.profit_margin;
+			var pdata = data ? data : LOAD_JSON("player");
+			var players = LOAD_JSON("players", true) ? LOAD_JSON("players") : [];
+			if (pdata && !dummy_player) {
+				if (pdata.tiller) self.tiller = true;
+				if (pdata.agriculturist) self.agriculturist = true;
+				if (pdata.level) self.level = pdata.level;
+				if (pdata.profit_margin) {
+					self.profit_margin = pdata.profit_margin; 
+					self.current_profit_margin = pdata.profit_margin;
+				}
+				if (pdata.settings) self.settings = pdata.settings;
+				if (pdata.name) self.name = pdata.name;
+				if(pdata.id) {
+					self.id = pdata.id;
+				} else if(!players) {
+					self.id = "player-0";
+				}
+			} else {
+				self.id = "player-" + players.length;
+				if(!dummy_player) {
+					players.push(self);
+
+					var json_players = [];
+
+					players.forEach(function(player) {
+						var player_data = {
+							agriculturist: player.agriculturist,
+							profit_margin: player.profit_margin,
+							id: player.id,
+							level: player.level,
+							name: player.name,
+							settings: player.settings,
+							tiller: player.tiller
+						}
+
+						json_players.push(player_data);
+					});
+
+					self.save();
+				} else {
+					self.name += " " + players.length;
+				}
 			}
-			if (pdata.settings) self.settings = pdata.settings;
 		}
 		
 		// Save player config to browser storage
 		function save(){
 			var pdata = {};
+			var players = LOAD_JSON("players", true) ? LOAD_JSON("players") : [];
+			var json_players = [];
 			if (self.tiller) pdata.tiller = self.tiller;
 			if (self.agriculturist) pdata.agriculturist = self.agriculturist;
 			pdata.settings = self.settings;
 			pdata.level = self.level;
 			pdata.profit_margin = self.profit_margin;
+			pdata.name = self.name;
+			pdata.id = self.id;
+			
+			// find player in players array and update it
+			var found = false;
+			players.forEach(function(player, index){
+				if(player.id == self.id) {
+					players[index] = self;
+					found = true;
+				}
+			});
+
+			if(!found) {
+				players.push(pdata);
+			}
+
+			players.forEach(function(player) {
+				var player_data = {
+					agriculturist: player.agriculturist,
+					profit_margin: player.profit_margin,
+					id: player.id,
+					level: player.level,
+					name: player.name,
+					settings: player.settings,
+					tiller: player.tiller
+				}
+
+				json_players.push(player_data);
+			});
+
+			SAVE_JSON("players", json_players);
 			SAVE_JSON("player", pdata);
 		}
 		
@@ -1100,7 +1336,7 @@ function planner_controller($scope){
 		self.harvest = {
 			min: 1,
 			max: 1,
-			level_increase: 1,
+			experience: 0,
 			extra_chance: 0
 		};
 		
@@ -1142,8 +1378,8 @@ function planner_controller($scope){
 					self.harvest.max = data.harvest.min;
 				}
 			}
-			if (data.harvest.level_chance) self.harvest.level_increase = data.harvest.level_chance;
-			if (data.harvest.level_increase) self.harvest.level_increase = data.harvest.level_increase;
+			if (data.harvest.level_chance) self.harvest.level_chance = data.harvest.level_chance;
+			if (data.harvest.experience) self.harvest.experience = data.harvest.experience;
 			if (data.harvest.extra_chance) self.harvest.extra_chance = data.harvest.extra_chance;
 			
 			// Custom properties
@@ -1625,6 +1861,10 @@ function planner_controller($scope){
 			this.profit.min = this.revenue.min - this.cost;
 			this.profit.max = this.revenue.max - this.cost;
 		}
+	}
+
+	Harvest.prototype.get_experience = function() {
+		return this.plan.crop.harvest.experience * this.plan.amount;
 	}
 	
 	
