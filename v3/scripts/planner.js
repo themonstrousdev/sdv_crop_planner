@@ -1530,20 +1530,20 @@ function planner_controller($scope){
 	// Returns next year
 	Year.prototype.next = function(force_create){
 		var next_id = this.index + 1;
-		if (next_id >= planner.years.length){
+		if (next_id >= planner.years[planner.player.id].length){
 			if (!force_create) return;
 			var new_year = new Year(next_id);
-			planner.years.push(new_year);
+			planner.years[planner.player.id].push(new_year);
 			return new_year;
 		}
-		return planner.years[next_id];
+		return planner.years[planner.player.id][next_id];
 	};
 	
 	// Returns previous year
 	Year.prototype.previous = function(){
 		var next_id = this.index - 1;
 		if (next_id < 0) return;
-		return planner.years[next_id];
+		return planner.years[planner.player.id][next_id];
 	};
 	
 	// Get data from year (for saving)
