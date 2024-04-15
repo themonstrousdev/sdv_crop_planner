@@ -571,7 +571,7 @@
 												<span ng-show="self.editplan==plan">
 													<input class="form-control" style="padding-left:2px;width:50px" type="text" ng-model="plan.buy" placeholder="{{plan.crop.buy}}">
 												</span>
-												<span ng-show="self.editplan!=plan">{{plan.get_seed_cost(1) > 0 ? '-' : ''}}{{plan.get_seed_cost(1)}}g</span>
+												<span ng-show="self.editplan!=plan">{{plan.get_seed_cost(1)}}g</span>
 											</td>
 											<td>
 												<div ng-show="self.editplan!=plan">
@@ -586,9 +586,9 @@
 												<span ng-show="self.editplan==plan">
 													<input class="form-control" style="padding-left:2px;width:50px" type="text" ng-model="plan.fertilizerBuy" placeholder="{{plan.fertilizer.buy}}">
 												</span>
-												<span ng-show="self.editplan!=plan">{{plan.get_fertilizer_cost(1) > 0 ? '-' : ''}}{{plan.get_fertilizer_cost(1)}}g</span>
+												<span ng-show="self.editplan!=plan">{{plan.get_fertilizer_cost(1)}}g</span>
 											</td>
-											<td>{{plan.get_cost(1) > 0 ? '-':''}}{{plan.get_cost(1)}}g</td>
+											<td>{{plan.get_cost(1)}}g</td>
 											<td>{{plan.get_grow_time()}}</td>
 											<td>{{plan.crop.regrow}}</td>
 											<td>
