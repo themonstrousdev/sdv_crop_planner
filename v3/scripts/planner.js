@@ -115,7 +115,7 @@ function planner_controller($scope){
 		fish_season_options: [],
 		fish_seasons: ["spring"],
 		weather_options: [],
-		weathers: ["sunny"],
+		weathers: ["sunny", "crab_pot"],
 		weather: "sunny",
 		sort: "name",
 		fish_search: "",
@@ -168,11 +168,11 @@ function planner_controller($scope){
 		}
 
 		self.seasons = [new Season(0), new Season(1), new Season(2), new Season(3)];
-		self.weathers = [new Weather(0), new Weather(1)];
+		self.weathers = [new Weather(0), new Weather(1), new Weather(2)];
 		self.cseason = self.seasons[0];
 		self.cinfo_settings.season_options = [self.seasons[0], self.seasons[1], self.seasons[2]];
 		self.cinfo_settings.fish_season_options = [self.seasons[0], self.seasons[1], self.seasons[2], self.seasons[3]];
-		self.cinfo_settings.weather_options = [self.weathers[0], self.weathers[1]];
+		self.cinfo_settings.weather_options = [self.weathers[0], self.weathers[1], self.weathers[2]];
 		
 		// Enable bootstrap tooltips
 		$("body").tooltip({selector: "[data-toggle=tooltip]", trigger: "hover", container: "body"});

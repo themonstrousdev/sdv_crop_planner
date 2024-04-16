@@ -1520,7 +1520,8 @@
 			"locations": [
 				"ocean"
 			],
-			"times": []
+			"times": [],
+			"legendary": false
 		},
 		{
 			"index": 718,
@@ -1531,7 +1532,8 @@
 			"locations": [
 				"ocean"
 			],
-			"times": []
+			"times": [],
+			"legendary": false
 		},
 		{
 			"index": 717,
@@ -1542,7 +1544,8 @@
 			"locations": [
 				"ocean"
 			],
-			"times": []
+			"times": [],
+			"legendary": false
 		},
 		{
 			"index": 716,
@@ -1553,7 +1556,8 @@
 			"locations": [
 				"freshwater"
 			],
-			"times": []
+			"times": [],
+			"legendary": false
 		},
 		{
 			"index": 159,
@@ -1860,7 +1864,8 @@
 			"weather": "both",
 			"fishing_level": 0,
 			"locations": [
-				"Ginger Island Volcano Caldera"
+				"Ginger Island Volcano Caldera",
+				"Underground Mines (Lvl 100)"
 			],
 			"legendary": false,
 			"isBoss": false
@@ -1967,7 +1972,8 @@
 			"locations": [
 				"ocean"
 			],
-			"times": []
+			"times": [],
+			"legendary": false
 		},
 		{
 			"index": 269,
@@ -2048,7 +2054,8 @@
 			"locations": [
 				"ocean"
 			],
-			"times": []
+			"times": [],
+			"legendary": false
 		},
 		{
 			"index": 682,
@@ -2104,7 +2111,8 @@
 			"locations": [
 				"ocean"
 			],
-			"times": []
+			"times": [],
+			"legendary": false
 		},
 		{
 			"index": 141,
@@ -2137,7 +2145,8 @@
 			"locations": [
 				"freshwater"
 			],
-			"times": []
+			"times": [],
+			"legendary": false
 		},
 		{
 			"index": 144,
@@ -2441,7 +2450,8 @@
 			"locations": [
 				"ocean"
 			],
-			"times": []
+			"times": [],
+			"legendary": false
 		},
 		{
 			"index": 796,
@@ -2497,7 +2507,8 @@
 			"locations": [
 				"freshwater"
 			],
-			"times": []
+			"times": [],
+			"legendary": false
 		},
 		{
 			"index": 898,

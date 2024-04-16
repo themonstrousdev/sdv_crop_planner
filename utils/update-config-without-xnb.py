@@ -550,6 +550,7 @@ class Main:
 				fish_data["chance"] = fish["chance"]
 				fish_data["locations"] = fish["locations"]
 				fish_data["times"] = []
+				fish_data["legendary"] = False
 			else:
 				fish_data["difficulty"] = fish["difficulty"]
 				fish_data["times"] = []
@@ -632,6 +633,9 @@ class Main:
      
 				if fishId == "158":
 					fish_data["locations"].append("Underground Mines (Lvl 20)")
+     
+				if fishId == "162":
+					fish_data["locations"].append("Underground Mines (Lvl 100)")
 					
 			self.config["fish"][fish_data["id"]] = fish_data
 
