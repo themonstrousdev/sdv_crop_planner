@@ -1274,5 +1274,1573 @@
 				"name": "Clint"
 			}
 		]
-	}
+	},
+	"fishes": [
+		{
+			"index": 705,
+			"name": "Albacore",
+			"crab_pot": false,
+			"id": "albacore",
+			"difficulty": "60",
+			"times": [
+				"06:00 AM - 11:00 AM",
+				"6:00 PM - 2:00 AM"
+			],
+			"seasons": [
+				"fall",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Beach"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 129,
+			"name": "Anchovy",
+			"crab_pot": false,
+			"id": "anchovy",
+			"difficulty": "30",
+			"times": [
+				"06:00 AM - 2:00 AM"
+			],
+			"seasons": [
+				"spring",
+				"fall"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Beach"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 160,
+			"name": "Angler",
+			"crab_pot": false,
+			"id": "angler",
+			"difficulty": "85",
+			"times": [
+				"06:00 AM - 2:00 AM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 3,
+			"locations": [
+				"Town"
+			],
+			"legendary": true,
+			"isBoss": true
+		},
+		{
+			"index": 800,
+			"name": "Blobfish",
+			"crab_pot": false,
+			"id": "blobfish",
+			"difficulty": "75",
+			"times": [
+				"06:00 AM - 2:00 AM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Beach",
+				"Submarine"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 838,
+			"name": "Blue Discus",
+			"crab_pot": false,
+			"id": "blue_discus",
+			"difficulty": "60",
+			"times": [
+				"06:00 AM - 2:00 AM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Ginger Island West",
+				"Ginger Island North"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 132,
+			"name": "Bream",
+			"crab_pot": false,
+			"id": "bream",
+			"difficulty": "35",
+			"times": [
+				"6:00 PM - 2:00 AM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Town",
+				"Forest"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 700,
+			"name": "Bullhead",
+			"crab_pot": false,
+			"id": "bullhead",
+			"difficulty": "46",
+			"times": [
+				"06:00 AM - 2:00 AM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Mountain"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 142,
+			"name": "Carp",
+			"crab_pot": false,
+			"id": "carp",
+			"difficulty": "15",
+			"times": [
+				"06:00 AM - 2:00 AM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Mountain",
+				"Sewer",
+				"Bug Land",
+				"Woods"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 143,
+			"name": "Catfish",
+			"crab_pot": false,
+			"id": "catfish",
+			"difficulty": "75",
+			"times": [
+				"06:00 AM - 12:00 PM"
+			],
+			"seasons": [
+				"spring",
+				"fall",
+				"winter"
+			],
+			"weather": "rainy",
+			"fishing_level": 0,
+			"locations": [
+				"Town",
+				"Forest",
+				"Woods",
+				"Witch Swamp"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 702,
+			"name": "Chub",
+			"crab_pot": false,
+			"id": "chub",
+			"difficulty": "35",
+			"times": [
+				"06:00 AM - 2:00 AM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Mountain",
+				"Forest"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 372,
+			"name": "Clam",
+			"crab_pot": true,
+			"id": "clam",
+			"chance": ".15",
+			"locations": [
+				"ocean"
+			],
+			"times": []
+		},
+		{
+			"index": 718,
+			"name": "Cockle",
+			"crab_pot": true,
+			"id": "cockle",
+			"chance": ".3",
+			"locations": [
+				"ocean"
+			],
+			"times": []
+		},
+		{
+			"index": 717,
+			"name": "Crab",
+			"crab_pot": true,
+			"id": "crab",
+			"chance": ".1",
+			"locations": [
+				"ocean"
+			],
+			"times": []
+		},
+		{
+			"index": 716,
+			"name": "Crayfish",
+			"crab_pot": true,
+			"id": "crayfish",
+			"chance": ".35",
+			"locations": [
+				"freshwater"
+			],
+			"times": []
+		},
+		{
+			"index": 159,
+			"name": "Crimsonfish",
+			"crab_pot": false,
+			"id": "crimsonfish",
+			"difficulty": "95",
+			"times": [
+				"06:00 AM - 8:00 PM"
+			],
+			"seasons": [
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 5,
+			"locations": [
+				"Beach"
+			],
+			"legendary": true,
+			"isBoss": true
+		},
+		{
+			"index": 704,
+			"name": "Dorado",
+			"crab_pot": false,
+			"id": "dorado",
+			"difficulty": "78",
+			"times": [
+				"06:00 AM - 7:00 PM"
+			],
+			"seasons": [
+				"summer"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Forest"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 148,
+			"name": "Eel",
+			"crab_pot": false,
+			"id": "eel",
+			"difficulty": "70",
+			"times": [
+				"4:00 PM - 2:00 AM"
+			],
+			"seasons": [
+				"spring",
+				"fall"
+			],
+			"weather": "rainy",
+			"fishing_level": 0,
+			"locations": [
+				"Beach"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 267,
+			"name": "Flounder",
+			"crab_pot": false,
+			"id": "flounder",
+			"difficulty": "50",
+			"times": [
+				"06:00 AM - 8:00 PM"
+			],
+			"seasons": [
+				"spring",
+				"summer"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Beach",
+				"Ginger Island South",
+				"Ginger Island South East",
+				"Ginger Island South East Cave",
+				"Ginger Island West"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 156,
+			"name": "Ghostfish",
+			"crab_pot": false,
+			"id": "ghostfish",
+			"difficulty": "50",
+			"times": [
+				"06:00 AM - 2:00 AM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Underground Mine"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 775,
+			"name": "Glacierfish",
+			"crab_pot": false,
+			"id": "glacierfish",
+			"difficulty": "100",
+			"times": [
+				"06:00 AM - 8:00 PM"
+			],
+			"seasons": [
+				"winter"
+			],
+			"weather": "sunny",
+			"fishing_level": 6,
+			"locations": [
+				"Forest"
+			],
+			"legendary": true,
+			"isBoss": true
+		},
+		{
+			"index": 902,
+			"name": "Glacierfish Jr.",
+			"crab_pot": false,
+			"id": "glacierfish_jr.",
+			"difficulty": "100",
+			"times": [
+				"06:00 AM - 8:00 PM"
+			],
+			"seasons": [
+				"winter"
+			],
+			"weather": "sunny",
+			"fishing_level": 6,
+			"locations": [
+				"Forest"
+			],
+			"legendary": true,
+			"isBoss": false
+		},
+		{
+			"index": "Goby",
+			"name": "Goby",
+			"crab_pot": false,
+			"id": "goby",
+			"difficulty": "55",
+			"times": [
+				"08:00 AM - 6:00 PM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall"
+			],
+			"weather": "both",
+			"fishing_level": "0",
+			"locations": [
+				"Waterfalls (Next to Hat Mouse)"
+			]
+		},
+		{
+			"index": 153,
+			"name": "Green Algae",
+			"crab_pot": false,
+			"id": "green_algae",
+			"difficulty": "5",
+			"times": [
+				"06:00 AM - 2:00 AM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Town",
+				"Mountain",
+				"Forest",
+				"Sewer",
+				"Bug Land",
+				"Desert",
+				"Witch Swamp",
+				"Underground Mine"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 708,
+			"name": "Halibut",
+			"crab_pot": false,
+			"id": "halibut",
+			"difficulty": "50",
+			"times": [
+				"06:00 AM - 11:00 AM",
+				"7:00 PM - 2:00 AM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Beach"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 147,
+			"name": "Herring",
+			"crab_pot": false,
+			"id": "herring",
+			"difficulty": "25",
+			"times": [
+				"06:00 AM - 2:00 AM"
+			],
+			"seasons": [
+				"spring",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Beach"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 161,
+			"name": "Ice Pip",
+			"crab_pot": false,
+			"id": "ice_pip",
+			"difficulty": "85",
+			"times": [
+				"06:00 AM - 2:00 AM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": "5",
+			"locations": [
+				"Underground Mines (Lvl 60)"
+			]
+		},
+		{
+			"index": 136,
+			"name": "Largemouth Bass",
+			"crab_pot": false,
+			"id": "largemouth_bass",
+			"difficulty": "50",
+			"times": [
+				"06:00 AM - 7:00 PM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Mountain"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 162,
+			"name": "Lava Eel",
+			"crab_pot": false,
+			"id": "lava_eel",
+			"difficulty": "90",
+			"times": [
+				"06:00 AM - 2:00 AM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Ginger Island Volcano Caldera"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 163,
+			"name": "Legend",
+			"crab_pot": false,
+			"id": "legend",
+			"difficulty": "110",
+			"times": [
+				"06:00 AM - 8:00 PM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall",
+				"winter"
+			],
+			"weather": "rainy",
+			"fishing_level": 10,
+			"locations": [
+				"Mountain"
+			],
+			"legendary": true,
+			"isBoss": true
+		},
+		{
+			"index": 900,
+			"name": "Legend II",
+			"crab_pot": false,
+			"id": "legend_ii",
+			"difficulty": "110",
+			"times": [
+				"06:00 AM - 8:00 PM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall",
+				"winter"
+			],
+			"weather": "rainy",
+			"fishing_level": 10,
+			"locations": [
+				"Mountain"
+			],
+			"legendary": true,
+			"isBoss": false
+		},
+		{
+			"index": 707,
+			"name": "Lingcod",
+			"crab_pot": false,
+			"id": "lingcod",
+			"difficulty": "85",
+			"times": [
+				"06:00 AM - 2:00 AM"
+			],
+			"seasons": [
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Town",
+				"Mountain",
+				"Forest"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 837,
+			"name": "Lionfish",
+			"crab_pot": false,
+			"id": "lionfish",
+			"difficulty": "50",
+			"times": [
+				"06:00 AM - 2:00 AM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Ginger Island South",
+				"Ginger Island South East",
+				"Ginger Island West"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 715,
+			"name": "Lobster",
+			"crab_pot": true,
+			"id": "lobster",
+			"chance": ".05",
+			"locations": [
+				"ocean"
+			],
+			"times": []
+		},
+		{
+			"index": 269,
+			"name": "Midnight Carp",
+			"crab_pot": false,
+			"id": "midnight_carp",
+			"difficulty": "55",
+			"times": [
+				"10:00 PM - 2:00 AM"
+			],
+			"seasons": [
+				"fall",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Mountain",
+				"Forest",
+				"Ginger Island West",
+				"Ginger Island North"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 798,
+			"name": "Midnight Squid",
+			"crab_pot": false,
+			"id": "midnight_squid",
+			"difficulty": "55",
+			"times": [
+				"06:00 AM - 2:00 AM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Submarine"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 899,
+			"name": "Ms. Angler",
+			"crab_pot": false,
+			"id": "ms._angler",
+			"difficulty": "85",
+			"times": [
+				"06:00 AM - 2:00 AM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 3,
+			"locations": [
+				"Town"
+			],
+			"legendary": true,
+			"isBoss": false
+		},
+		{
+			"index": 719,
+			"name": "Mussel",
+			"crab_pot": true,
+			"id": "mussel",
+			"chance": ".35",
+			"locations": [
+				"ocean"
+			],
+			"times": []
+		},
+		{
+			"index": 682,
+			"name": "Mutant Carp",
+			"crab_pot": false,
+			"id": "mutant_carp",
+			"difficulty": "80",
+			"times": [
+				"06:00 AM - 2:00 AM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Sewer"
+			],
+			"legendary": true,
+			"isBoss": true
+		},
+		{
+			"index": 149,
+			"name": "Octopus",
+			"crab_pot": false,
+			"id": "octopus",
+			"difficulty": "95",
+			"times": [
+				"06:00 AM - 1:00 PM"
+			],
+			"seasons": [
+				"summer"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Beach",
+				"Submarine",
+				"Ginger Island West"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 723,
+			"name": "Oyster",
+			"crab_pot": true,
+			"id": "oyster",
+			"chance": ".15",
+			"locations": [
+				"ocean"
+			],
+			"times": []
+		},
+		{
+			"index": 141,
+			"name": "Perch",
+			"crab_pot": false,
+			"id": "perch",
+			"difficulty": "35",
+			"times": [
+				"06:00 AM - 2:00 AM"
+			],
+			"seasons": [
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Town",
+				"Mountain",
+				"Forest"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 722,
+			"name": "Periwinkle",
+			"crab_pot": true,
+			"id": "periwinkle",
+			"chance": ".55",
+			"locations": [
+				"freshwater"
+			],
+			"times": []
+		},
+		{
+			"index": 144,
+			"name": "Pike",
+			"crab_pot": false,
+			"id": "pike",
+			"difficulty": "60",
+			"times": [
+				"06:00 AM - 2:00 AM"
+			],
+			"seasons": [
+				"summer",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Town",
+				"Forest"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 128,
+			"name": "Pufferfish",
+			"crab_pot": false,
+			"id": "pufferfish",
+			"difficulty": "80",
+			"times": [
+				"12:00 AM - 4:00 PM"
+			],
+			"seasons": [
+				"summer"
+			],
+			"weather": "sunny",
+			"fishing_level": 0,
+			"locations": [
+				"Beach",
+				"Ginger Island South",
+				"Ginger Island South East",
+				"Ginger Island South East Cave",
+				"Ginger Island West"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 901,
+			"name": "Radioactive Carp",
+			"crab_pot": false,
+			"id": "radioactive_carp",
+			"difficulty": "80",
+			"times": [
+				"06:00 AM - 2:00 AM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Sewer"
+			],
+			"legendary": true,
+			"isBoss": false
+		},
+		{
+			"index": 138,
+			"name": "Rainbow Trout",
+			"crab_pot": false,
+			"id": "rainbow_trout",
+			"difficulty": "45",
+			"times": [
+				"06:00 AM - 7:00 PM"
+			],
+			"seasons": [
+				"summer"
+			],
+			"weather": "sunny",
+			"fishing_level": 0,
+			"locations": [
+				"Town",
+				"Mountain",
+				"Forest"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 146,
+			"name": "Red Mullet",
+			"crab_pot": false,
+			"id": "red_mullet",
+			"difficulty": "55",
+			"times": [
+				"06:00 AM - 7:00 PM"
+			],
+			"seasons": [
+				"summer",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Beach"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 150,
+			"name": "Red Snapper",
+			"crab_pot": false,
+			"id": "red_snapper",
+			"difficulty": "40",
+			"times": [
+				"06:00 AM - 7:00 PM"
+			],
+			"seasons": [
+				"summer",
+				"fall",
+				"winter"
+			],
+			"weather": "rainy",
+			"fishing_level": 0,
+			"locations": [
+				"Beach"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 139,
+			"name": "Salmon",
+			"crab_pot": false,
+			"id": "salmon",
+			"difficulty": "50",
+			"times": [
+				"06:00 AM - 7:00 PM"
+			],
+			"seasons": [
+				"fall"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Town",
+				"Forest"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 164,
+			"name": "Sandfish",
+			"crab_pot": false,
+			"id": "sandfish",
+			"difficulty": "65",
+			"times": [
+				"06:00 AM - 8:00 PM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Desert"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 131,
+			"name": "Sardine",
+			"crab_pot": false,
+			"id": "sardine",
+			"difficulty": "30",
+			"times": [
+				"06:00 AM - 7:00 PM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Beach"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 165,
+			"name": "Scorpion Carp",
+			"crab_pot": false,
+			"id": "scorpion_carp",
+			"difficulty": "90",
+			"times": [
+				"06:00 AM - 8:00 PM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Desert"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 154,
+			"name": "Sea Cucumber",
+			"crab_pot": false,
+			"id": "sea_cucumber",
+			"difficulty": "40",
+			"times": [
+				"06:00 AM - 7:00 PM"
+			],
+			"seasons": [
+				"fall",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Beach",
+				"Submarine"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 152,
+			"name": "Seaweed",
+			"crab_pot": false,
+			"id": "seaweed",
+			"difficulty": "5",
+			"times": [
+				"06:00 AM - 2:00 AM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Beach",
+				"Submarine"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 706,
+			"name": "Shad",
+			"crab_pot": false,
+			"id": "shad",
+			"difficulty": "45",
+			"times": [
+				"09:00 AM - 2:00 AM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall"
+			],
+			"weather": "rainy",
+			"fishing_level": 0,
+			"locations": [
+				"Town",
+				"Forest"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 720,
+			"name": "Shrimp",
+			"crab_pot": true,
+			"id": "shrimp",
+			"chance": ".2",
+			"locations": [
+				"ocean"
+			],
+			"times": []
+		},
+		{
+			"index": 796,
+			"name": "Slimejack",
+			"crab_pot": false,
+			"id": "slimejack",
+			"difficulty": "55",
+			"times": [
+				"06:00 AM - 2:00 AM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Bug Land"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 137,
+			"name": "Smallmouth Bass",
+			"crab_pot": false,
+			"id": "smallmouth_bass",
+			"difficulty": "28",
+			"times": [
+				"06:00 AM - 2:00 AM"
+			],
+			"seasons": [
+				"spring",
+				"fall"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Town",
+				"Forest"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 721,
+			"name": "Snail",
+			"crab_pot": true,
+			"id": "snail",
+			"chance": ".25",
+			"locations": [
+				"freshwater"
+			],
+			"times": []
+		},
+		{
+			"index": 898,
+			"name": "Son of Crimsonfish",
+			"crab_pot": false,
+			"id": "son_of_crimsonfish",
+			"difficulty": "95",
+			"times": [
+				"06:00 AM - 8:00 PM"
+			],
+			"seasons": [
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 5,
+			"locations": [
+				"Beach"
+			],
+			"legendary": true,
+			"isBoss": false
+		},
+		{
+			"index": 799,
+			"name": "Spook Fish",
+			"crab_pot": false,
+			"id": "spook_fish",
+			"difficulty": "60",
+			"times": [
+				"06:00 AM - 2:00 AM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Submarine"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 151,
+			"name": "Squid",
+			"crab_pot": false,
+			"id": "squid",
+			"difficulty": "75",
+			"times": [
+				"6:00 PM - 2:00 AM"
+			],
+			"seasons": [
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Beach"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 836,
+			"name": "Stingray",
+			"crab_pot": false,
+			"id": "stingray",
+			"difficulty": "80",
+			"times": [
+				"06:00 AM - 2:00 AM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Ginger Island South East Cave"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 158,
+			"name": "Stonefish",
+			"crab_pot": false,
+			"id": "stonefish",
+			"difficulty": "65",
+			"times": [
+				"06:00 AM - 2:00 AM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": "3",
+			"locations": [
+				"Underground Mines (Lvl 20)"
+			]
+		},
+		{
+			"index": 698,
+			"name": "Sturgeon",
+			"crab_pot": false,
+			"id": "sturgeon",
+			"difficulty": "78",
+			"times": [
+				"06:00 AM - 7:00 PM"
+			],
+			"seasons": [
+				"summer",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Mountain"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 145,
+			"name": "Sunfish",
+			"crab_pot": false,
+			"id": "sunfish",
+			"difficulty": "30",
+			"times": [
+				"06:00 AM - 7:00 PM"
+			],
+			"seasons": [
+				"spring",
+				"summer"
+			],
+			"weather": "sunny",
+			"fishing_level": 0,
+			"locations": [
+				"Town",
+				"Forest"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 155,
+			"name": "Super Cucumber",
+			"crab_pot": false,
+			"id": "super_cucumber",
+			"difficulty": "80",
+			"times": [
+				"6:00 PM - 2:00 AM"
+			],
+			"seasons": [
+				"summer",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Beach",
+				"Submarine",
+				"Ginger Island South",
+				"Ginger Island South East",
+				"Ginger Island South East Cave",
+				"Ginger Island West"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 699,
+			"name": "Tiger Trout",
+			"crab_pot": false,
+			"id": "tiger_trout",
+			"difficulty": "60",
+			"times": [
+				"06:00 AM - 7:00 PM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Town",
+				"Forest"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 701,
+			"name": "Tilapia",
+			"crab_pot": false,
+			"id": "tilapia",
+			"difficulty": "50",
+			"times": [
+				"06:00 AM - 2:00 PM"
+			],
+			"seasons": [
+				"summer",
+				"fall"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Beach",
+				"Ginger Island West",
+				"Ginger Island North"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 130,
+			"name": "Tuna",
+			"crab_pot": false,
+			"id": "tuna",
+			"difficulty": "70",
+			"times": [
+				"06:00 AM - 7:00 PM"
+			],
+			"seasons": [
+				"summer",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Beach",
+				"Ginger Island South",
+				"Ginger Island South East",
+				"Ginger Island South East Cave",
+				"Ginger Island West"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 795,
+			"name": "Void Salmon",
+			"crab_pot": false,
+			"id": "void_salmon",
+			"difficulty": "80",
+			"times": [
+				"06:00 AM - 2:00 AM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Witch Swamp"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 140,
+			"name": "Walleye",
+			"crab_pot": false,
+			"id": "walleye",
+			"difficulty": "45",
+			"times": [
+				"12:00 AM - 2:00 AM"
+			],
+			"seasons": [
+				"fall",
+				"winter"
+			],
+			"weather": "rainy",
+			"fishing_level": 0,
+			"locations": [
+				"Town",
+				"Mountain",
+				"Forest"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 157,
+			"name": "White Algae",
+			"crab_pot": false,
+			"id": "white_algae",
+			"difficulty": "5",
+			"times": [
+				"06:00 AM - 2:00 AM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Sewer",
+				"Bug Land",
+				"Witch Swamp",
+				"Underground Mine"
+			],
+			"legendary": false,
+			"isBoss": false
+		},
+		{
+			"index": 734,
+			"name": "Woodskip",
+			"crab_pot": false,
+			"id": "woodskip",
+			"difficulty": "50",
+			"times": [
+				"06:00 AM - 2:00 AM"
+			],
+			"seasons": [
+				"spring",
+				"summer",
+				"fall",
+				"winter"
+			],
+			"weather": "both",
+			"fishing_level": 0,
+			"locations": [
+				"Woods"
+			],
+			"legendary": false,
+			"isBoss": false
+		}
+	]
 }

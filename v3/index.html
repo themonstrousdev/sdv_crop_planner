@@ -203,6 +203,9 @@
 			<li ng-click="self.sidebar.open('cropinfo')" ng-class="{'active': self.sidebar.mode == 'cropinfo'}" title="Crop Info">
 				<i class="fa fa-pagelines"></i>
 			</li>
+			<li ng-click="self.sidebar.open('fishinfo')" ng-class="{'active': self.sidebar.mode == 'fishinfo'}" title="Fish Info">
+				<i class="fa fa-tint"></i>
+			</li>
 			<li ng-click="self.sidebar.open('settings')"  ng-class="{'active': self.sidebar.mode == 'settings'}" title="Settings">
 				<i class="fa fa-gear"></i>
 			</li>
@@ -314,7 +317,65 @@
 				</div>
 			</div>
 			<!-- [/SB_CROP_INFO] -->
-			
+		
+			<!-- [SB_FISH_INFO] -->
+			<div id="sb_fishinfo" class="panel panel-default sb_section" ng-class="{'active': self.sidebar.mode == 'fishinfo'}">
+				<div class="panel-heading">
+					<div class="back" ng-click="self.sidebar.back()"><i class="fa fa-chevron-left" ></i></div>
+					<h3 class="panel-title">Fish Info</h3>
+				</div>
+				<div class="panel-body">
+					<div ng-show="!self.sidebar.fish">
+						<div class="filter">
+							<label ng-repeat="season in self.cinfo_settings.fish_season_options">
+								<input type="checkbox" checklist-model="self.cinfo_settings.fish_seasons" checklist-value="season.id"> {{season.name}}
+							</label>
+							<br>
+							<label ng-repeat="weather in self.cinfo_settings.weather_options">
+								<input type="checkbox" checklist-model="self.cinfo_settings.weathers" checklist-value="weather.id"> {{weather.name}}
+							</label>
+							<input type="text" class="form-control search" placeholder="Search" ng-model="self.cinfo_settings.fish_search">
+						</div>
+
+						<div class="crop-container">
+							<table class="table table-condensed fishes">
+								<thead>
+									<tr>
+										<th colspan="2">Fish</th>
+										<th>Weather</th>
+										<th>Locations</th>
+										<th>Times</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="fish in self.fish_list | orderBy:self.cinfo_settings.fish_sort:self.cinfo_settings.fish_order | filter: self.cinfo_settings.fish_search" class="fish" ng-show="fish.can_catch(self.cinfo_settings.fish_seasons, self.cinfo_settings.weathers)">
+										<td width="1"><img ng-src="{{fish.get_image()}}"></td>
+										<td class="name">{{fish.name}}</td>
+										<td>
+											<span ng-repeat="weather in fish.weather">
+												<img ng-src="{{weather.get_image()}}" title="{{weather.name}}">
+												<br>
+											</span>
+										</td>
+										<td>
+											<span ng-repeat="location in fish.locations">
+												{{location}}
+												<br>
+											</span>
+										</td>
+										<td>
+											<span ng-repeat="times in fish.times">
+												{{times}}
+												<br>
+											</span>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
 			
 			<!-- [SB_SETTINGS] -->
 			<div id="sb_settings" class="panel panel-default sb_section" ng-class="{'active': self.sidebar.mode == 'settings'}">

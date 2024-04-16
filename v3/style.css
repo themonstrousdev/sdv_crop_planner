@@ -174,11 +174,11 @@ header .page_title {
 }
 
 #sidebar {
-    width: 450px;
+    width: 600px;
     height: 100%;
     position: fixed;
     top: 0;
-    right: -450px;
+    right: -600px;
     z-index: 10;
     background-color: #f0f0f0;
     border-left: 1px solid #aaa;
@@ -238,7 +238,7 @@ header .page_title {
 
 #sidebar .sb_buttons {
     position: absolute;
-    right: 450px;
+    right: 600px;
     margin: 0;
     padding: 10px;
     margin-top: 48px;
@@ -261,6 +261,7 @@ header .page_title {
     font-size: 24px;
     padding: 7px 13px;
     box-sizing: border-box;
+    text-align: center;
     -webkit-transition: all 0.2s;
     -moz-transition: all 0.2s;
     -ms-transition: all 0.2s;
@@ -333,14 +334,17 @@ header .page_title {
     background-color: #ccc;
 }
 
+#sb_fishinfo .filter label,
 #sb_cropinfo .filter label {
     margin-right: 8px;
 }
 
+#sb_fishinfo .filter .search,
 #sb_cropinfo .filter .search {
     margin-top: 5px;
 }
 
+#sb_fishinfo .fishes_container,
 #sb_cropinfo .crops_container {
     position: absolute;
     top: 180px;
@@ -354,14 +358,17 @@ header .page_title {
     min-height: 250px;
 }
 
+#sb_fishinfo .fishes_container .fishes thead th,
 #sb_cropinfo .crops_container .crops thead th {
     cursor: pointer;
 }
 
+#sb_fishinfo .fishes_container .fishes tbody tr,
 #sb_cropinfo .crops_container .crops tbody tr {
     cursor: pointer;
 }
 
+#sb_fishinfo .fishes_container .fishes tbody tr td,
 #sb_cropinfo .crops_container .crops tbody tr td {
     -webkit-transition: all 0.2s;
     -moz-transition: all 0.2s;
@@ -370,44 +377,55 @@ header .page_title {
     transition: all 0.2s;
 }
 
+#sb_fishinfo .fishes_container .fishes tbody tr:hover td,
 #sb_cropinfo .crops_container .crops tbody tr:hover td {
     background-color: #fff;
 }
 
+#sb_fishinfo .fish_info .ci_header,
 #sb_cropinfo .crop_info .ci_header {
     margin-bottom: 20px;
 }
 
+#sb_fishinfo .fish_info .ci_header:after,
+#sb_fishinfo .fish_info .ci_header:before,
 #sb_cropinfo .crop_info .ci_header:after,
 #sb_cropinfo .crop_info .ci_header:before {
     content: " ";
     display: table;
 }
 
+#sb_fishinfo .fish_info .ci_header:after,
 #sb_cropinfo .crop_info .ci_header:after {
     clear: both;
 }
 
+#sb_fishinfo .fish_info .ci_header img,
 #sb_cropinfo .crop_info .ci_header img {
     float: left;
     margin-right: 15px;
 }
 
+#sb_fishinfo .fish_info .ci_header .ci_name,
 #sb_cropinfo .crop_info .ci_header .ci_name {
     font-size: 18px;
     font-weight: 700;
 }
 
+#sb_fishinfo .fish_info .ci_header .ci_seasons,
 #sb_cropinfo .crop_info .ci_header .ci_seasons {
     color: #777;
     text-transform: capitalize;
 }
 
+#sb_fishinfo .fish_info table tr:first-child td,
+#sb_fishinfo .fish_info table tr:first-child th, 
 #sb_cropinfo .crop_info table tr:first-child td,
 #sb_cropinfo .crop_info table tr:first-child th {
     border-top-width: 2px;
 }
 
+#sb_fishinfo .fish_info table .fa,
 #sb_cropinfo .crop_info table .fa {
     color: #888;
     font-size: 13px;

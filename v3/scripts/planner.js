@@ -49,12 +49,15 @@ function planner_controller($scope){
 	// Static planner data
 	self.dayNums = new Array(YEAR_DAYS);	// Array of days in a year (only used by one ng-repeat)
 	self.seasons = [];					// Array of seasons
+	self.weathers = [];					// Array of weather conditions
 	self.SEASON_DAYS = SEASON_DAYS;		// Exposing SEASON_DAYS constant to app scope
 	self.crops_list = []; 				// [id, id, ...]
 	self.crops = {}; 					// {id: {data}}	
 	self.fertilizer = {}; 				// [fertilizer, fertilizer, ...]
 	self.events = {};					// Birthdays & festivals
-	self.events_list = []				// [{data}, {data}, ...]
+	self.events_list = []
+	self.fish_list = [];
+	self.fishes = {}				// [{data}, {data}, ...]
 	
 	// State objects & variables
 	self.years = {};
@@ -97,6 +100,7 @@ function planner_controller($scope){
 	self.get_season = get_season;		// Get season object by id
 	self.get_date = get_date;			// Get formatted date string
 	self.ci_set_sort = ci_set_sort;		// Set key to sort crop info by
+	self.fi_set_sort = fi_set_sort; // Set key to sort fish info by
 	self.planner_valid_crops = planner_valid_crops;
 	self.save_data = save_data;
 
@@ -108,11 +112,19 @@ function planner_controller($scope){
 		season: "spring",
 		seasons: ["spring"],
 		season_options: [],
+		fish_season_options: [],
+		fish_seasons: ["spring"],
+		weather_options: [],
+		weathers: ["sunny"],
+		weather: "sunny",
 		sort: "name",
+		fish_search: "",
 		search: "",
 		regrows: false,
 		order: false,
 		use_fbp: false,
+		fish_sort: "name",
+		fish_order: false
 	};
 	
 	
@@ -156,8 +168,11 @@ function planner_controller($scope){
 		}
 
 		self.seasons = [new Season(0), new Season(1), new Season(2), new Season(3)];
+		self.weathers = [new Weather(0), new Weather(1)];
 		self.cseason = self.seasons[0];
 		self.cinfo_settings.season_options = [self.seasons[0], self.seasons[1], self.seasons[2]];
+		self.cinfo_settings.fish_season_options = [self.seasons[0], self.seasons[1], self.seasons[2], self.seasons[3]];
+		self.cinfo_settings.weather_options = [self.weathers[0], self.weathers[1]];
 		
 		// Enable bootstrap tooltips
 		$("body").tooltip({selector: "[data-toggle=tooltip]", trigger: "hover", container: "body"});
@@ -215,6 +230,13 @@ function planner_controller($scope){
 			success: function(config){
 				self.config = config;
 				
+				// Process fish data
+				$.each(self.config.fishes, function(i, fish){
+					fish = new Fish(fish);
+					self.fish_list.push(fish);
+					self.fishes[fish.id] = fish;
+				});
+
 				// Process crop data
 				$.each(self.config.crops, function(i, crop){
 					crop = new Crop(crop);
@@ -919,6 +941,16 @@ function planner_controller($scope){
 			self.cinfo_settings.order = false;
 		}
 	}
+
+		// Set key to sort fish info by
+		function fi_set_sort(key){
+			if (self.cinfo_settings.fish_sort == key){
+				self.cinfo_settings.fish_order = !self.cinfo_settings.fish_order;
+			} else {
+				self.cinfo_settings.fish_sort = key;
+				self.cinfo_settings.fish_order = false;
+			}
+		}
 	
 	// Filter crops that can be planted in the planner's drop down list
 	function planner_valid_crops(crop){
@@ -1406,8 +1438,115 @@ function planner_controller($scope){
 	Season.prototype.get_image = function(){
 		return "images/seasons/" + this.id + ".png";
 	};
+
+	function Weather(ind) {
+		var self = this;
+
+		self.index;
+		self.id;
+		self.name;
+
+		init();
+
+		function init() {
+			var weathers = ["sunny", "rainy", "crab_pot"];
+			if(isNaN(parseInt(ind))) {
+				self.index = weathers.indexOf(ind);
+			} else {
+				self.index = ind;
+			}
+			self.id = weathers[self.index];
+			if(self.id == "crab_pot") {
+				self.name = "Crab Pot";
+			} else {
+				self.name = self.id.charAt(0).toUpperCase() + self.id.slice(1);
+			}
+		}
+	}
+
+	Weather.prototype.get_image = function(){
+		return "images/weather/" + this.id + ".png";
+	}
 	
-	
+	/****************
+		Fish class - represents a fish
+	****************/
+	function Fish(data){
+		var self = this;
+
+		// Config properties
+		self.id;
+		self.name;
+		self.seasons = [];
+		self.weather = [];
+		self.locations = [];
+		self.times = [];
+		self.isBoss = false;
+		self.isLegendary = false;
+		self.level = 0;
+		self.crab_pot = false;
+
+		init();
+
+		function init() {
+			if (!data) return;
+
+			let weathers;
+
+			self.id = data.id;
+			self.name = data.name;
+			self.seasons = data.seasons;
+			if(!data.weather) {
+				weathers = ["crab_pot"];
+			} else if(data.weather == "both") {
+				weathers = ["sunny", "rainy"];
+			} else {
+				weathers = [data.weather]
+			}
+			self.locations = data.locations;
+			self.times = data.times;
+			self.isBoss = data.isBoss;
+			self.isLegendary = data.legendary;
+			self.level = data.level;
+			self.crab_pot = data.crab_pot;
+
+			weathers.forEach(w => {
+				self.weather.push(new Weather(w));
+			});
+		}
+	}
+
+	Fish.prototype.get_image = function(){
+		return "images/fishes/" + this.id + ".png";
+	}
+
+	Fish.prototype.can_catch = function(season, weather) {
+		let inSeason = true;
+		let inWeather = true;
+
+		if(season && this.seasons) {
+			inSeason = false;
+			season.forEach(s => {
+				if(this.seasons.includes(s)) {
+					inSeason = true;
+				}
+			});
+		}
+
+		if(weather && this.weather) {
+			inWeather = false;
+			weather.forEach(w => {
+				this.weather.forEach(fw => {
+					if(fw.id == w) {
+						inWeather = true;
+					}
+				});
+			});
+		}
+
+		return inSeason && inWeather;
+	}
+
 	/****************
 		Crop class - represents a crop
 	****************/

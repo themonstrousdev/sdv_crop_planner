@@ -247,17 +247,19 @@ class Main:
 						"name": fish_data[0],
 						"crab_pot": True if fish_data[1] == "trap" else False,
 						"chance": fish_data[2],
-						"location": fish_data[4]
+						"locations": [fish_data[4]]
 					}
 				else:
+					times = fish_data[5].split(" ")
+					if len(times) > 2:
+						times = [times[0] + ' - ' + times[1], times[2] + ' - ' + times[3]]
+					else:
+						times = [times[0] + ' - ' + times[1]]
 					self.fish[fish] = {
 						"name": fish_data[0],
 						"crab_pot": False,
 						"difficulty": fish_data[1],
-						"time": {
-							"start": fish_data[5].split(" ")[0],
-							"end": fish_data[5].split(" ")[1]
-						},
+						"times": times,
 						"seasons": fish_data[6].split(" "),
 						"weather": fish_data[7],
 						"fishing_level": fish_data[12]
@@ -275,28 +277,45 @@ class Main:
    
   		# Get all locations
 			for loc in locations_file:
-				if (not loc == "Default") or ("Farm" not in loc):
+				if (not loc == "Default") and ("Farm" not in loc) and ("Backwoods" not in loc) and ("Game" not in loc) and ("Temp" not in loc):
 					fishes_in_loc = list()
+					loc_name = loc
 					for fish in locations_file[loc]["Fish"]:
-						if "(O)" in fish["Id"]:
+						if "(O)" in fish["Id"] or "(O)" in fish["ItemId"]:
 							tempFish = {
 								"season": fish["Season"],
 								"fishing_level": fish["MinFishingLevel"],
 								"boss_fish": fish["IsBossFish"],
-								"id": fish["Id"][3:]
 							}
+       
+							if fish["ItemId"] is not None:
+								tempFish["id"] = fish["ItemId"][3:]
        
 							if fish["Condition"]:
 								tempFish["legendary"] = "LEGENDARY_FAMILY" in fish["Condition"]
+							else:
+								tempFish["legendary"] = False
        
-
 							if fish["FishAreaId"]:
 								tempFish["area_id"] = fish["FishAreaId"]
        
-							fishes_in_loc.append(tempFish)
-       
-					self.locations[loc] = {
-						"name": loc,
+							if fish["ItemId"] is None and "|" in fish["Id"]:
+								ids = fish["Id"].split("|")
+								for i in ids:
+									tempFish["id"] = i[3:]
+									fishes_in_loc.append(tempFish)
+							else:
+								fishes_in_loc.append(tempFish)
+
+					if "Island" in loc:
+						# Change "Island" to "GingerIsland"
+						loc_name = loc.replace("Island", "GingerIsland")
+      
+					if loc == "Caldera":
+						loc_name = "GingerIslandVolcanoCaldera"
+      
+					self.locations[loc_name] = {
+						"name": loc_name,
 						"fish_areas": list(locations_file[loc]["FishAreas"].keys()),
 						"fish": fishes_in_loc
 					}
@@ -523,42 +542,63 @@ class Main:
 			fish_data = {
 				"index": int(fishId) if fishId.isnumeric() else fishId,
 				"name": self.fish[fishId]["name"],
-				"crab_pot": self.fish[fishId]["crab_pot"]		
+				"crab_pot": self.fish[fishId]["crab_pot"],
+				"id": self.fish[fishId]["name"].lower().replace(" ", "_")
 			}
    
 			if fish_data["crab_pot"]:
 				fish_data["chance"] = fish["chance"]
-				fish_data["location"] = fish["location"]
+				fish_data["locations"] = fish["locations"]
+				fish_data["times"] = []
 			else:
 				fish_data["difficulty"] = fish["difficulty"]
-				fish_data["time"] = {}
+				fish_data["times"] = []
 
-				start_time_hour = fish["time"]["start"][0:2]
-				start_time_minute = fish["time"]["start"][2:]
-				start_time_tod = "AM"
-    
-				if start_time_hour == "00":
-					start_time_hour = "12"
-					start_time_tod = "AM"
-				elif start_time_hour >= "12":
-					start_time_tod = "PM"
-					if start_time_hour != "12":
-						start_time_hour = str(int(start_time_hour) - 12)
-     
-				end_time_hour = fish["time"]["end"][0:2]
-				end_time_minute = fish["time"]["end"][2:]
-				end_time_tod = "AM"
-    
-				if end_time_hour == "00":
-					end_time_hour = "12"
-					end_time_tod = "AM"
-				elif end_time_hour >= "12":
-					end_time_tod = "PM"
-					if end_time_hour != "12":
-						end_time_hour = str(int(end_time_hour) - 12)
+				for time in fish["times"]:
+					# Get first hour
+					start_time = time.split(" - ")[0]
+					end_time = time.split(" - ")[1]
+
+					if len(start_time) < 4:
+						start_time = "0" + start_time
       
-				fish_data["time"]["start"] = start_time_hour + ":" + start_time_minute + " " + start_time_tod
-				fish_data["time"]["end"] = end_time_hour + ":" + end_time_minute + " " + end_time_tod
+					if len(end_time) < 4:
+						end_time = "0" + end_time
+      
+					start_time_hour = start_time[0:2]
+					start_time_minute = start_time[2:]
+					start_time_tod = "AM"
+    
+					if start_time_hour == "00":
+						start_time_hour = "12"
+						start_time_tod = "AM"
+					elif start_time_hour >= "12":
+						while int(start_time_hour) > 12:
+							start_time_hour = str(int(start_time_hour) - 12)
+							
+							if start_time_tod == "AM":
+								start_time_tod = "PM"
+							else:
+								start_time_tod = "AM"
+     
+					end_time_hour = end_time[0:2]
+					end_time_minute = end_time[2:]
+					end_time_tod = "AM"
+			
+					if end_time_hour == "00":
+						end_time_hour = "12"
+						end_time_tod = "AM"
+					elif end_time_hour >= "12":
+						while int(end_time_hour) > 12:
+							end_time_hour = str(int(end_time_hour) - 12)
+							
+							if end_time_tod == "AM":
+								end_time_tod = "PM"
+							else:
+								end_time_tod = "AM"
+       
+					timeframe = start_time_hour + ":" + start_time_minute + " " + start_time_tod + " - " + end_time_hour + ":" + end_time_minute + " " + end_time_tod;
+					fish_data["times"].append(timeframe)
     
 				fish_data["seasons"] = fish["seasons"]
 				fish_data["weather"] = fish["weather"]
@@ -575,14 +615,25 @@ class Main:
 							if hasattr(loc_fish, "area_id"):
 								temp_location += " (" + self.split_words(loc_fish["area_id"]) + ")"
 							
-							fish_data["locations"].append(temp_location)
+							if temp_location not in fish_data["locations"]:
+								fish_data["locations"].append(temp_location)
 
-							if hasattr(loc_fish, "legendary"):
-								fish_data["legendary"] = loc_fish["legendary"]
+							fish_data["legendary"] = loc_fish["legendary"]
+        
+							fish_data["isBoss"] = loc_fish["boss_fish"]
         
 							fish_data["fishing_level"] = loc_fish["fishing_level"]
 
-			self.config["fish"][fishId] = fish_data
+				if fishId == "Goby":
+					fish_data["locations"].append("Waterfalls (Next to Hat Mouse)")
+
+				if fishId == "161":
+					fish_data["locations"].append("Underground Mines (Lvl 60)")
+     
+				if fishId == "158":
+					fish_data["locations"].append("Underground Mines (Lvl 20)")
+					
+			self.config["fish"][fish_data["id"]] = fish_data
 
 	def update_config(self):
 		missing = list()
@@ -648,10 +699,82 @@ class Main:
 			crop_ids.append(c_id)
 		crop_ids = sorted(crop_ids, key=str.lower)
 		
+  
+		# Alert on differences
+		# config["fish"] = old; self.fish = new
+		differences = ""
+		p = "   ..."
+		for fish in config["fishes"]:
+			if fish["id"] not in self.config["fish"]:
+				print("...Fish ID '" + fish["id"] + "' discarded")
+				continue
+				
+			check = self.config["fish"][fish["id"]]
+			
+			if check["crab_pot"]:
+				if fish["chance"] != check["chance"]:
+					differences += p+"chance is different\n"
+					
+				if len(fish["locations"]) != len(check["locations"]):
+					differences += p+"location is different\n"
+				else:
+					l_index = 0
+					for l in fish["locations"]:
+						if fish["locations"][l_index] != check["locations"][l_index]:
+							differences += p+"location is different\n"
+							break
+						l_index += 1
+			else:
+				if fish["difficulty"] != check["difficulty"]:
+					differences += p+"difficulty is different\n"
+					
+				if len(fish["times"]) != len(check["times"]):
+					differences += p+"times are different\n"
+				else:
+					t_index = 0
+					for t in fish["times"]:
+						if fish["times"][t_index] != check["times"][t_index]:
+							differences += p+"times are different\n"
+							break
+						t_index += 1
+					
+				if len(fish["seasons"]) != len(check["seasons"]):
+					differences += p+"seasons are different\n"
+				else:
+					s_index = 0
+					for s in fish["seasons"]:
+						if fish["seasons"][s_index] != check["seasons"][s_index]:
+							differences += p+"seasons are different\n"
+							break
+						s_index += 1
+						
+				if fish["weather"] != check["weather"]:
+					differences += p+"weather is different\n"
+					
+				if fish["fishing_level"] != check["fishing_level"]:
+					differences += p+"fishing level is different\n"
+     
+				if fish["legendary"] != check["legendary"]:
+					differences += p+"legendary is different\n"
+					
+				if len(differences):
+					print("..."+fish["name"]+" differences:\n" + differences)
+					differences = ""
+     
+    # Sort fish alphabetically
+		fish_ids = []
+		for f_id in self.config["fish"]:
+			fish_ids.append(f_id)
+		fish_ids = sorted(fish_ids, key=str.lower)
+  
 		# Update config file
 		config["crops"] = []
 		for c_id in crop_ids:
 			config["crops"].append(self.config["crops"][c_id])
+   
+		config["fishes"] = []
+		for f_id in fish_ids:
+			config["fishes"].append(self.config["fish"][f_id])
 		
 		with open(self.config_path, "w") as config_file:
 			json.dump(config, config_file, ensure_ascii=False, indent="\t")
