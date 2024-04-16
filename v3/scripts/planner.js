@@ -1863,6 +1863,7 @@ function planner_controller($scope){
 			save_data();
 		} else if (auto_replant){
 			// Auto-replant
+			newplan.fertilizerBuy = 0;
 			this.add_plan(newplan, next_planting, true);
 		}
 	};
@@ -2125,10 +2126,10 @@ function planner_controller($scope){
 			self.date = data.date;
 			self.crop = planner.crops[data.crop];
 			self.amount = data.amount;
-			self.buy = data.buy != null && data.buy != "" && data.buy != undefined && data.buy != self.crop.buy ? data.buy : self.crop.buy;
+			self.buy = !isNaN(parseInt(data.buy)) && data.buy != self.crop.buy ? data.buy : self.crop.buy;
 			if (data.fertilizer && planner.fertilizer[data.fertilizer]) {
 				self.fertilizer = planner.fertilizer[data.fertilizer];
-				self.fertilizerBuy = data.fertilizerBuy != null && data.fertilizerBuy != "" && data.fertilizerBuy != undefined && data.fertilizerBuy != self.fertilizer.buy ? data.fertilizerBuy : self.fertilizer.buy;
+				self.fertilizerBuy = !isNaN(parseInt(data.fertilizerBuy)) && data.fertilizerBuy != self.fertilizer.buy ? data.fertilizerBuy : self.fertilizer.buy;
 			} else {
 				self.fertilizer = planner.fertilizer["none"];
 				self.fertilizerBuy = 0;
