@@ -559,7 +559,7 @@
 							</div>
 						</div>
 						<br>
-						<label ng-show="self.paddy_alert"><input type="checkbox" ng-model="self.newplan.irrigated"> Irrigated</label>
+						<label ng-show="self.paddy_alert"><input type="checkbox" ng-model="self.newplan.irrigated" ng-disabled="self.irrigation_only"> Irrigated</label>
 						<br>
 						<br>
 					</div>
@@ -623,7 +623,7 @@
 												{{plan.crop.name}} {{plan.irrigated && '(Irrigated)' || ''}}
 												<br ng-show="self.editplan==plan">
 												<span ng-show="self.editplan==plan">
-													<input type="checkbox" ng-model="plan.irrigated"> Irrigated
+													<input type="checkbox" ng-model="plan.irrigated" ng-disabled="plan.irrigation_only"> Irrigated
 												</span>
 											</td>
 											<td>
@@ -657,10 +657,13 @@
 											<td>{{plan.get_grow_time()}}</td>
 											<td>{{plan.crop.regrow}}</td>
 											<td>
-												<div ng-show="self.editplan!=plan" class="btn btn-info" ng-click="self.edit_plan(plan)"><i class="fa fa-pencil"></i></div>
-												<div ng-show="self.editplan==plan" class="btn btn-success" ng-click="self.edit_plan(plan, 1)"><i class="fa fa-save"></i></div>
+												<button ng-show="self.editplan!=plan" class="btn btn-info" ng-click="self.edit_plan(plan)"><i class="fa fa-pencil"></i></button>
+												<button ng-show="self.editplan==plan" class="btn btn-success" ng-click="self.edit_plan(plan, 1)" ng-disabled="self.cannot_save"><i class="fa fa-save"></i></button>
 											</td>
 											<td><div class="btn btn-danger" ng-click="self.remove_plan(self.cdate, $index)"><i class="fa fa-trash"></i></div></td>
+											<tr ng-show="self.cannot_save">
+												<td colspan="11" class="text-danger">WARNING: Current settings will not allow you to harvest this plan in time.</td>
+											</tr>
 										</tr>
 									</tbody>
 								</table>

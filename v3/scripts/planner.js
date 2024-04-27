@@ -106,6 +106,8 @@ function planner_controller($scope){
 
 	self.refresh_alert = false;
 	self.paddy_alert = false;
+	self.irrigation_only = false;
+	self.cannot_save = false;
 	
 	// Crop info search/filter settings
 	self.cinfo_settings = {
@@ -210,6 +212,8 @@ function planner_controller($scope){
 
 			self.newplan = new Plan;
 			self.paddy_alert = false;
+			self.irrigation_only = false;
+			self.cannot_save = false;
 		});
 		
 		// Development mode
@@ -271,6 +275,7 @@ function planner_controller($scope){
 				self.newplan = new Plan;
 				self.newPlayer = new Player(null, true);
 				self.paddy_alert = false;
+				self.irrigation_only = false;
 				
 				// Load saved plans from browser storage
 				var plan_count = load_data();
@@ -334,6 +339,46 @@ function planner_controller($scope){
 			if (!fertilizer) return;
 			self.newplan.fertilizerBuy = fertilizer.buy;
 		}
+
+		var is_greenhouse = self.cmode == "greenhouse" || self.cmode == "ginger_island";
+
+		var harvest_day = self.cdate + crop.grow;
+		var harvest_day_irrigated = self.cdate + crop.grow;
+		var rate = 0;
+		var rate_irrigated = 0;
+
+		if(self.player.agriculturist) {
+			rate += 0.1;
+			rate_irrigated += 0.1;
+		}
+
+		if(self.newplan.fertilizer.id != "none" && self.newplan.fertilizer.growth_rate) {
+			rate += self.newplan.fertilizer.growth_rate;
+			rate_irrigated += self.newplan.fertilizer.growth_rate;
+		}
+
+		if(crop.paddy_crop) {
+			rate_irrigated += 0.25;
+		}
+
+		if(rate > 0) {
+			var remove_days = Math.ceil(crop.grow * rate);
+			harvest_day = harvest_day - remove_days;
+		}
+
+		if(rate_irrigated > 0) {
+			var remove_days = Math.ceil(crop.grow * rate_irrigated);
+			harvest_day_irrigated = harvest_day_irrigated - remove_days;
+		}
+		
+		if(!is_greenhouse && crop.paddy_crop && harvest_day > crop.end && harvest_day_irrigated <= crop.end) {
+			self.irrigation_only = true;
+			self.newplan.irrigation_only = true;
+			self.newplan.irrigated = true;
+		} else {
+			self.irrigation_only = false;
+			self.newplan.irrigation_only = false;
+		}
 	}, true);
 
 	$scope.$watch("self.editplan", function(newPlan, oldPlan){
@@ -342,6 +387,52 @@ function planner_controller($scope){
 			var fertilizer = self.fertilizer[newPlan.fertilizer.id];
 			if (!fertilizer) return;
 			self.editplan.fertilizerBuy = fertilizer.buy;
+
+			if(self.editplan.crop.paddy_crop) {
+				// check if crop can be harvested with the current growth rate
+				var crop = self.editplan.crop;
+				var rate = 0;
+				var rate_irrigated = 0;
+				var harvest_day = self.cdate + crop.grow;
+				var harvest_day_irrigated = self.cdate + crop.grow;
+
+				if(self.player.agriculturist) {
+					rate += 0.1;
+					rate_irrigated += 0.1;
+				}
+
+				if(self.editplan.fertilizer.id != "none" && self.editplan.fertilizer.growth_rate) {
+					rate += self.editplan.fertilizer.growth_rate;
+					rate_irrigated += self.editplan.fertilizer.growth_rate;
+				}
+
+				if(crop.paddy_crop) {
+					rate_irrigated += 0.25;
+				}
+
+				if(rate > 0) {
+					var remove_days = Math.ceil(crop.grow * rate);
+					harvest_day = harvest_day - remove_days;
+				}
+
+				if(rate_irrigated > 0) {
+					var remove_days = Math.ceil(crop.grow * rate_irrigated);
+					harvest_day_irrigated = harvest_day_irrigated - remove_days;
+				}
+
+				if(harvest_day > crop.end && harvest_day_irrigated > crop.end) {
+					self.cannot_save = true;
+				} else if (harvest_day > crop.end && harvest_day_irrigated <= crop.end) {
+					self.irrigation_only = true;
+					self.editplan.irrigation_only = true;
+					self.editplan.irrigated = true;
+					self.cannot_save = false;
+				} else {
+					self.irrigation_only = false;
+					self.editplan.irrigation_only = false;
+					self.cannot_save = false;
+				}
+			}
 		}
 	}, true);
 
@@ -630,6 +721,7 @@ function planner_controller($scope){
 		self.cyear.add_plan(self.newplan, date, auto_replant);
 		self.newplan = new Plan;
 		self.paddy_alert = false;
+		self.irrigation_only = false;
 	}
 	
 	// Add plan to plans list on enter keypress
@@ -716,6 +808,7 @@ function planner_controller($scope){
 		self.editplan = null;
 		self.refresh_alert = false;
 		self.paddy_alert = false;
+		self.irrigation_only = false;
 
 		console.log("Changing player to: ", player.id)
 		console.log("Years: ", self.years[player.id])
@@ -749,6 +842,7 @@ function planner_controller($scope){
 			self.cyear = self.years[self.player.id][0];
 			self.newplan = new Plan;
 			self.paddy_alert = false;
+			self.irrigation_only = false;
 			self.editplan = null;
 			update(self.years[self.player.id][0].data.farm, true); // Update farm
 			update(self.years[self.player.id][0].data.greenhouse, true); // Update greenhouse
@@ -770,6 +864,7 @@ function planner_controller($scope){
 		self.add_player_modal.modal("hide");
 		self.refresh_alert = false;
 		self.paddy_alert = false;
+		self.irrigation_only = false;
 		save_data();
 
 		self.player.save();
@@ -969,6 +1064,13 @@ function planner_controller($scope){
 
 		if(self.newplan.fertilizer.id != "none" && self.newplan.fertilizer.growth_rate) {
 			rate += self.newplan.fertilizer.growth_rate;
+		}
+
+		if(crop.paddy_crop) {
+			rate += 0.25;
+		}
+
+		if(rate > 0) {
 			var remove_days = Math.ceil(crop.grow * rate);
 			harvest_day -= remove_days;
 		}
@@ -2123,6 +2225,7 @@ function planner_controller($scope){
 		self.buy;
 		self.id;
 		self.irrigated;
+		self.irrigation_only;
 		
 		
 		init();
@@ -2144,6 +2247,10 @@ function planner_controller($scope){
 
 			if(self.crop.paddy_crop) {
 				self.irrigated = data.irrigated;
+
+				if(data.irrigation_only) {
+					self.irrigation_only = data.irrigation_only;
+				}
 			}
 			
 			self.greenhouse = in_greenhouse ? true : false;
@@ -2163,6 +2270,10 @@ function planner_controller($scope){
 		if(this.irrigated) {
 			data.irrigated = this.irrigated;
 		}
+		if(this.irrigation_only) {
+			data.irrigation_only = this.irrigation_only;
+		}
+
 		return data;
 	};
 	
