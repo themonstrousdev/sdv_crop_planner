@@ -207,6 +207,9 @@ function planner_controller($scope){
 				self.update(self.cyear);
 				$scope.$apply();
 			}
+
+			self.newplan = new Plan;
+			self.paddy_alert = false;
 		});
 		
 		// Development mode
@@ -266,7 +269,8 @@ function planner_controller($scope){
 				
 				// Create newplan template
 				self.newplan = new Plan;
-				self.newPlayer = new Player(null, true)
+				self.newPlayer = new Player(null, true);
+				self.paddy_alert = false;
 				
 				// Load saved plans from browser storage
 				var plan_count = load_data();
@@ -625,6 +629,7 @@ function planner_controller($scope){
 		if (!validate_plan_amount()) return;
 		self.cyear.add_plan(self.newplan, date, auto_replant);
 		self.newplan = new Plan;
+		self.paddy_alert = false;
 	}
 	
 	// Add plan to plans list on enter keypress
@@ -743,6 +748,7 @@ function planner_controller($scope){
 			self.years[self.player.id] = [new Year(0)];
 			self.cyear = self.years[self.player.id][0];
 			self.newplan = new Plan;
+			self.paddy_alert = false;
 			self.editplan = null;
 			update(self.years[self.player.id][0].data.farm, true); // Update farm
 			update(self.years[self.player.id][0].data.greenhouse, true); // Update greenhouse
@@ -2116,6 +2122,7 @@ function planner_controller($scope){
 		self.greenhouse = false;
 		self.buy;
 		self.id;
+		self.irrigated;
 		
 		
 		init();
@@ -2134,6 +2141,10 @@ function planner_controller($scope){
 				self.fertilizer = planner.fertilizer["none"];
 				self.fertilizerBuy = 0;
 			}
+
+			if(self.crop.paddy_crop) {
+				self.irrigated = data.irrigated;
+			}
 			
 			self.greenhouse = in_greenhouse ? true : false;
 		}
@@ -2149,6 +2160,9 @@ function planner_controller($scope){
 			data.fertilizer = this.fertilizer.id;
 			data.fertilizerBuy = this.fertilizerBuy;
 		}
+		if(this.irrigated) {
+			data.irrigated = this.irrigated;
+		}
 		return data;
 	};
 	
@@ -2160,6 +2174,10 @@ function planner_controller($scope){
 			var rate = 0;
 			if(this.fertilizer.id != "none") {
 				rate = this.fertilizer.growth_rate;
+			}
+
+			if(this.crop.paddy_crop && this.irrigated) {
+				rate += 0.25;
 			}
 			
 			// Agriculturist profession (ID 5)

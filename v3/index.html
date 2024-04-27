@@ -559,7 +559,7 @@
 							</div>
 						</div>
 						<br>
-						<span class="text-warning" ng-show="self.paddy_alert">WARNING: Planner assumes this plant is within 3 blocks of a water source!</span>
+						<label ng-show="self.paddy_alert"><input type="checkbox" ng-model="self.newplan.irrigated"> Irrigated</label>
 						<br>
 						<br>
 					</div>
@@ -620,7 +620,11 @@
 												<img ng-src="{{plan.crop.get_image(1)}}">
 											</td>
 											<td>
-												{{plan.crop.name}}
+												{{plan.crop.name}} {{plan.irrigated && '(Irrigated)' || ''}}
+												<br ng-show="self.editplan==plan">
+												<span ng-show="self.editplan==plan">
+													<input type="checkbox" ng-model="plan.irrigated"> Irrigated
+												</span>
 											</td>
 											<td>
 												<span ng-show="self.editplan!=plan">x{{plan.amount}}</span>
