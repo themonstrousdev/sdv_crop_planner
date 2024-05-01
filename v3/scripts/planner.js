@@ -2191,6 +2191,10 @@ function planner_controller($scope){
 			this.cost = 0;
 		} else {
 			this.cost = prev_harvest.get_profit(1);
+			// remove commas
+			this.cost = this.cost.replace(/,/g, '');
+			// turn into number
+			this.cost = parseInt(this.cost);
 
 			if(this.cost > 0) {
 				this.cost = 0;
