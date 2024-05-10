@@ -1723,10 +1723,13 @@
 				"fall"
 			],
 			"weather": "both",
-			"fishing_level": "0",
+			"fishing_level": 0,
 			"locations": [
+				"Forest",
 				"Waterfalls (Next to Hat Mouse)"
-			]
+			],
+			"legendary": false,
+			"isBoss": false
 		},
 		{
 			"index": 153,

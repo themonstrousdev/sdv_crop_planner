@@ -12,6 +12,7 @@
 import os, sys, shutil, json
 from os.path import getmtime
 from collections import OrderedDict
+from pathlib import Path
 
 import math
 
@@ -51,7 +52,7 @@ class Main:
 	source_directory = os.path.dirname(current_folder)
  
 	config_path = source_directory + "/v3/config.json"
-	temp_dir = "data/temp/"
+	temp_dir = "/data/temp/"
 	data_dir = "/Content/Data/"
 	unpacked_dir = "/Content (Unpacked)/Data/"
 	
@@ -66,8 +67,11 @@ class Main:
 		clear()
 		
 		# Existing paths
-		self.p["game"] = os.path.abspath(self.s["game_path"] + self.unpacked_dir) + "/"
-		self.p["xnb"] = self.s["xnbnode_path"] + "/"
+		temp = self.s["game_path"] + self.unpacked_dir + "/"
+		self.p["game"] = os.path.abspath(Path(temp))
+		# self.p["xnb"] = self.s["xnbnode_path"] + "/"
+		# print("HERE")
+		# print(self.p)
 		
 		header("Crop Planner - Data Updater")
 		
@@ -91,62 +95,64 @@ class Main:
 		header("Crop Planner - Data Updater\nConfig Setup")
 		
 		# ../config.json must exist
-		if not os.path.exists(self.config_path):
+		if not os.path.exists(Path(self.config_path)):
 			print("Error: Missing ../config.json file. Quitting")
 			sys.exit(1)
 			
 		# Create dirs
 		os.makedirs("data", exist_ok=True)
-		os.makedirs(self.temp_dir, exist_ok=True)
-		os.makedirs(self.temp_dir + "sources", exist_ok=True)
+		os.makedirs(Path(self.temp_dir), exist_ok=True)
+		os.makedirs(Path(self.temp_dir + "sources"), exist_ok=True)
 		
 		paths_exist = True
 		
 		# Get / create settings file for this script
-		if not os.path.exists(self.settings_path):
-			f = open(self.settings_path, "w")
+		if not os.path.exists(Path(self.settings_path)):
+			f = open(Path(self.settings_path), "w")
 			f.write("{}")
 			f.close()
 			paths_exist = False
 		else:
-			with open(self.settings_path, "r") as f:
+			with open(Path(self.settings_path), "r") as f:
 				try:
 					self.s = json.load(f)
 				except:
 					pass
 		
 		# Get game path
-		if (not "game_path" in self.s) or (not os.path.exists(os.path.abspath(self.s["game_path"] + self.unpacked_dir))):
+		if (not "game_path" in self.s) or (not os.path.exists(os.path.abspath(Path(self.s["game_path"] + self.unpacked_dir)))): #problem?
 			paths_exist = False
 			while True:
 				inp = self.query_path_exists("Stardew Valley installation path")
 				
-				if not os.path.exists(os.path.abspath(inp + self.data_dir)):
+				if not os.path.exists(os.path.abspath(Path(inp + self.data_dir))):
 					clear()
 					print("Invalid Stardew Valley path, look for the directory with Stardew Valley.exe")
 					continue
 					
-				if not os.path.exists(inp + "StardewXnbHack.exe"):
+				if not os.path.exists(Path(inp + "\StardewXnbHack.exe")):
 					clear()
 					print("StardewXnbHack.exe not found in Stardew Valley directory. Please download from:\n" + self.xnbhelper_url)
 					continue
    
-				if not os.path.exists(inp + self.unpacked_dir):
+				if not os.path.exists(Path(inp + self.unpacked_dir)):
 					clear()
 					print("Unpacked data not found. Please unpack the game files using StardewXnbHack.exe")
 					continue
    
 				self.s["game_path"] = inp
+				print("self.s - after checking game paths exist")
+				print(json.dumps(self.s))
 				break
 		# Write settings to file if necessary
 		if not paths_exist:
-			with open(self.settings_path, "w") as f:
+			with open(Path(self.settings_path), "w") as f:
 				json.dump(self.s, f, ensure_ascii=False, indent="\t")
 	
 	def query_path_exists(self, name):
 		while True:
 			inp = input(name + ": ")
-			if os.path.exists(inp):
+			if os.path.exists(Path(inp)):
 				return inp
 			else:
 				print("Invalid path")
@@ -167,13 +173,16 @@ class Main:
 		for src in source_files:
 			src_name = src[0]
 			dec_name = src[1]
-			source_path = os.path.abspath(self.p["game"] + src_name + ".json")
+			source_path = os.path.abspath(self.p["game"] + "/" + src_name + ".json")
 			copy_dest = os.path.abspath(self.temp_dir + "sources/" + dec_name + ".json")
 
 			print("Copying " + src_name + "...")
-			if (not os.path.exists(copy_dest)) or (os.path.getmtime(source_path) > os.path.getmtime(copy_dest)):
+			print("Source:\t" + source_path)
+			print("Copy Dest:\t" + copy_dest)
+
+			if (not os.path.exists(Path(copy_dest))) or (os.path.getmtime(Path(source_path)) > os.path.getmtime(Path(copy_dest))):
 				is_outdated = True
-				shutil.copyfile(source_path, copy_dest)
+				shutil.copyfile(Path(source_path), Path(copy_dest))
 				print("...updated")
 			else:
 				print("...up to date")
@@ -291,9 +300,14 @@ class Main:
 							if fish["ItemId"] is not None:
 								tempFish["id"] = fish["ItemId"][3:]
        
-							if fish["Condition"]:
+							# if fish["ItemId"] == "(O)Goby":
+							# 	print("Goby Fish condition in location:\t{}".format(fish["Condition"]))
+
+							if fish["Condition"] is not None:
+								# print("{}\tDid i make it here..".format(fish["ItemId"]))
 								tempFish["legendary"] = "LEGENDARY_FAMILY" in fish["Condition"]
 							else:
+								# print("{}\t\tor here..".format(fish["ItemId"]))
 								tempFish["legendary"] = False
        
 							if fish["FishAreaId"]:
@@ -757,8 +771,11 @@ class Main:
 					
 				if fish["fishing_level"] != check["fishing_level"]:
 					differences += p+"fishing level is different\n"
-     
-				if fish["legendary"] != check["legendary"]:
+
+				if "legendary" not in fish and "legendary" in check or "legendary" not in fish and "legendary" not in check:
+					differences += p+"legendary is different\n"
+
+				elif fish["legendary"] != check["legendary"]:
 					differences += p+"legendary is different\n"
 					
 				if len(differences):
