@@ -14,7 +14,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
 	
 	<script src="scripts/checklist-model.js"></script>	
 	<script src="scripts/planner.js"></script>
@@ -393,22 +393,84 @@
 						<small class="text-danger"><i>WARNING: This will delete the players planning data. This action cannot be undone.</i></small>
 						<h4>Farming Level</h4>
 						<label><input type="number" ng-model="self.player.level" min="0" max="10" class="form-control"></label>
-						
-						<span>Base crop quality chances</span>
-						<div class="chance_scale">
-							<div class="regular" ng-style="{width: self.player.quality_chance(0, 0, true)+'%'}">
-								<div class="percent">{{self.player.quality_chance(0, 0, true)}}%</div>
-								<div class="name">Regular</div>
+	
+						<h4>Crop Quality Probabilities</h4>
+							<div class="quality">
+							<span>Base Crop (No Fertilizer)</span>
+							<div class="chance_scale">
+
+								<div class="regular" ng-style="{width: self.player.quality_probability(0).regular * 100 +'%'}">
+									<div class="percent">{{self.player.quality_probability(0).regular* 100 | number: 2}}%</div>
+									<div class="name">Regular</div>
+								</div>
+								<div class="silver" ng-style="{width: self.player.quality_probability(0).silver  * 100 +'%'}">
+									<div class="percent">{{self.player.quality_probability(0).silver* 100 | number: 2}}%</div>
+									<div class="name">Silver</div>
+								</div>
+								<div class="gold" ng-style="{width: self.player.quality_probability(0).gold* 100 +'%'}">
+									<div class="percent">{{self.player.quality_probability(0).gold* 100 | number: 2}}%</div>
+									<div class="name">Gold</div>
+								</div>
 							</div>
-							<div class="silver" ng-style="{width: self.player.quality_chance(1, 0, true)+'%'}">
-								<div class="percent">{{self.player.quality_chance(1, 0, true)}}%</div>
-								<div class="name">Silver</div>
 							</div>
-							<div class="gold" ng-style="{width: self.player.quality_chance(2, 0, true)+'%'}">
-								<div class="percent">{{self.player.quality_chance(2, 0, true)}}%</div>
-								<div class="name">Gold</div>
+							
+							<div class="quality">
+							<span>Basic Fertilizer</span>
+							<div class="chance_scale">
+
+								<div class="regular" ng-style="{width: self.player.quality_probability(1).regular * 100 +'%'}">
+									<div class="percent">{{self.player.quality_probability(1).regular*100 | number: 2}}%</div>
+									<div class="name">Regular</div>
+								</div>
+								<div class="silver" ng-style="{width: self.player.quality_probability(1).silver  * 100 +'%'}">
+									<div class="percent">{{self.player.quality_probability(1).silver* 100 | number: 2}}%</div>
+									<div class="name">Silver</div>
+								</div>
+								<div class="gold" ng-style="{width: self.player.quality_probability(1).gold* 100 +'%'}">
+									<div class="percent">{{self.player.quality_probability(1).gold* 100 | number: 2}}%</div>
+									<div class="name">Gold</div>
+								</div>
 							</div>
-						</div>
+							</div>
+							
+							<div class="quality">
+							<span>Quality Fertilizer</span>
+							<div class="chance_scale">
+
+								<div class="regular" ng-style="{width: self.player.quality_probability(2).regular * 100 +'%'}">
+									<div class="percent">{{self.player.quality_probability(2).regular* 100 | number: 2}}%</div>
+									<div class="name">Regular</div>
+								</div>
+								<div class="silver" ng-style="{width: self.player.quality_probability(2).silver  * 100 +'%'}">
+									<div class="percent">{{self.player.quality_probability(2).silver* 100 | number: 2}}%</div>
+									<div class="name">Silver</div>
+								</div>
+								<div class="gold" ng-style="{width: self.player.quality_probability(2).gold* 100 +'%'}">
+									<div class="percent">{{self.player.quality_probability(2).gold* 100 | number: 2}}%</div>
+									<div class="name">Gold</div>
+								</div>
+							</div>
+							</div>
+
+							<div class="quality">
+							<span>Deluxe Fertilizer</span>
+							<div class="chance_scale">
+
+								<div class="silvermin" ng-style="{width: self.player.quality_probability(3).silver  * 100 +'%'}">
+									<div class="percent">{{self.player.quality_probability(3).silver* 100 | number: 2}}%</div>
+									<div class="name">Silver</div>
+								</div>
+								<div class="gold" ng-style="{width: self.player.quality_probability(3).gold* 100 +'%'}">
+									<div class="percent">{{self.player.quality_probability(3).gold* 100 | number: 2}}%</div>
+									<div class="name">Gold</div>
+								</div>
+								<div class="iridium" ng-style="{width: self.player.quality_probability(3).iridium* 100 +'%'}">
+									<div class="percent">{{self.player.quality_probability(3).iridium* 100 | number: 2}}%</div>
+									<div class="name">Iridium</div>
+								</div>
+							</div>
+							</div>
+					
 					</div>
 					
 					<hr>

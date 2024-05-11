@@ -1056,6 +1056,11 @@
 			"name": "Quality Fertilizer"
 		},
 		{
+			"buy": 0,
+			"id": "deluxe_fertilizer",
+			"name": "Deluxe Fertilizer"
+		},
+		{
 			"buy": 100,
 			"growth_rate": 0.1,
 			"id": "speed_gro",
@@ -1723,10 +1728,13 @@
 				"fall"
 			],
 			"weather": "both",
-			"fishing_level": "0",
+			"fishing_level": 0,
 			"locations": [
+				"Forest",
 				"Waterfalls (Next to Hat Mouse)"
-			]
+			],
+			"legendary": false,
+			"isBoss": false
 		},
 		{
 			"index": 153,
