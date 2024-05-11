@@ -1517,19 +1517,20 @@ function planner_controller($scope){
 			return chance;
 		}
 
-		//Get probability of crop's quality based on conditional probabilities
-		function quality_probability(q_mult,locale){
+		//Get probability of crop's quality based on conditional events.
+		// [SOURCE: Conditional Probability based on StardewValley/Crop.cs : function harvest]]
+		function quality_probability(q_mult){
 			let probability = {}
 
-			// Calculate min/max revenue based on regular/silver/gold chance
-			var silver_chance = planner.player.quality_chance(1, q_mult);
-			var gold_chance = planner.player.quality_chance(2, q_mult);
-			var iridium_chance = planner.player.quality_chance(3, q_mult);
+			// Calculate probability that a quality will occur based on conditional events, where conditional is based on regular/silver/gold chance.
+			var silver_chance 	= planner.player.quality_chance(1, q_mult);
+			var gold_chance 	= planner.player.quality_chance(2, q_mult);
+			var iridium_chance 	= planner.player.quality_chance(3, q_mult);
 		
-			let iridiumWillOccur 	= iridium_chance;
-			let iridiumWillNot	= 1 - iridiumWillOccur;
+			let iridiumWillOccur = iridium_chance;
+			let iridiumWillNot		= 1 - iridiumWillOccur;
 			
-			let goldWillOccur = (q_mult >= 3) ? gold_chance * iridiumWillNot : gold_chance;
+			let goldWillOccur 	= (q_mult >= 3) ? gold_chance * iridiumWillNot : gold_chance;
 			let goldWillNot 	= 1 - gold_chance;
 			
 			let silverWillOccur 	= goldWillNot * silver_chance;
@@ -1542,17 +1543,10 @@ function planner_controller($scope){
 			let regularWillOccur = (q_mult < 3) ? goldWillNot * silverWillNot : 0.00;
 			
 			probability.iridium = iridiumWillOccur;
-			probability.gold = goldWillOccur;
-			probability.silver = silverWillOccur;
+			probability.gold 	= goldWillOccur;
+			probability.silver 	= silverWillOccur;
 			probability.regular = regularWillOccur;
 
-			if (locale){
-				probability.iridium = Math.round(iridiumWillOccur * 100);;
-				probability.gold = Math.round(goldWillOccur * 100);;
-				probability.silver = Math.round(silverWillOccur * 100);;
-				probability.regular = Math.round(regularWillOccur * 100);;
-			}
-				
 			return probability;
 
 		}
@@ -2168,19 +2162,11 @@ function planner_controller($scope){
 				q_mult = 0;
 			
 			// Calculate min/max revenue based on regular/silver/gold chance
-			// var regular_chance = planner.player.quality_chance(0, q_mult);
-			// var silver_chance = planner.player.quality_chance(1, q_mult);
-			// var gold_chance = planner.player.quality_chance(2, q_mult);
-			// var iridium_chance = planner.player.quality_chance(3, q_mult);
-
 			var quality_probability = planner.player.quality_probability(q_mult);
 
 			
 			// var min_revenue = crop.get_sell(0);
 			var min_revenue = (q_mult < 3) ? crop.get_sell(0) : crop.get_sell(1);
-			//THIS IS WRONG
-			// var max_revenue = (min_revenue*regular_chance) + (crop.get_sell(1)*silver_chance) + (crop.get_sell(2)*gold_chance) + (crop.get_sell(3)*iridium_chance);
-			// var max_revenue = (q_mult < 3) ? (min_revenue*regular_chance) + (crop.get_sell(1)*silver_chance) + (crop.get_sell(2)*gold_chance) : (crop.get_sell(1)*silver_chance) + (crop.get_sell(2)*gold_chance) + (crop.get_sell(3)*iridium_chance);
 			var max_revenue = (q_mult < 3) ? (min_revenue*quality_probability.regular) + (crop.get_sell(1)*quality_probability.silver) + (crop.get_sell(2)*quality_probability.gold) : (crop.get_sell(1)*quality_probability.silver) + (crop.get_sell(2)*quality_probability.gold) + (crop.get_sell(3)*quality_probability.iridium);
 
 			// max_revenue = Math.min(crop.get_sell(2), max_revenue);
@@ -2189,9 +2175,9 @@ function planner_controller($scope){
 			if(crop.seasonal_seeds) {
 				// min_revenue = crop.get_sell(0, false);
 				min_revenue = (q_mult < 3) ? crop.get_sell(0, false) : crop.get_sell(1, false);
-				// max_revenue = (crop.get_sell(0, true)*regular_chance) + (crop.get_sell(1, true)*silver_chance) + (crop.get_sell(2, true)*gold_chance) + (crop.get_sell(3, true)*iridium_chance);
-				// max_revenue = (q_mult < 3) ? (crop.get_sell(0, true)*regular_chance) + (crop.get_sell(1, true)*silver_chance) + (crop.get_sell(2, true)*gold_chance) : (crop.get_sell(1, true)*silver_chance) + (crop.get_sell(2, true)*gold_chance) + (crop.get_sell(3, true)*iridium_chance);
-				max_revenue = (q_mult < 3) ? (crop.get_sell(0, true)*quality_probability.regular) + (crop.get_sell(1, true)*quality_probability.silver) + (crop.get_sell(2, true)*quality_probability.gold) : (crop.get_sell(1, true)*quality_probability.silver) + (crop.get_sell(2, true)*quality_probability.gold) + (crop.get_sell(3, true)*quality_probability.iridium);
+				max_revenue = (q_mult < 3) ? 
+					(crop.get_sell(0, true)*quality_probability.regular) + (crop.get_sell(1, true)*quality_probability.silver) + (crop.get_sell(2, true)*quality_probability.gold) : 
+					(crop.get_sell(1, true)*quality_probability.silver) + (crop.get_sell(2, true)*quality_probability.gold) + (crop.get_sell(3, true)*quality_probability.iridium);
 			}
 			
 			// Quality from fertilizer only applies to picked harvest

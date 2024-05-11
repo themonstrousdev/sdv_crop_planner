@@ -446,7 +446,7 @@ header .page_title {
 }
 
 #sb_settings .farm_level {
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 #sb_settings .farm_level label {
@@ -515,6 +515,14 @@ header .page_title {
     background: linear-gradient(135deg, #f0a3ea 0, #e638cf 50%, #d825c9 51%, #f043c5 100%);
     box-shadow: 0 0 1px 1px rgba(255, 255, 255, 0.45) inset;
 }
+
+div.quality {
+    padding: 10px;
+}
+
+/* div.quality_panel {
+    overflow: visible;
+} */
 
 
 #sb_settings .farm_level .chance_scale > div .percent {
