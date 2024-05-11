@@ -394,19 +394,72 @@
 						<h4>Farming Level</h4>
 						<label><input type="number" ng-model="self.player.level" min="0" max="10" class="form-control"></label>
 						
-						<span>Base crop quality chances</span>
+						<span>Base crop quality chances (No Fertilizer)</span>
 						<div class="chance_scale">
-							<div class="regular" ng-style="{width: self.player.quality_chance(0, 0, true)+'%'}">
-								<div class="percent">{{self.player.quality_chance(0, 0, true)}}%</div>
+
+							<div class="regular" ng-style="{width: self.player.quality_probability(0,true).regular +'%'}">
+								<div class="percent">{{self.player.quality_probability(0,true).regular}}%</div>
 								<div class="name">Regular</div>
 							</div>
-							<div class="silver" ng-style="{width: self.player.quality_chance(1, 0, true)+'%'}">
-								<div class="percent">{{self.player.quality_chance(1, 0, true)}}%</div>
+							<div class="silver" ng-style="{width: self.player.quality_probability(0,true).silver+'%'}">
+								<div class="percent">{{self.player.quality_probability(0,true).silver}}%</div>
 								<div class="name">Silver</div>
 							</div>
-							<div class="gold" ng-style="{width: self.player.quality_chance(2, 0, true)+'%'}">
-								<div class="percent">{{self.player.quality_chance(2, 0, true)}}%</div>
+							<div class="gold" ng-style="{width: self.player.quality_probability(0,true).gold+'%'}">
+								<div class="percent">{{self.player.quality_probability(0,true).gold}}%</div>
 								<div class="name">Gold</div>
+							</div>
+						</div>
+
+						
+						<span>Basic: quality chances</span>
+						<div class="chance_scale">
+
+							<div class="regular" ng-style="{width: self.player.quality_probability(0,true).regular +'%'}">
+								<div class="percent">{{self.player.quality_probability(1,true).regular}}%</div>
+								<div class="name">Regular</div>
+							</div>
+							<div class="silver" ng-style="{width: self.player.quality_probability(0,true).silver+'%'}">
+								<div class="percent">{{self.player.quality_probability(1,true).silver}}%</div>
+								<div class="name">Silver</div>
+							</div>
+							<div class="gold" ng-style="{width: self.player.quality_probability(0,true).gold+'%'}">
+								<div class="percent">{{self.player.quality_probability(1,true).gold}}%</div>
+								<div class="name">Gold</div>
+							</div>
+						</div>
+						
+						<span>Quality: quality chances</span>
+						<div class="chance_scale">
+
+							<div class="regular" ng-style="{width: self.player.quality_probability(0,true).regular +'%'}">
+								<div class="percent">{{self.player.quality_probability(2,true).regular}}%</div>
+								<div class="name">Regular</div>
+							</div>
+							<div class="silver" ng-style="{width: self.player.quality_probability(0,true).silver+'%'}">
+								<div class="percent">{{self.player.quality_probability(2,true).silver}}%</div>
+								<div class="name">Silver</div>
+							</div>
+							<div class="gold" ng-style="{width: self.player.quality_probability(0,true).gold+'%'}">
+								<div class="percent">{{self.player.quality_probability(2,true).gold}}%</div>
+								<div class="name">Gold</div>
+							</div>
+						</div>
+
+						<span>Deluxe: crop quality chances</span>
+						<div class="chance_scale">
+
+							<div class="silvermin" ng-style="{width: self.player.quality_probability(0,true).silver+'%'}">
+								<div class="percent">{{self.player.quality_probability(3,true).silver}}%</div>
+								<div class="name">Silver</div>
+							</div>
+							<div class="gold" ng-style="{width: self.player.quality_probability(0,true).gold+'%'}">
+								<div class="percent">{{self.player.quality_probability(3,true).gold}}%</div>
+								<div class="name">Gold</div>
+							</div>
+							<div class="iridium" ng-style="{width: self.player.quality_probability(0,true).iridium+'%'}">
+								<div class="percent">{{self.player.quality_probability(3,true).iridium}}%</div>
+								<div class="name">Iridium</div>
 							</div>
 						</div>
 					</div>

@@ -1056,6 +1056,11 @@
 			"name": "Quality Fertilizer"
 		},
 		{
+			"buy": 0,
+			"id": "deluxe_fertilizer",
+			"name": "Deluxe Fertilizer"
+		},
+		{
 			"buy": 100,
 			"growth_rate": 0.1,
 			"id": "speed_gro",
